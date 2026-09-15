@@ -2,20 +2,20 @@ import "server-only";
 import { cookies } from "next/headers";
 import {
 	DEFAULT_LOCALE,
+	isValidLocale,
 	LOCALE_COOKIE_NAME,
 	type Locale,
-	isValidLocale,
 } from "./config";
 import en from "./dictionaries/en";
 import es from "./dictionaries/es";
 import ptBR from "./dictionaries/pt-br";
 import type { Dictionary } from "./types";
 
-const dictionaries: Record<Locale, Dictionary> = {
+const dictionaries = {
 	en,
 	"pt-BR": ptBR,
 	es,
-};
+} satisfies Record<Locale, Dictionary>;
 
 export async function getServerLocale(): Promise<Locale> {
 	const cookieStore = await cookies();

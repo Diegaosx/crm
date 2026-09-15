@@ -7,10 +7,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { LocalDateTimeHydrator } from "@/components/local-date-time";
 import { ThemeProvider } from "@/components/theme-provider";
-import { TRPCReactProvider } from "@/lib/trpc/client";
-
 import { I18nProvider } from "@/lib/i18n";
 import { getServerLocale } from "@/lib/i18n/server";
+import { TRPCReactProvider } from "@/lib/trpc/client";
 
 const fontSans = Geist({
 	variable: "--font-geist-sans",

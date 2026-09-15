@@ -9,10 +9,10 @@ import {
 	PageShellLoading,
 	PageShellTitle,
 } from "@/components/page-shell";
+import { getServerTranslations } from "@/lib/i18n/server";
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
-import { getServerTranslations } from "@/lib/i18n/server";
 import { AgentModel } from "./agent-model";
 import { ArchiveRetention } from "./archive-retention";
 import { LanguageSettings } from "./language-settings";

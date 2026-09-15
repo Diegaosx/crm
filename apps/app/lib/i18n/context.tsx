@@ -19,11 +19,11 @@ import es from "./dictionaries/es";
 import ptBR from "./dictionaries/pt-br";
 import type { Dictionary } from "./types";
 
-const dictionaries: Record<Locale, Dictionary> = {
+const dictionaries = {
 	en,
 	"pt-BR": ptBR,
 	es,
-};
+} satisfies Record<Locale, Dictionary>;
 
 type I18nContextValue = {
 	locale: Locale;

@@ -45,10 +45,10 @@ export function OverviewScopeToggle() {
 	);
 	const t = useTranslations();
 
-	const labels: Record<OverviewScope, string> = {
+	const labels = {
 		me: t.overview.scopeMine,
 		everyone: t.overview.scopeAll,
-	};
+	} satisfies Record<OverviewScope, string>;
 
 	return (
 		<ToggleGroup

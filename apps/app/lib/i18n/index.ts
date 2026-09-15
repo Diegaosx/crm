@@ -1,10 +1,10 @@
 export {
 	DEFAULT_LOCALE,
+	isValidLocale,
 	LOCALE_COOKIE_NAME,
 	LOCALE_LABELS,
 	LOCALES,
 	type Locale,
-	isValidLocale,
 } from "./config";
 export {
 	I18nProvider,
