@@ -53,6 +53,8 @@ export function isWorkspaceEmail(email: string | null | undefined): boolean {
 
 	const { domains, addresses } = allowList();
 
+	if (domains.includes("*")) return true;
+
 	if (addresses.includes(value)) return true;
 
 	return domains.some(
