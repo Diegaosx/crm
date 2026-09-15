@@ -46,13 +46,23 @@ const slackCredentials = ():
 	| { clientId: string; clientSecret: string }
 	| undefined => pair("SLACK_CLIENT_ID", "SLACK_CLIENT_SECRET");
 
-const apiUrl =
+function ensureProtocol(url: string): string {
+	if (url.startsWith("http://") || url.startsWith("https://")) return url;
+	if (url.startsWith("localhost") || url.startsWith("127.0.0.1")) {
+		return `http://${url}`;
+	}
+	return `https://${url}`;
+}
+
+const rawApiUrl =
 	optional("API_URL") ?? optional("BETTER_AUTH_URL") ?? DEFAULT_API_URL;
+const apiUrl = ensureProtocol(rawApiUrl);
 
 const appUrls = (optional("APP_URL") ?? DEFAULT_APP_URL)
 	.split(",")
 	.map((origin) => origin.trim())
-	.filter(Boolean);
+	.filter(Boolean)
+	.map(ensureProtocol);
 
 const appUrl = appUrls[0] ?? DEFAULT_APP_URL;
 
