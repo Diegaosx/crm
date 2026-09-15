@@ -1,6 +1,8 @@
 FROM oven/bun:1-alpine AS base
 WORKDIR /app
-RUN apk add --no-cache openssl libc6-compat
+RUN apk add --no-cache openssl libc6-compat nodejs
+
+ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/crm?schema=public"
 
 COPY package.json bun.lock turbo.json ./
 COPY packages ./packages
