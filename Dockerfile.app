@@ -5,9 +5,7 @@ RUN apk add --no-cache openssl libc6-compat
 
 COPY package.json bun.lock turbo.json ./
 COPY packages ./packages
-COPY apps/api/src/generated ./apps/api/src/generated
-COPY apps/api/package.json ./apps/api/package.json
-COPY apps/app ./apps/app
+COPY apps ./apps
 
 RUN bun install --frozen-lockfile
 RUN bun run --filter=@crm/db db:generate
