@@ -26,17 +26,33 @@ export function AuthShell({ children }: { children: ReactNode }) {
 					</div>
 				</div>
 
-				<p className="relative font-mono text-xs/4 text-muted-foreground">
-					Made with love by{" "}
-					<a
-						href="https://trycomp.ai"
-						target="_blank"
-						rel="noreferrer"
-						className="underline underline-offset-4 hover:text-foreground"
-					>
-						Comp AI
-					</a>
-				</p>
+				<div className="relative flex items-center justify-between font-mono text-xs/4 text-muted-foreground">
+					<p>
+						Made with love by{" "}
+						<a
+							href="https://trycomp.ai"
+							target="_blank"
+							rel="noreferrer"
+							className="underline underline-offset-4 hover:text-foreground"
+						>
+							Comp AI
+						</a>
+					</p>
+					<div className="flex gap-4">
+						<Link
+							href="/privacy"
+							className="underline underline-offset-4 hover:text-foreground"
+						>
+							Privacidade
+						</Link>
+						<Link
+							href="/terms"
+							className="underline underline-offset-4 hover:text-foreground"
+						>
+							Termos
+						</Link>
+					</div>
+				</div>
 			</section>
 
 			<section className="flex min-h-svh flex-col bg-background px-6 py-8 sm:px-10 lg:px-14">
@@ -46,6 +62,22 @@ export function AuthShell({ children }: { children: ReactNode }) {
 
 				<div className="flex flex-1 items-center justify-center py-12">
 					<div className="flex w-full max-w-sm flex-col gap-8">{children}</div>
+				</div>
+
+				<div className="flex items-center justify-center gap-4 text-xs text-muted-foreground pt-4">
+					<Link
+						href="/privacy"
+						className="underline underline-offset-4 hover:text-foreground"
+					>
+						Política de Privacidade
+					</Link>
+					<span>•</span>
+					<Link
+						href="/terms"
+						className="underline underline-offset-4 hover:text-foreground"
+					>
+						Termos de Uso
+					</Link>
 				</div>
 			</section>
 		</main>

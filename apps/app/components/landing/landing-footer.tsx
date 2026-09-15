@@ -14,23 +14,45 @@ export function LandingFooter() {
 					</p>
 				</div>
 
-				<nav className="flex w-[180px] shrink-0 flex-col items-start gap-[14px]">
-					<p className="font-mono text-[11px]/4 text-muted-foreground tracking-widest">
-						PROJECT
-					</p>
-					{REPO_LINKS.map((link) => (
+				<div className="flex flex-wrap gap-12 sm:gap-16">
+					<nav className="flex w-[160px] shrink-0 flex-col items-start gap-[14px]">
+						<p className="font-mono text-[11px]/4 text-muted-foreground tracking-widest">
+							LEGAL
+						</p>
 						<Link
-							key={link.label}
 							variant="quiet"
-							href={link.href}
-							target="_blank"
-							rel="noreferrer"
+							href="/privacy"
 							className="text-[13px]/6"
 						>
-							{link.label}
+							Privacidade
 						</Link>
-					))}
-				</nav>
+						<Link
+							variant="quiet"
+							href="/terms"
+							className="text-[13px]/6"
+						>
+							Termos de Uso
+						</Link>
+					</nav>
+
+					<nav className="flex w-[160px] shrink-0 flex-col items-start gap-[14px]">
+						<p className="font-mono text-[11px]/4 text-muted-foreground tracking-widest">
+							PROJECT
+						</p>
+						{REPO_LINKS.map((link) => (
+							<Link
+								key={link.label}
+								variant="quiet"
+								href={link.href}
+								target="_blank"
+								rel="noreferrer"
+								className="text-[13px]/6"
+							>
+								{link.label}
+							</Link>
+						))}
+					</nav>
+				</div>
 			</div>
 
 			<div className="flex w-full justify-center border-border border-t">

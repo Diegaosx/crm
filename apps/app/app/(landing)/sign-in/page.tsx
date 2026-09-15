@@ -1,5 +1,6 @@
 import type { MailboxProviderId } from "@crm/auth/scopes";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect, unstable_rethrow } from "next/navigation";
 import { Suspense } from "react";
 import { AuthHeading, AuthShell } from "@/components/auth-shell";
@@ -114,6 +115,24 @@ async function SignIn({
 			{social.map((provider) => (
 				<SocialSignIn key={provider} provider={provider} />
 			))}
+
+			<p className="text-center text-xs text-muted-foreground">
+				Ao continuar, você concorda com nossos{" "}
+				<Link
+					href="/terms"
+					className="underline underline-offset-4 hover:text-foreground"
+				>
+					Termos de Uso
+				</Link>{" "}
+				e{" "}
+				<Link
+					href="/privacy"
+					className="underline underline-offset-4 hover:text-foreground"
+				>
+					Política de Privacidade
+				</Link>
+				.
+			</p>
 		</>
 	);
 }
