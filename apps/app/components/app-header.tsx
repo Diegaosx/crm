@@ -61,9 +61,15 @@ export function AppHeader({ user }: { user: User }) {
 				<Link
 					href={workspaceUrl()}
 					aria-label={t.nav.homepage}
-					className="hidden size-8 items-center justify-center text-foreground md:flex"
+					className="hidden items-center gap-2 text-foreground md:flex"
 				>
-					<Logo className="size-5" />
+					<Logo className="size-6 shrink-0" />
+					<span className="font-bold text-sm tracking-tight flex items-center gap-1">
+						<span>CRM</span>
+						<span className="text-emerald-500 text-[10px] font-extrabold px-1 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+							BR
+						</span>
+					</span>
 				</Link>
 				<Separator orientation="vertical" className="mx-1 h-5 bg-transparent" />
 				<span className="min-w-0 truncate font-medium text-sm">{label}</span>
@@ -91,8 +97,14 @@ export function AppHeaderFallback() {
 			aria-busy="true"
 		>
 			<div className="flex shrink-0 items-center gap-1">
-				<span className="hidden size-8 items-center justify-center text-foreground md:flex">
-					<Logo className="size-5" />
+				<span className="hidden items-center gap-2 text-foreground md:flex">
+					<Logo className="size-6 shrink-0" />
+					<span className="font-bold text-sm tracking-tight flex items-center gap-1">
+						<span>CRM</span>
+						<span className="text-emerald-500 text-[10px] font-extrabold px-1 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+							BR
+						</span>
+					</span>
 				</span>
 				<Separator orientation="vertical" className="mx-1 h-5 bg-transparent" />
 				<Skeleton className="h-4 w-24" />

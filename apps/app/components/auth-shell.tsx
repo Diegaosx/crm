@@ -10,15 +10,21 @@ export function AuthShell({ children }: { children: ReactNode }) {
 				<AuthShader />
 
 				<div className="relative flex gap-2 text-sm/5">
-					<Link href="/" aria-label="Homepage" className="flex">
-						<Logo className="size-5 shrink-0" />
+					<Link href="/" aria-label="CRM BR" className="flex items-center gap-3">
+						<Logo className="size-8 shrink-0" />
+						<span className="font-bold text-xl tracking-tight text-foreground flex items-center gap-1.5">
+							<span>CRM</span>
+							<span className="text-emerald-500 font-extrabold text-xs px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+								BR
+							</span>
+						</span>
 					</Link>
 				</div>
 
 				<div className="relative flex max-w-lg flex-col gap-8">
 					<div className="flex flex-col gap-4">
-						<p className="font-mono text-xs/4 text-muted-foreground uppercase">
-							CRM
+						<p className="font-mono text-xs/4 text-emerald-500 font-semibold tracking-wider uppercase">
+							CRM BR
 						</p>
 						<h1 className="max-w-[14ch] text-5xl/14 font-semibold text-balance">
 							Every customer, one place.
@@ -56,8 +62,16 @@ export function AuthShell({ children }: { children: ReactNode }) {
 			</section>
 
 			<section className="flex min-h-svh flex-col bg-background px-6 py-8 sm:px-10 lg:px-14">
-				<div className="flex gap-2 text-sm/5 max-lg:hidden lg:invisible">
-					<Logo className="size-5 shrink-0" />
+				<div className="flex gap-2 text-sm/5 lg:hidden pb-4">
+					<Link href="/" aria-label="CRM BR" className="flex items-center gap-2.5">
+						<Logo className="size-7 shrink-0" />
+						<span className="font-bold text-lg tracking-tight text-foreground flex items-center gap-1.5">
+							<span>CRM</span>
+							<span className="text-emerald-500 font-extrabold text-xs px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+								BR
+							</span>
+						</span>
+					</Link>
 				</div>
 
 				<div className="flex flex-1 items-center justify-center py-12">
@@ -92,9 +106,15 @@ export function AuthHeading({
 	description: ReactNode;
 }) {
 	return (
-		<div className="flex flex-col gap-3 text-left">
-			<Link href="/" aria-label="Homepage" className="flex">
-				<Logo className="size-6 shrink-0" />
+		<div className="flex flex-col gap-4 text-left">
+			<Link href="/" aria-label="CRM BR" className="flex items-center gap-3">
+				<Logo className="size-9 shrink-0" />
+				<span className="font-bold text-2xl tracking-tight text-foreground flex items-center gap-1.5">
+					<span>CRM</span>
+					<span className="text-emerald-500 font-extrabold text-sm px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+						BR
+					</span>
+				</span>
 			</Link>
 			<div className="flex flex-col gap-1">
 				<h2 className="text-2xl/8 font-semibold tracking-tight text-balance">
