@@ -1,0 +1,18 @@
+FROM oven/bun:1.2-alpine AS base
+WORKDIR /app
+
+RUN apk add --no-cache openssl libc6-compat
+
+COPY package.json bun.lock turbo.json ./
+COPY packages ./packages
+COPY apps/api ./apps/api
+
+RUN bun install --frozen-lockfile
+RUN bun run --filter=@crm/db db:generate
+RUN bun run --filter=api build
+
+ENV NODE_ENV=production
+ENV PORT=3001
+EXPOSE 3001
+
+CMD ["bun", "apps/api/dist/main.js"]
