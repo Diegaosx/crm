@@ -14,7 +14,7 @@ const LANDING_PATH = "/";
 
 const SIGN_IN_PATH = "/sign-in";
 
-const UNGATED = ["/grant-access", "/eve"];
+const UNGATED = ["/grant-access", "/eve", "/privacy", "/terms"];
 
 const ANONYMOUS = ["/t"];
 
@@ -75,7 +75,7 @@ function isUnder(pathname: string, prefix: string): boolean {
 }
 
 function isPublic(pathname: string): boolean {
-	return pathname === LANDING_PATH && isMarketing();
+	return (pathname === LANDING_PATH && isMarketing()) || isUngated(pathname);
 }
 
 function isUngated(pathname: string): boolean {

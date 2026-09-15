@@ -33,13 +33,13 @@ const socialProviders: NonNullable<BetterAuthOptions["socialProviders"]> = {};
 const slackOAuth = env.slack;
 const slackRedirectUri = new URL(
 	"/api/auth/oauth2/callback/slack",
-	env.apiUrl,
+	env.appUrl,
 ).toString();
 
 if (env.google) {
 	const google: NonNullable<typeof socialProviders.google> = {
 		...env.google,
-
+		redirectURI: new URL("/api/auth/callback/google", env.appUrl).toString(),
 		scope: [...SYNC_SCOPES],
 
 		accessType: "offline",
@@ -56,6 +56,10 @@ if (env.microsoft) {
 		clientId: env.microsoft.clientId,
 		clientSecret: env.microsoft.clientSecret,
 		tenantId: env.microsoft.tenantId,
+		redirectURI: new URL(
+			"/api/auth/callback/microsoft",
+			env.appUrl,
+		).toString(),
 
 		scope: [...MICROSOFT_SYNC_SCOPES],
 
