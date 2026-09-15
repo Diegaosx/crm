@@ -18,7 +18,7 @@ RUN bun run --filter=api build
 ENV NODE_ENV=production
 ENV PORT=3001
 EXPOSE 3001
-CMD ["bun", "apps/api/dist/main.js"]
+CMD ["sh", "-c", "bun run --filter=@crm/db db:deploy && bun apps/api/dist/main.js"]
 
 FROM base AS app
 RUN bun run --filter=app build

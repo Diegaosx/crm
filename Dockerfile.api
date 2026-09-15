@@ -17,4 +17,4 @@ ENV NODE_ENV=production
 ENV PORT=3001
 EXPOSE 3001
 
-CMD ["bun", "apps/api/dist/main.js"]
+CMD ["sh", "-c", "bun run --filter=@crm/db db:deploy && bun apps/api/dist/main.js"]
