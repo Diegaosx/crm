@@ -3,6 +3,8 @@ WORKDIR /app
 RUN apk add --no-cache openssl libc6-compat nodejs
 
 ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/crm?schema=public"
+ENV BETTER_AUTH_SECRET="build-dummy-secret-32-chars-long-base64="
+ENV ALLOWED_SIGN_IN="example.com"
 
 COPY package.json bun.lock turbo.json ./
 COPY packages ./packages

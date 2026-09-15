@@ -4,16 +4,14 @@ import {
 	PageShell,
 	PageShellActions,
 	PageShellContent,
-	PageShellDescription,
 	PageShellHeader,
 	PageShellHeading,
 	PageShellLoading,
-	PageShellTitle,
 } from "@/components/page-shell";
-import { getServerTranslations } from "@/lib/i18n/server";
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { CompaniesHeading } from "./companies-heading";
 import { companiesSearchParams } from "./companies-search-params";
 import { CompaniesTable } from "./companies-table";
 import { CreateCompanySheet } from "./create-company-sheet";
@@ -22,17 +20,14 @@ export const metadata: Metadata = {
 	title: "Companies",
 };
 
-export default async function CompaniesPage({
+export default function CompaniesPage({
 	searchParams,
 }: PageProps<"/[slug]/companies">) {
-	const { t } = await getServerTranslations();
-
 	return (
 		<PageShell className="min-h-0">
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>{t.companies.title}</PageShellTitle>
-					<PageShellDescription>{t.companies.description}</PageShellDescription>
+					<CompaniesHeading />
 				</PageShellHeading>
 				<PageShellActions>
 					<CreateCompanySheet />

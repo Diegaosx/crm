@@ -4,16 +4,14 @@ import {
 	PageShell,
 	PageShellActions,
 	PageShellContent,
-	PageShellDescription,
 	PageShellHeader,
 	PageShellHeading,
 	PageShellLoading,
-	PageShellTitle,
 } from "@/components/page-shell";
-import { getServerTranslations } from "@/lib/i18n/server";
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { ContactsHeading } from "./contacts-heading";
 import { contactsSearchParams } from "./contacts-search-params";
 import { ContactsTable } from "./contacts-table";
 import { CreateContactSheet } from "./create-contact-sheet";
@@ -22,17 +20,14 @@ export const metadata: Metadata = {
 	title: "Contacts",
 };
 
-export default async function ContactsPage({
+export default function ContactsPage({
 	searchParams,
 }: PageProps<"/[slug]/contacts">) {
-	const { t } = await getServerTranslations();
-
 	return (
 		<PageShell className="min-h-0">
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>{t.contacts.title}</PageShellTitle>
-					<PageShellDescription>{t.contacts.description}</PageShellDescription>
+					<ContactsHeading />
 				</PageShellHeading>
 				<PageShellActions>
 					<CreateContactSheet />

@@ -8,11 +8,13 @@ import {
 	useMemo,
 	useState,
 } from "react";
+import { useMountEffect } from "@crm/ui/hooks/use-mount-effect";
 import {
 	DEFAULT_LOCALE,
 	LOCALE_COOKIE_NAME,
 	LOCALES,
 	type Locale,
+	isValidLocale,
 } from "./config";
 import en from "./dictionaries/en";
 import es from "./dictionaries/es";
@@ -43,6 +45,23 @@ export function I18nProvider({
 }) {
 	const [locale, setLocaleState] = useState<Locale>(initialLocale);
 	const router = useRouter();
+
+	useMountEffect(() => {
+		try {
+			const match = document.cookie
+				.split("; ")
+				.find((row) => row.startsWith(`${LOCALE_COOKIE_NAME}=`));
+			const cookieVal = match?.split("=")[1];
+			if (isValidLocale(cookieVal) && cookieVal !== locale) {
+				setLocaleState(cookieVal);
+			} else {
+				const storageVal = localStorage.getItem(LOCALE_COOKIE_NAME);
+				if (isValidLocale(storageVal) && storageVal !== locale) {
+					setLocaleState(storageVal);
+				}
+			}
+		} catch {}
+	});
 
 	const setLocale = useCallback(
 		(nextLocale: Locale) => {

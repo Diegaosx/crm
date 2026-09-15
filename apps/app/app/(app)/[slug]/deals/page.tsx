@@ -4,17 +4,15 @@ import {
 	PageShell,
 	PageShellActions,
 	PageShellContent,
-	PageShellDescription,
 	PageShellHeader,
 	PageShellHeading,
 	PageShellLoading,
-	PageShellTitle,
 } from "@/components/page-shell";
-import { getServerTranslations } from "@/lib/i18n/server";
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
 import { CreateDealSheet } from "./create-deal-sheet";
+import { DealsHeading } from "./deals-heading";
 import { dealsSearchParams } from "./deals-search-params";
 import { DealsTable } from "./deals-table";
 
@@ -22,17 +20,14 @@ export const metadata: Metadata = {
 	title: "Deals",
 };
 
-export default async function DealsPage({
+export default function DealsPage({
 	searchParams,
 }: PageProps<"/[slug]/deals">) {
-	const { t } = await getServerTranslations();
-
 	return (
 		<PageShell className="min-h-0">
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>{t.deals.title}</PageShellTitle>
-					<PageShellDescription>{t.deals.description}</PageShellDescription>
+					<DealsHeading />
 				</PageShellHeading>
 				<PageShellActions>
 					<CreateDealSheet />

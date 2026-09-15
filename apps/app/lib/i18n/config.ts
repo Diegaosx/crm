@@ -16,6 +16,8 @@ export const LOCALE_LABELS = {
 	es: "Español",
 } as const satisfies Record<Locale, string>;
 
-export function isValidLocale(locale: string | undefined): locale is Locale {
-	return locale !== undefined && localeSchema.safeParse(locale).success;
+export function isValidLocale(
+	locale: string | null | undefined,
+): locale is Locale {
+	return locale != null && localeSchema.safeParse(locale).success;
 }

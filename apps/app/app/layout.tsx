@@ -7,8 +7,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { LocalDateTimeHydrator } from "@/components/local-date-time";
 import { ThemeProvider } from "@/components/theme-provider";
-import { I18nProvider } from "@/lib/i18n";
-import { getServerLocale } from "@/lib/i18n/server";
+import { DEFAULT_LOCALE, I18nProvider } from "@/lib/i18n";
 import { TRPCReactProvider } from "@/lib/trpc/client";
 
 const fontSans = Geist({
@@ -37,23 +36,21 @@ export const metadata: Metadata = {
 	manifest: "/site.webmanifest",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const locale = await getServerLocale();
-
 	return (
 		<html
-			lang={locale}
+			lang={DEFAULT_LOCALE}
 			suppressHydrationWarning
 			className={cn(fontSans.variable, fontMono.variable, "h-full antialiased")}
 		>
 			<body className="flex min-h-full flex-col font-sans">
 				<NuqsAdapter>
 					<TRPCReactProvider>
-						<I18nProvider initialLocale={locale}>
+						<I18nProvider initialLocale={DEFAULT_LOCALE}>
 							<ThemeProvider>
 								<TooltipProvider>{children}</TooltipProvider>
 								<Toaster richColors />
