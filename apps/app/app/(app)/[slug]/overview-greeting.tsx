@@ -2,6 +2,7 @@
 
 import { useQueryState } from "nuqs";
 import { PageShellDescription, PageShellTitle } from "@/components/page-shell";
+import { useTranslations } from "@/lib/i18n";
 import { SEARCH_PARAM } from "@/lib/search-param-keys";
 import { overviewParsers } from "./overview-search-params";
 
@@ -21,14 +22,15 @@ export function OverviewGreeting() {
 		SEARCH_PARAM.overview.scope,
 		overviewParsers[SEARCH_PARAM.overview.scope],
 	);
+	const t = useTranslations();
 
 	return (
 		<>
-			<PageShellTitle>Welcome back</PageShellTitle>
+			<PageShellTitle>{t.overview.welcomeBack}</PageShellTitle>
 			<PageShellDescription>
 				{scope === "me"
-					? "What you have closed, what is still in play, and what needs you today."
-					: "What the team has closed, what is still in play, and what needs you today."}
+					? t.overview.overviewDescMe
+					: t.overview.overviewDescAll}
 			</PageShellDescription>
 		</>
 	);

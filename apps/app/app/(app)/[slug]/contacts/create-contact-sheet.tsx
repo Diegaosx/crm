@@ -29,6 +29,7 @@ import { type ComponentProps, Suspense, useId, useState } from "react";
 import { toast } from "sonner";
 import { CompanyPicker } from "@/components/crm/company-picker";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
+import { useTranslations } from "@/lib/i18n";
 import { SEARCH_PARAM } from "@/lib/search-param-keys";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
@@ -36,10 +37,11 @@ import { useTRPC } from "@/lib/trpc/client";
 const NONE = "none";
 
 function AddButton(props: ComponentProps<typeof Button>) {
+	const t = useTranslations();
 	return (
 		<Button {...props}>
 			<Icon icon={Add} data-icon="inline-start" />
-			New contact
+			{t.contacts.createContact}
 		</Button>
 	);
 }
@@ -56,6 +58,7 @@ function CreateContactForm({ companyId }: { companyId?: string }) {
 	const openRecord = useOpenRecord();
 	const trpc = useTRPC();
 	const cache = useCrmCache();
+	const t = useTranslations();
 
 	const [open, setOpen] = useQueryState(
 		SEARCH_PARAM.dialog.create,
@@ -87,6 +90,8 @@ function CreateContactForm({ companyId }: { companyId?: string }) {
 				setLastName("");
 				setEmail("");
 				setTitle("");
+				setCompany(companyId ?? NONE);
+				setOwnerId(NONE);
 				openRecord({ kind: "contact", id: contact.id });
 			},
 			onError: (error) => toast.error(error.message),
@@ -100,7 +105,7 @@ function CreateContactForm({ companyId }: { companyId?: string }) {
 			</SheetTrigger>
 			<SheetContent side="right">
 				<SheetHeader>
-					<SheetTitle>New contact</SheetTitle>
+					<SheetTitle>{t.contacts.createContact}</SheetTitle>
 					<SheetDescription>
 						Email addresses are unique, so importing the same person twice
 						updates them rather than duplicating them.
@@ -202,10 +207,10 @@ function CreateContactForm({ companyId }: { companyId?: string }) {
 						disabled={create.isPending || firstName.trim() === ""}
 					>
 						{create.isPending ? <Spinner /> : null}
-						Add contact
+						{t.contacts.createContact}
 					</Button>
 					<SheetClose asChild>
-						<Button variant="outline">Cancel</Button>
+						<Button variant="outline">{t.common.cancel}</Button>
 					</SheetClose>
 				</SheetFooter>
 			</SheetContent>

@@ -13,6 +13,7 @@ import {
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { getServerTranslations } from "@/lib/i18n/server";
 import { contactsSearchParams } from "./contacts-search-params";
 import { ContactsTable } from "./contacts-table";
 import { CreateContactSheet } from "./create-contact-sheet";
@@ -21,15 +22,17 @@ export const metadata: Metadata = {
 	title: "Contacts",
 };
 
-export default function ContactsPage({
+export default async function ContactsPage({
 	searchParams,
 }: PageProps<"/[slug]/contacts">) {
+	const { t } = await getServerTranslations();
+
 	return (
 		<PageShell className="min-h-0">
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>Contacts</PageShellTitle>
-					<PageShellDescription>Everyone in the pipeline.</PageShellDescription>
+					<PageShellTitle>{t.contacts.title}</PageShellTitle>
+					<PageShellDescription>{t.contacts.description}</PageShellDescription>
 				</PageShellHeading>
 				<PageShellActions>
 					<CreateContactSheet />

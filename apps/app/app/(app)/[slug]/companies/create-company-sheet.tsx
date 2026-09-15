@@ -33,6 +33,7 @@ import { parseAsBoolean, useQueryState } from "nuqs";
 import { type ComponentProps, Suspense, useId, useState } from "react";
 import { toast } from "sonner";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
+import { useTranslations } from "@/lib/i18n";
 import { SEARCH_PARAM } from "@/lib/search-param-keys";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
@@ -40,10 +41,11 @@ import { useTRPC } from "@/lib/trpc/client";
 const UNASSIGNED = "unassigned";
 
 function AddButton(props: ComponentProps<typeof Button>) {
+	const t = useTranslations();
 	return (
 		<Button {...props}>
 			<Icon icon={Add} data-icon="inline-start" />
-			New company
+			{t.companies.createCompany}
 		</Button>
 	);
 }
@@ -60,6 +62,10 @@ function CreateCompanyForm() {
 	const openRecord = useOpenRecord();
 	const trpc = useTRPC();
 	const cache = useCrmCache();
+	const t = useTranslations();
+
+	const nameId = useId();
+	const domainId = useId();
 
 	const [open, setOpen] = useQueryState(
 		SEARCH_PARAM.dialog.create,
@@ -69,9 +75,6 @@ function CreateCompanyForm() {
 	const [domain, setDomain] = useState("");
 	const [ownerId, setOwnerId] = useState(UNASSIGNED);
 
-	const nameId = useId();
-	const domainId = useId();
-
 	const users = useQuery(trpc.users.list.queryOptions());
 
 	const create = useMutation(
@@ -79,7 +82,7 @@ function CreateCompanyForm() {
 			onSuccess: async (company) => {
 				await cache.company(company.id);
 				toast.success(`${company.name} added.`);
-				await setOpen(null);
+				await setOpen(false);
 				setName("");
 				setDomain("");
 				setOwnerId(UNASSIGNED);
@@ -90,13 +93,13 @@ function CreateCompanyForm() {
 	);
 
 	return (
-		<Sheet open={open} onOpenChange={(next) => setOpen(next || null)}>
+		<Sheet open={open} onOpenChange={setOpen}>
 			<SheetTrigger asChild>
 				<AddButton />
 			</SheetTrigger>
 			<SheetContent side="right">
 				<SheetHeader>
-					<SheetTitle>New company</SheetTitle>
+					<SheetTitle>{t.companies.createCompany}</SheetTitle>
 					<SheetDescription>
 						Give it a name and a domain. The agent fills in the logo,
 						description, industry, address and socials.
@@ -117,35 +120,41 @@ function CreateCompanyForm() {
 				>
 					<FieldGroup>
 						<Field>
-							<FieldLabel htmlFor={nameId}>Name</FieldLabel>
+							<FieldLabel htmlFor={nameId}>{t.common.name}</FieldLabel>
 							<Input
 								id={nameId}
 								value={name}
 								onChange={(event) => setName(event.target.value)}
-								placeholder="Stripe"
-								autoComplete="off"
+								placeholder="Acme Inc."
+								autoComplete="organization"
 								required
+								autoFocus
 							/>
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor={domainId}>Domain</FieldLabel>
+							<FieldLabel htmlFor={domainId}>
+								{t.companies.colDomain}
+							</FieldLabel>
 							<Input
 								id={domainId}
 								value={domain}
 								onChange={(event) => setDomain(event.target.value)}
-								placeholder="stripe.com"
+								placeholder="acme.com"
 								autoComplete="off"
-								inputMode="url"
+								autoCapitalize="off"
+								autoCorrect="off"
+								spellCheck={false}
 							/>
 							<FieldDescription>
-								A full URL is fine — it is reduced to the bare host, which has
-								to be unique.
+								Leave blank if you don&apos;t know it yet.
 							</FieldDescription>
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="create-company-owner">Owner</FieldLabel>
+							<FieldLabel htmlFor="create-company-owner">
+								{t.companies.colOwner}
+							</FieldLabel>
 							<Select value={ownerId} onValueChange={setOwnerId}>
 								<SelectTrigger id="create-company-owner">
 									<SelectValue />
@@ -170,10 +179,10 @@ function CreateCompanyForm() {
 						disabled={create.isPending || name.trim() === ""}
 					>
 						{create.isPending ? <Spinner /> : null}
-						Add company
+						{t.companies.createCompany}
 					</Button>
 					<SheetClose asChild>
-						<Button variant="outline">Cancel</Button>
+						<Button variant="outline">{t.common.cancel}</Button>
 					</SheetClose>
 				</SheetFooter>
 			</SheetContent>

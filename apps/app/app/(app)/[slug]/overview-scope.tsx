@@ -2,6 +2,7 @@
 
 import { ToggleGroup, ToggleGroupItem } from "@crm/ui/components/toggle-group";
 import { useQueryState } from "nuqs";
+import { useTranslations } from "@/lib/i18n";
 import { SEARCH_PARAM } from "@/lib/search-param-keys";
 import {
 	OVERVIEW_SCOPES,
@@ -9,7 +10,7 @@ import {
 	overviewParsers,
 } from "./overview-search-params";
 
-const LABELS = {
+const DEFAULT_LABELS = {
 	me: "Me",
 	everyone: "Everyone",
 } satisfies Record<OverviewScope, string>;
@@ -30,7 +31,7 @@ export function OverviewScopeToggleFallback() {
 		>
 			{OVERVIEW_SCOPES.map((value) => (
 				<ToggleGroupItem key={value} value={value}>
-					{LABELS[value]}
+					{DEFAULT_LABELS[value]}
 				</ToggleGroupItem>
 			))}
 		</ToggleGroup>
@@ -42,6 +43,12 @@ export function OverviewScopeToggle() {
 		SEARCH_PARAM.overview.scope,
 		overviewParsers[SEARCH_PARAM.overview.scope],
 	);
+	const t = useTranslations();
+
+	const labels: Record<OverviewScope, string> = {
+		me: t.overview.scopeMine,
+		everyone: t.overview.scopeAll,
+	};
 
 	return (
 		<ToggleGroup
@@ -57,7 +64,7 @@ export function OverviewScopeToggle() {
 		>
 			{OVERVIEW_SCOPES.map((value) => (
 				<ToggleGroupItem key={value} value={value}>
-					{LABELS[value]}
+					{labels[value]}
 				</ToggleGroupItem>
 			))}
 		</ToggleGroup>

@@ -19,6 +19,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { AreaTrend, DonutStat } from "@/components/dashboard-charts";
 import { dealStageColor, dealStageLabel } from "@/lib/deal-stage";
+import { useTranslations } from "@/lib/i18n";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
 
@@ -45,6 +46,7 @@ function changeDelta(
 
 export function SalesDashboard({ summary }: { summary: Summary }) {
 	const workspaceUrl = useWorkspaceUrl();
+	const t = useTranslations();
 
 	const {
 		pipeline,
@@ -81,7 +83,7 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 		<div className="flex flex-col gap-6">
 			<StatGroup>
 				<StatCard
-					label="Closed won this month"
+					label={t.overview.dealsWon}
 					value={money(wonThisMonth.valueCents)}
 					delta={changeDelta(
 						wonThisMonth.valueCents,
@@ -91,12 +93,12 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 					description={`${formatCount(wonThisMonth.count, "deal")} · ${money(wonPrevMonth.valueCents)} last month`}
 				/>
 				<StatCard
-					label="Open pipeline"
+					label={t.overview.pipeline}
 					value={money(pipeline.totalCents)}
 					description={`${formatCount(pipeline.totalDeals, "deal")} in progress · ${money(closingThisMonthTotal.valueCents)} due this month`}
 				/>
 				<StatCard
-					label={`Win rate (${performance.windowDays}d)`}
+					label={`${t.overview.winRate} (${performance.windowDays}d)`}
 					value={
 						performance.winRate === null
 							? "—"
@@ -109,7 +111,7 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 					}
 				/>
 				<StatCard
-					label={`Average deal (${performance.windowDays}d)`}
+					label={`${t.overview.averageDealSize} (${performance.windowDays}d)`}
 					value={
 						performance.avgDealCents === null
 							? "—"
@@ -143,7 +145,7 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 
 			<DashboardRow split="hero">
 				<ChartPanel
-					title="Closed won vs. new pipeline"
+					title={t.overview.pipelineOverTime}
 					description="Last six months, by the month a deal closed or was created"
 				>
 					{hasTrend ? (
@@ -165,7 +167,7 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 				</ChartPanel>
 
 				<ChartPanel
-					title="Open pipeline by stage"
+					title={t.overview.stageDistribution}
 					description="Where the value sits right now"
 				>
 					{stageSlices.length > 0 ? (

@@ -12,8 +12,10 @@ import {
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { getServerTranslations } from "@/lib/i18n/server";
 import { AgentModel } from "./agent-model";
 import { ArchiveRetention } from "./archive-retention";
+import { LanguageSettings } from "./language-settings";
 import { ResearchKey } from "./research-key";
 import { WorkspaceForm } from "./workspace-form";
 
@@ -21,14 +23,16 @@ export const metadata: Metadata = {
 	title: "General",
 };
 
-export default function GeneralSettingsPage() {
+export default async function GeneralSettingsPage() {
+	const { t } = await getServerTranslations();
+
 	return (
 		<PageShell>
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>General</PageShellTitle>
+					<PageShellTitle>{t.settings.generalTitle}</PageShellTitle>
 					<PageShellDescription>
-						Who you are, and the model the research agent thinks with.
+						{t.settings.generalDescription}
 					</PageShellDescription>
 				</PageShellHeading>
 			</PageShellHeader>
@@ -60,6 +64,7 @@ async function Settings() {
 		<HydrateClient>
 			<div className="flex max-w-3xl flex-col gap-6">
 				<WorkspaceForm />
+				<LanguageSettings />
 				<ResearchKey />
 				<ArchiveRetention />
 				<AgentModel />

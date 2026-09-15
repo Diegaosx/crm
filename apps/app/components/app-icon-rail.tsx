@@ -28,10 +28,19 @@ import { useMemo } from "react";
 import { AgentBuilderSidebar } from "@/components/agent-builder/agent-builder-sidebar";
 import { usePrefetchSection } from "@/components/crm/section-prefetch";
 import { useMobileNav } from "@/components/mobile-nav";
+import { useTranslations } from "@/lib/i18n";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
 
-type RailItem = {
-	title: string;
+type RailKey =
+	| "overview"
+	| "chat"
+	| "companies"
+	| "contacts"
+	| "deals"
+	| "settings";
+
+type RailItemDef = {
+	key: RailKey;
 	href: string;
 	icon: CarbonIcon;
 	iconClassName?: string;
@@ -39,25 +48,29 @@ type RailItem = {
 	related?: string[];
 };
 
-const ITEMS: RailItem[] = [
-	{ title: "Overview", href: "/", icon: Dashboard, match: "exact" },
+type RailItem = RailItemDef & {
+	title: string;
+};
+
+const ITEMS_DEF: RailItemDef[] = [
+	{ key: "overview", href: "/", icon: Dashboard, match: "exact" },
 	{
-		title: "Chat",
+		key: "chat",
 		href: "/chat",
 		icon: Bot,
 		iconClassName: "size-5",
 		match: "prefix",
 		related: ["/agents"],
 	},
-	{ title: "Companies", href: "/companies", icon: Building, match: "prefix" },
+	{ key: "companies", href: "/companies", icon: Building, match: "prefix" },
 	{
-		title: "Contacts",
+		key: "contacts",
 		href: "/contacts",
 		icon: UserMultiple,
 		match: "prefix",
 	},
-	{ title: "Deals", href: "/deals", icon: Partnership, match: "prefix" },
-	{ title: "Settings", href: "/settings", icon: Settings, match: "prefix" },
+	{ key: "deals", href: "/deals", icon: Partnership, match: "prefix" },
+	{ key: "settings", href: "/settings", icon: Settings, match: "prefix" },
 ];
 
 function isActive(item: RailItem, pathname: string): boolean {
@@ -136,9 +149,7 @@ function MobileRailLink({
 				onFocus={onPrefetch}
 				aria-current={active ? "page" : undefined}
 				onClick={onNavigate}
-				transitionTypes={[
-					item.title === "Chat" ? "nav-forward" : "nav-lateral",
-				]}
+				transitionTypes={[item.key === "chat" ? "nav-forward" : "nav-lateral"]}
 			>
 				<Icon icon={item.icon} className={item.iconClassName} />
 				<span>{item.title}</span>
@@ -191,7 +202,7 @@ export function AppIconRailFallback() {
 			aria-busy="true"
 			className="hidden w-14 shrink-0 flex-col items-center gap-1 border-r py-3 md:flex [view-transition-name:app-rail]"
 		>
-			{ITEMS.map((item) => (
+			{ITEMS_DEF.map((item) => (
 				<Button
 					key={item.href}
 					variant="ghost"
@@ -200,7 +211,7 @@ export function AppIconRailFallback() {
 					className="text-muted-foreground"
 				>
 					<Icon icon={item.icon} className={item.iconClassName} />
-					<span className="sr-only">{item.title}</span>
+					<span className="sr-only">{item.key}</span>
 				</Button>
 			))}
 		</nav>
@@ -212,19 +223,21 @@ export function AppIconRail() {
 	const workspaceUrl = useWorkspaceUrl();
 	const { open, setOpen } = useMobileNav();
 	const prefetchSection = usePrefetchSection();
+	const t = useTranslations();
 
 	const items = useMemo(
 		() =>
-			ITEMS.map((item) => ({
+			ITEMS_DEF.map((item) => ({
 				...item,
+				title: t.nav[item.key],
 				section: item.href,
 				href: workspaceUrl(item.href),
 				related: item.related?.map((path) => workspaceUrl(path)),
 			})),
-		[workspaceUrl],
+		[workspaceUrl, t.nav],
 	);
 	const inChat = items.some(
-		(item) => item.title === "Chat" && isActive(item, pathname),
+		(item) => item.key === "chat" && isActive(item, pathname),
 	);
 
 	return (

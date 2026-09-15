@@ -9,6 +9,9 @@ import { LocalDateTimeHydrator } from "@/components/local-date-time";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TRPCReactProvider } from "@/lib/trpc/client";
 
+import { I18nProvider } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n/server";
+
 const fontSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
@@ -35,24 +38,28 @@ export const metadata: Metadata = {
 	manifest: "/site.webmanifest",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const locale = await getServerLocale();
+
 	return (
 		<html
-			lang="en"
+			lang={locale}
 			suppressHydrationWarning
 			className={cn(fontSans.variable, fontMono.variable, "h-full antialiased")}
 		>
 			<body className="flex min-h-full flex-col font-sans">
 				<NuqsAdapter>
 					<TRPCReactProvider>
-						<ThemeProvider>
-							<TooltipProvider>{children}</TooltipProvider>
-							<Toaster richColors />
-						</ThemeProvider>
+						<I18nProvider initialLocale={locale}>
+							<ThemeProvider>
+								<TooltipProvider>{children}</TooltipProvider>
+								<Toaster richColors />
+							</ThemeProvider>
+						</I18nProvider>
 					</TRPCReactProvider>
 				</NuqsAdapter>
 				<LocalDateTimeHydrator />

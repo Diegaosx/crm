@@ -1,6 +1,7 @@
 "use client";
 
 import Asleep from "@carbon/icons-react/es/Asleep";
+import Globe from "@carbon/icons-react/es/Globe";
 import Light from "@carbon/icons-react/es/Light";
 import Logout from "@carbon/icons-react/es/Logout";
 import Menu from "@carbon/icons-react/es/Menu";
@@ -12,7 +13,12 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
 	DropdownMenuSeparator,
+	DropdownMenuSub,
+	DropdownMenuSubContent,
+	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "@crm/ui/components/dropdown-menu";
 import Logo from "@crm/ui/components/logo";
@@ -24,6 +30,7 @@ import { useTheme } from "next-themes";
 import { toast } from "sonner";
 import { EnrichmentQueue } from "@/components/enrichment-queue";
 import { useMobileNav } from "@/components/mobile-nav";
+import { LOCALE_LABELS, LOCALES, type Locale, useI18n } from "@/lib/i18n";
 import { signOutAndRedirect } from "@/lib/sign-out";
 import { useTRPC } from "@/lib/trpc/client";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
@@ -37,6 +44,7 @@ export function AppHeader({ user }: { user: User }) {
 	const workspaceUrl = useWorkspaceUrl();
 	const workspace = useQuery(trpc.workspace.get.queryOptions());
 	const label = workspaceLabel(workspace.data?.name);
+	const { t } = useI18n();
 
 	return (
 		<header className="flex h-12 shrink-0 items-center gap-2 border-b px-3 [view-transition-name:app-header]">
@@ -45,14 +53,14 @@ export function AppHeader({ user }: { user: User }) {
 					variant="ghost"
 					size="icon"
 					className="md:hidden"
-					aria-label="Open navigation"
+					aria-label={t.nav.openNavigation}
 					onClick={() => setMobileNavOpen(true)}
 				>
 					<Menu />
 				</Button>
 				<Link
 					href={workspaceUrl()}
-					aria-label="Homepage"
+					aria-label={t.nav.homepage}
 					className="hidden size-8 items-center justify-center text-foreground md:flex"
 				>
 					<Logo className="size-5" />
@@ -67,7 +75,7 @@ export function AppHeader({ user }: { user: User }) {
 					user={user}
 					onSignOut={() => {
 						signOutAndRedirect().catch(() =>
-							toast.error("Could not sign out."),
+							toast.error(t.header.signOutError),
 						);
 					}}
 				/>
@@ -105,6 +113,7 @@ export function AppHeaderFallback() {
 function UserMenu({ user, onSignOut }: { user: User; onSignOut: () => void }) {
 	const { resolvedTheme, setTheme } = useTheme();
 	const isDark = resolvedTheme === "dark";
+	const { locale, setLocale, t } = useI18n();
 
 	return (
 		<DropdownMenu>
@@ -112,7 +121,7 @@ function UserMenu({ user, onSignOut }: { user: User; onSignOut: () => void }) {
 				<Button
 					variant="ghost"
 					size="icon"
-					aria-label="Account menu"
+					aria-label={t.header.accountMenu}
 					className="hover:bg-transparent aria-expanded:bg-transparent dark:hover:bg-transparent"
 				>
 					<Avatar className="size-7">
@@ -136,12 +145,30 @@ function UserMenu({ user, onSignOut }: { user: User; onSignOut: () => void }) {
 					}}
 				>
 					{isDark ? <Light /> : <Asleep />}
-					{isDark ? "Light mode" : "Dark mode"}
+					{isDark ? t.header.lightMode : t.header.darkMode}
 				</DropdownMenuItem>
+				<DropdownMenuSub>
+					<DropdownMenuSubTrigger>
+						<Globe />
+						<span>{t.header.language}</span>
+					</DropdownMenuSubTrigger>
+					<DropdownMenuSubContent className="min-w-44">
+						<DropdownMenuRadioGroup
+							value={locale}
+							onValueChange={(val) => setLocale(val as Locale)}
+						>
+							{LOCALES.map((loc) => (
+								<DropdownMenuRadioItem key={loc} value={loc}>
+									{LOCALE_LABELS[loc]}
+								</DropdownMenuRadioItem>
+							))}
+						</DropdownMenuRadioGroup>
+					</DropdownMenuSubContent>
+				</DropdownMenuSub>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem onClick={onSignOut}>
 					<Logout />
-					Sign out
+					{t.header.signOut}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

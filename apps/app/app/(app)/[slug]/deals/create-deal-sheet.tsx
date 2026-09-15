@@ -36,6 +36,7 @@ import { type ComponentProps, Suspense, useId, useState } from "react";
 import { toast } from "sonner";
 import { CompanyPicker } from "@/components/crm/company-picker";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
+import { useTranslations } from "@/lib/i18n";
 import { dealStageLabel, OPEN_STAGES } from "@/lib/deal-stage";
 import { SEARCH_PARAM } from "@/lib/search-param-keys";
 import { useCrmCache } from "@/lib/trpc/cache";
@@ -44,10 +45,11 @@ import { useTRPC } from "@/lib/trpc/client";
 const UNSET = "";
 
 function AddButton(props: ComponentProps<typeof Button>) {
+	const t = useTranslations();
 	return (
 		<Button {...props}>
 			<Icon icon={Add} data-icon="inline-start" />
-			New deal
+			{t.deals.createDeal}
 		</Button>
 	);
 }
@@ -64,6 +66,7 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 	const openRecord = useOpenRecord();
 	const trpc = useTRPC();
 	const cache = useCrmCache();
+	const t = useTranslations();
 
 	const [open, setOpen] = useQueryState(
 		SEARCH_PARAM.dialog.create,
@@ -115,7 +118,7 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 			</SheetTrigger>
 			<SheetContent side="right">
 				<SheetHeader>
-					<SheetTitle>New deal</SheetTitle>
+					<SheetTitle>{t.deals.createDeal}</SheetTitle>
 					<SheetDescription>
 						Every deal belongs to a company and has someone's name against it.
 					</SheetDescription>
@@ -246,10 +249,10 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 						disabled={create.isPending || !ready}
 					>
 						{create.isPending ? <Spinner /> : null}
-						Add deal
+						{t.deals.createDeal}
 					</Button>
 					<SheetClose asChild>
-						<Button variant="outline">Cancel</Button>
+						<Button variant="outline">{t.common.cancel}</Button>
 					</SheetClose>
 				</SheetFooter>
 			</SheetContent>

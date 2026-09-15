@@ -13,6 +13,7 @@ import {
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { getServerTranslations } from "@/lib/i18n/server";
 import { companiesSearchParams } from "./companies-search-params";
 import { CompaniesTable } from "./companies-table";
 import { CreateCompanySheet } from "./create-company-sheet";
@@ -21,17 +22,17 @@ export const metadata: Metadata = {
 	title: "Companies",
 };
 
-export default function CompaniesPage({
+export default async function CompaniesPage({
 	searchParams,
 }: PageProps<"/[slug]/companies">) {
+	const { t } = await getServerTranslations();
+
 	return (
 		<PageShell className="min-h-0">
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>Companies</PageShellTitle>
-					<PageShellDescription>
-						Every account in the pipeline.
-					</PageShellDescription>
+					<PageShellTitle>{t.companies.title}</PageShellTitle>
+					<PageShellDescription>{t.companies.description}</PageShellDescription>
 				</PageShellHeading>
 				<PageShellActions>
 					<CreateCompanySheet />

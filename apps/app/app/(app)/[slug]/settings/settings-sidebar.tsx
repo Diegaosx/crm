@@ -5,7 +5,22 @@ import { cn } from "@crm/ui/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import { useTranslations } from "@/lib/i18n";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
+
+type SettingsNavKey =
+	| "sidebarGeneral"
+	| "sidebarTracking"
+	| "sidebarConnections"
+	| "sidebarCurrencies"
+	| "sidebarMembers"
+	| "sidebarApiKeys"
+	| "sidebarSso";
+
+type SettingsNavItemDef = {
+	key: SettingsNavKey;
+	href: string;
+};
 
 type SettingsNavItem = {
 	title: string;
@@ -14,14 +29,14 @@ type SettingsNavItem = {
 
 const ROOT = "/settings";
 
-const ITEMS: SettingsNavItem[] = [
-	{ title: "General", href: ROOT },
-	{ title: "Tracking & Analytics", href: `${ROOT}/tracking` },
-	{ title: "Connections", href: `${ROOT}/connections` },
-	{ title: "Currencies", href: `${ROOT}/currencies` },
-	{ title: "Members", href: `${ROOT}/members` },
-	{ title: "API Keys", href: `${ROOT}/api-keys` },
-	{ title: "SSO", href: `${ROOT}/sso` },
+const ITEMS_DEF: SettingsNavItemDef[] = [
+	{ key: "sidebarGeneral", href: ROOT },
+	{ key: "sidebarTracking", href: `${ROOT}/tracking` },
+	{ key: "sidebarConnections", href: `${ROOT}/connections` },
+	{ key: "sidebarCurrencies", href: `${ROOT}/currencies` },
+	{ key: "sidebarMembers", href: `${ROOT}/members` },
+	{ key: "sidebarApiKeys", href: `${ROOT}/api-keys` },
+	{ key: "sidebarSso", href: `${ROOT}/sso` },
 ];
 
 function isActive(href: string, root: string, pathname: string): boolean {
@@ -69,14 +84,14 @@ export function SettingsSidebarFallback() {
 					aria-busy="true"
 					className="flex flex-col gap-0.5 p-3"
 				>
-					{ITEMS.map((item) => (
+					{ITEMS_DEF.map((item) => (
 						<Button
 							key={item.href}
 							variant="ghost"
 							disabled
 							className="w-full justify-start px-3 font-normal text-muted-foreground"
 						>
-							{item.title}
+							{item.key}
 						</Button>
 					))}
 				</nav>
@@ -87,14 +102,14 @@ export function SettingsSidebarFallback() {
 				aria-busy="true"
 				className="flex gap-1 overflow-x-auto border-b p-2 md:hidden [view-transition-name:settings-sidebar]"
 			>
-				{ITEMS.map((item) => (
+				{ITEMS_DEF.map((item) => (
 					<Button
 						key={item.href}
 						variant="ghost"
 						disabled
 						className="shrink-0 justify-start px-3 font-normal text-muted-foreground"
 					>
-						{item.title}
+						{item.key}
 					</Button>
 				))}
 			</nav>
@@ -105,11 +120,16 @@ export function SettingsSidebarFallback() {
 export function SettingsSidebar() {
 	const pathname = usePathname();
 	const workspaceUrl = useWorkspaceUrl();
+	const t = useTranslations();
 
 	const root = workspaceUrl(ROOT);
 	const items = useMemo(
-		() => ITEMS.map((item) => ({ ...item, href: workspaceUrl(item.href) })),
-		[workspaceUrl],
+		() =>
+			ITEMS_DEF.map((item) => ({
+				title: t.settings[item.key],
+				href: workspaceUrl(item.href),
+			})),
+		[workspaceUrl, t.settings],
 	);
 
 	return (

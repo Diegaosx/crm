@@ -13,6 +13,7 @@ import {
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { getServerTranslations } from "@/lib/i18n/server";
 import { CreateDealSheet } from "./create-deal-sheet";
 import { dealsSearchParams } from "./deals-search-params";
 import { DealsTable } from "./deals-table";
@@ -21,17 +22,17 @@ export const metadata: Metadata = {
 	title: "Deals",
 };
 
-export default function DealsPage({
+export default async function DealsPage({
 	searchParams,
 }: PageProps<"/[slug]/deals">) {
+	const { t } = await getServerTranslations();
+
 	return (
 		<PageShell className="min-h-0">
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>Deals</PageShellTitle>
-					<PageShellDescription>
-						The pipeline, and everything that has already closed.
-					</PageShellDescription>
+					<PageShellTitle>{t.deals.title}</PageShellTitle>
+					<PageShellDescription>{t.deals.description}</PageShellDescription>
 				</PageShellHeading>
 				<PageShellActions>
 					<CreateDealSheet />
