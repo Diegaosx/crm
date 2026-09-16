@@ -55,9 +55,9 @@ import {
 import { LocalDay } from "@/components/local-date-time";
 import { OPEN_STAGES } from "@/lib/deal-stage";
 import { ENRICHMENT_POLL_MS, isEnriching } from "@/lib/enrichment-status";
+import { useTranslations } from "@/lib/i18n";
 import { savingField } from "@/lib/pending-field";
 import { hasCompanyLinks } from "@/lib/social-links";
-import { useTranslations } from "@/lib/i18n";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
@@ -416,7 +416,7 @@ function CompanyContacts({
 	adding: boolean;
 	onAdd: () => void;
 	onDone: () => void;
-	}) {
+}) {
 	const t = useTranslations();
 	const trpc = useTRPC();
 	const cache = useCrmCache();
@@ -438,7 +438,12 @@ function CompanyContacts({
 	) : null;
 
 	const contactColumns = [
-		{ id: "primary", srLabel: t.contacts.primaryContact, width: "w-10", className: "pl-5" },
+		{
+			id: "primary",
+			srLabel: t.contacts.primaryContact,
+			width: "w-10",
+			className: "pl-5",
+		},
 		{ id: "name", header: t.contacts.colName, width: "w-[28%]" },
 		{ id: "title", header: t.contacts.colTitle, width: "w-[24%]" },
 		{ id: "email", header: t.contacts.colEmail, width: "w-[26%]" },
@@ -496,12 +501,16 @@ function CompanyContacts({
 										>
 											<Icon icon={isPrimary ? StarFilled : Star} />
 											<span className="sr-only">
-												{isPrimary ? t.contacts.primaryContact : t.contacts.makePrimary}
+												{isPrimary
+													? t.contacts.primaryContact
+													: t.contacts.makePrimary}
 											</span>
 										</Button>
 									</TooltipTrigger>
 									<TooltipContent>
-										{isPrimary ? t.contacts.primaryContact : t.contacts.makePrimary}
+										{isPrimary
+											? t.contacts.primaryContact
+											: t.contacts.makePrimary}
 									</TooltipContent>
 								</Tooltip>
 							</TableCell>
@@ -569,7 +578,12 @@ function CompanyDeals({
 	) : null;
 
 	const dealColumns = [
-		{ id: "deal", header: t.deals.colDeal, width: "w-[32%]", className: "pl-5" },
+		{
+			id: "deal",
+			header: t.deals.colDeal,
+			width: "w-[32%]",
+			className: "pl-5",
+		},
 		{ id: "stage", header: t.deals.colStage, width: "w-[24%]" },
 		{
 			id: "amount",

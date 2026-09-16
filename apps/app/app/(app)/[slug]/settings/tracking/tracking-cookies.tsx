@@ -76,9 +76,7 @@ export function TrackingCookies() {
 		<Card>
 			<CardHeader>
 				<CardTitle>{t.settings.cookiesTitle}</CardTitle>
-				<CardDescription>
-					{t.settings.cookiesDesc}
-				</CardDescription>
+				<CardDescription>{t.settings.cookiesDesc}</CardDescription>
 			</CardHeader>
 
 			<CardContent>
@@ -109,7 +107,9 @@ export function TrackingCookies() {
 				))}
 
 				<Field>
-					<FieldLabel htmlFor={lifetimeId}>{t.settings.cookieLifetime}</FieldLabel>
+					<FieldLabel htmlFor={lifetimeId}>
+						{t.settings.cookieLifetime}
+					</FieldLabel>
 					<Select
 						value={String(cookieDays)}
 						disabled={busy}
@@ -128,12 +128,9 @@ export function TrackingCookies() {
 							))}
 						</SelectContent>
 					</Select>
-					<FieldDescription>
-						{t.settings.cookieLifetimeDesc}
-					</FieldDescription>
+					<FieldDescription>{t.settings.cookieLifetimeDesc}</FieldDescription>
 				</Field>
 			</CardContent>
 		</Card>
 	);
 }
-

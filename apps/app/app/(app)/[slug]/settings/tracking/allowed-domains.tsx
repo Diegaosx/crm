@@ -50,8 +50,18 @@ export function AllowedDomains() {
 	const columns: SimpleTableColumn[] = [
 		{ id: "domain", header: t.companies.colDomain },
 		{ id: "scope", header: t.settings.colScope, width: "w-40" },
-		{ id: "pageViews", header: t.settings.colPageViews, width: "w-28", align: "right" },
-		{ id: "lastSeen", header: t.settings.colLastSeen, width: "w-28", align: "right" },
+		{
+			id: "pageViews",
+			header: t.settings.colPageViews,
+			width: "w-28",
+			align: "right",
+		},
+		{
+			id: "lastSeen",
+			header: t.settings.colLastSeen,
+			width: "w-28",
+			align: "right",
+		},
 		{ id: "actions", srLabel: t.common.actions, width: "w-24" },
 	];
 
@@ -80,9 +90,7 @@ export function AllowedDomains() {
 		<Card>
 			<CardHeader>
 				<CardTitle>{t.settings.allowedDomainsTitle}</CardTitle>
-				<CardDescription>
-					{t.settings.allowedDomainsDesc}
-				</CardDescription>
+				<CardDescription>{t.settings.allowedDomainsDesc}</CardDescription>
 
 				<CardAction>
 					<AddDomain disabled={!canManage} />
@@ -90,9 +98,7 @@ export function AllowedDomains() {
 			</CardHeader>
 
 			{domains.length === 0 ? (
-				<CardTableEmpty>
-					{t.settings.addDomainEmpty}
-				</CardTableEmpty>
+				<CardTableEmpty>{t.settings.addDomainEmpty}</CardTableEmpty>
 			) : (
 				<SimpleTable columns={columns}>
 					{domains.map((domain) => (
@@ -199,7 +205,9 @@ function AddDomain({ disabled }: { disabled: boolean }) {
 						<FieldLabel htmlFor={scopeId}>{t.settings.colScope}</FieldLabel>
 						<Select
 							value={scope}
-							onValueChange={(next) => setScope(next as "SITE_AND_SUBDOMAINS" | "EXACT_HOST")}
+							onValueChange={(next) =>
+								setScope(next as "SITE_AND_SUBDOMAINS" | "EXACT_HOST")
+							}
 						>
 							<SelectTrigger id={scopeId} className="w-full">
 								<SelectValue />
@@ -223,4 +231,3 @@ function AddDomain({ disabled }: { disabled: boolean }) {
 		</Popover>
 	);
 }
-

@@ -37,10 +37,10 @@ import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
 import { LocalRelativeTime } from "@/components/local-date-time";
 import { activityLabel } from "@/lib/activity-presentation";
 import { dealStageColor } from "@/lib/deal-stage";
+import { useTranslations } from "@/lib/i18n";
 import { SEARCH_PARAM } from "@/lib/search-param-keys";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
-import { useTranslations } from "@/lib/i18n";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
 import { overviewParsers } from "./overview-search-params";
 import { SalesDashboard } from "./sales-dashboard";
@@ -73,7 +73,12 @@ export function DashboardSummary() {
 	const taskColumns: SimpleTableColumn[] = [
 		{ id: "done", srLabel: "Done", width: "w-8" },
 		{ id: "task", header: t.recordSheet.task },
-		{ id: "overdue", header: t.overview.overdueTasks, width: "w-24", align: "right" },
+		{
+			id: "overdue",
+			header: t.overview.overdueTasks,
+			width: "w-24",
+			align: "right",
+		},
 	];
 	const activityColumns: SimpleTableColumn[] = [
 		{ id: "activity", header: t.recordSheet.activity },
@@ -138,26 +143,20 @@ export function DashboardSummary() {
 				<Card className="min-w-0">
 					<CardHeader>
 						<CardTitle>{t.overview.dealsInProgress}</CardTitle>
-						<CardDescription>
-							{t.overview.dealsInProgressDesc}
-						</CardDescription>
+						<CardDescription>{t.overview.dealsInProgressDesc}</CardDescription>
 						<CardAction>
 							<Button asChild variant="contrast" size="sm">
-								<Link href={workspaceUrl("/deals")}>{t.overview.openDeals}</Link>
+								<Link href={workspaceUrl("/deals")}>
+									{t.overview.openDeals}
+								</Link>
 							</Button>
 						</CardAction>
 					</CardHeader>
 					<CardPanel>
 						{biggestOpen.length === 0 ? (
-							<CardPanelEmpty>
-								{t.overview.dealsInProgressEmpty}
-							</CardPanelEmpty>
+							<CardPanelEmpty>{t.overview.dealsInProgressEmpty}</CardPanelEmpty>
 						) : (
-							<SimpleTable
-								variant="panel"
-								surface="page"
-								columns={openColumns}
-							>
+							<SimpleTable variant="panel" surface="page" columns={openColumns}>
 								{biggestOpen.map((deal) => (
 									<SimpleTableRow
 										key={deal.id}
@@ -212,11 +211,7 @@ export function DashboardSummary() {
 						{overdueTasks.length === 0 ? (
 							<CardPanelEmpty>{t.overview.overdueTasksEmpty}</CardPanelEmpty>
 						) : (
-							<SimpleTable
-								variant="panel"
-								surface="page"
-								columns={taskColumns}
-							>
+							<SimpleTable variant="panel" surface="page" columns={taskColumns}>
 								{overdueTasks.map((task) => (
 									<SimpleTableRow key={task.id}>
 										<TableCell className={CELL}>
@@ -270,9 +265,7 @@ export function DashboardSummary() {
 					<CardTitle>
 						{mine ? t.overview.recentActivityMe : t.overview.recentActivityAll}
 					</CardTitle>
-					<CardDescription>
-						{t.overview.recentActivityDesc}
-					</CardDescription>
+					<CardDescription>{t.overview.recentActivityDesc}</CardDescription>
 					<CardAction>
 						<Button asChild variant="contrast" size="sm">
 							<Link href={workspaceUrl("/companies")}>{t.companies.title}</Link>

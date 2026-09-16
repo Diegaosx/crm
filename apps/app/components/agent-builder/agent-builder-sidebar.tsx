@@ -167,7 +167,7 @@ function TeamAgents({
 	agents: TeamAgent[];
 	pathname: string;
 	onNavigate?: () => void;
-	}) {
+}) {
 	const workspaceUrl = useWorkspaceUrl();
 	const t = useTranslations();
 

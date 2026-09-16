@@ -14,8 +14,8 @@ import { useSearchInput } from "@crm/ui/hooks/use-search-input";
 import { cn } from "@crm/ui/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { type Ref, useId, useState } from "react";
-import { useTranslations } from "@/lib/i18n";
 import { PROPERTY_LABEL, PROPERTY_ROW } from "@/components/detail-sheet";
+import { useTranslations } from "@/lib/i18n";
 import { useTRPC } from "@/lib/trpc/client";
 
 export function CompanyPicker({
@@ -81,7 +81,9 @@ export function CompanyPicker({
 			disabled={disabled}
 			placeholder={placeholder ?? t.search.chooseCompany}
 			searchPlaceholder={t.search.searchCompanies}
-			empty={companies.isFetching ? t.search.searching : t.search.noCompanyMatches}
+			empty={
+				companies.isFetching ? t.search.searching : t.search.noCompanyMatches
+			}
 			search={text}
 			onSearchChange={setText}
 			stale={stale}
@@ -127,7 +129,9 @@ export function CompanyMenuSearch({
 			/>
 			<CommandList>
 				<CommandEmpty>
-					{companies.isFetching ? t.search.searching : t.search.noCompanyMatches}
+					{companies.isFetching
+						? t.search.searching
+						: t.search.noCompanyMatches}
 				</CommandEmpty>
 				<CommandGroup>
 					{none && !query.trim() ? (

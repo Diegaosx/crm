@@ -56,10 +56,7 @@ if (env.microsoft) {
 		clientId: env.microsoft.clientId,
 		clientSecret: env.microsoft.clientSecret,
 		tenantId: env.microsoft.tenantId,
-		redirectURI: new URL(
-			"/api/auth/callback/microsoft",
-			env.appUrl,
-		).toString(),
+		redirectURI: new URL("/api/auth/callback/microsoft", env.appUrl).toString(),
 
 		scope: [...MICROSOFT_SYNC_SCOPES],
 

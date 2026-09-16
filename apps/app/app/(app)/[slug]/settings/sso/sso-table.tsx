@@ -115,15 +115,15 @@ function columns(
 								</AlertDialogDescription>
 							</AlertDialogHeader>
 
-						<AlertDialogFooter>
-							<AlertDialogCancel>{t.common.cancel}</AlertDialogCancel>
-							<AlertDialogAction
-								variant="destructive"
-								onClick={() => onRemove(row)}
-							>
-								{t.settings.remove}
-							</AlertDialogAction>
-						</AlertDialogFooter>
+							<AlertDialogFooter>
+								<AlertDialogCancel>{t.common.cancel}</AlertDialogCancel>
+								<AlertDialogAction
+									variant="destructive"
+									onClick={() => onRemove(row)}
+								>
+									{t.settings.remove}
+								</AlertDialogAction>
+							</AlertDialogFooter>
 						</AlertDialogContent>
 					</AlertDialog>
 				) : null,

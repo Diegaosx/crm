@@ -61,9 +61,7 @@ export function SsoSettingsHeading() {
 	return (
 		<>
 			<PageShellTitle>{t.settings.ssoTitle}</PageShellTitle>
-			<PageShellDescription>
-				{t.settings.ssoDescription}
-			</PageShellDescription>
+			<PageShellDescription>{t.settings.ssoDescription}</PageShellDescription>
 		</>
 	);
 }
@@ -80,4 +78,3 @@ export function TrackingSettingsHeading() {
 		</>
 	);
 }
-

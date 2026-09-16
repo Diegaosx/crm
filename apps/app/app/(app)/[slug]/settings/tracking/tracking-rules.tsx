@@ -50,9 +50,7 @@ export function TrackingRules() {
 		<Card>
 			<CardHeader>
 				<CardTitle>{t.settings.trackingRulesTitle}</CardTitle>
-				<CardDescription>
-					{t.settings.trackingRulesDesc}
-				</CardDescription>
+				<CardDescription>{t.settings.trackingRulesDesc}</CardDescription>
 			</CardHeader>
 
 			<CardContent>
@@ -85,4 +83,3 @@ export function TrackingRules() {
 		</Card>
 	);
 }
-

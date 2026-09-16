@@ -28,13 +28,13 @@ import {
 } from "@crm/validation/enrichment-queue";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useTranslations } from "@/lib/i18n";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
 import { elapsedLabel, queueFooter } from "@/lib/enrichment-queue";
 import {
 	ENRICHMENT_IDLE_POLL_MS,
 	ENRICHMENT_POLL_MS,
 } from "@/lib/enrichment-status";
+import { useTranslations } from "@/lib/i18n";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { useSeconds } from "@/lib/use-seconds";
@@ -102,7 +102,9 @@ export function EnrichmentQueue() {
 						tone={total > 0 ? "primary" : "neutral"}
 						aria-hidden="true"
 					/>
-					{total > 0 ? `${t.enrichment.enriching} ${total}` : t.enrichment.enriching}
+					{total > 0
+						? `${t.enrichment.enriching} ${total}`
+						: t.enrichment.enriching}
 				</Button>
 			</PopoverTrigger>
 
@@ -289,7 +291,9 @@ function ScheduledSection({
 						? t.enrichment.oneRecordBookedLater
 						: `${total} ${t.enrichment.recordsBookedLater}`}
 				</span>
-				<span className="text-primary">{shown ? t.enrichment.hide : t.enrichment.show}</span>
+				<span className="text-primary">
+					{shown ? t.enrichment.hide : t.enrichment.show}
+				</span>
 			</CollapsibleTrigger>
 
 			<CollapsibleContent className="max-h-60 overflow-y-auto border-t">

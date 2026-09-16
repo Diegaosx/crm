@@ -94,7 +94,9 @@ function ReportedValue({ deal }: { deal: Deal }) {
 	if (deal.amountCents === null) return null;
 
 	return (
-		<DetailSheetProperty label={`${t.recordSheet.inCurrency} ${deal.reportingCurrency}`}>
+		<DetailSheetProperty
+			label={`${t.recordSheet.inCurrency} ${deal.reportingCurrency}`}
+		>
 			{deal.baseAmountCents === null ? (
 				<span className="text-muted-foreground">
 					No {currency} {t.recordSheet.noRateLeftOut}
@@ -288,7 +290,10 @@ function DealOverview({ deal }: { deal: Deal }) {
 				) : null}
 			</DetailSheetSection>
 
-			<DetailSheetSection title={t.recordSheet.details} action={<FieldsCog kind="deal" />}>
+			<DetailSheetSection
+				title={t.recordSheet.details}
+				action={<FieldsCog kind="deal" />}
+			>
 				<DetailSheetProperties>
 					<InlineField
 						label={t.common.name}
@@ -467,7 +472,12 @@ function DealContacts({
 	) : null;
 
 	const contactColumns = [
-		{ id: "name", header: t.contacts.colName, width: "w-[28%]", className: "pl-5" },
+		{
+			id: "name",
+			header: t.contacts.colName,
+			width: "w-[28%]",
+			className: "pl-5",
+		},
 		{ id: "role", header: t.common.role, width: "w-[20%]" },
 		{ id: "title", header: t.contacts.colTitle, width: "w-[22%]" },
 		{ id: "email", header: t.contacts.colEmail, width: "w-[22%]" },
@@ -556,9 +566,7 @@ function DealContacts({
 										}}
 									>
 										<Icon icon={Close} />
-										<span className="sr-only">
-											{t.deals.takeOffDeal}
-										</span>
+										<span className="sr-only">{t.deals.takeOffDeal}</span>
 									</Button>
 								</TooltipTrigger>
 								<TooltipContent>{t.deals.takeOffDeal}</TooltipContent>

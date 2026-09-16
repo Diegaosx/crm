@@ -115,9 +115,7 @@ export function TrackingScript() {
 						/>
 					</div>
 				</CardTitle>
-				<CardDescription>
-					{t.settings.trackingScriptDesc}
-				</CardDescription>
+				<CardDescription>{t.settings.trackingScriptDesc}</CardDescription>
 
 				<CardAction>
 					<Button
@@ -161,9 +159,7 @@ export function TrackingScript() {
 					</AccordionItem>
 
 					<AccordionItem value="gtm">
-						<AccordionTrigger>
-							{t.settings.gtmTitle}
-						</AccordionTrigger>
+						<AccordionTrigger>{t.settings.gtmTitle}</AccordionTrigger>
 						<AccordionContent className="flex flex-col gap-4">
 							<pre className="overflow-x-auto rounded-md border bg-muted p-4 font-mono text-code-foreground text-xs/5">
 								<span className="text-code-accent">{"<script"}</span>
@@ -174,12 +170,8 @@ export function TrackingScript() {
 							</pre>
 							<ol className="flex list-decimal flex-col gap-1 pl-4 text-muted-foreground text-xs/relaxed">
 								<li>{t.settings.gtmStep1}</li>
-								<li>
-									{t.settings.gtmStep2}
-								</li>
-								<li>
-									{t.settings.gtmStep3}
-								</li>
+								<li>{t.settings.gtmStep2}</li>
+								<li>{t.settings.gtmStep3}</li>
 							</ol>
 							<p className="text-muted-foreground text-xs/relaxed">
 								{t.settings.gtmNote}
@@ -224,7 +216,9 @@ export function TrackingScript() {
 
 							<AlertDialogContent>
 								<AlertDialogHeader>
-									<AlertDialogTitle>{t.settings.rotateSiteIdTitle}</AlertDialogTitle>
+									<AlertDialogTitle>
+										{t.settings.rotateSiteIdTitle}
+									</AlertDialogTitle>
 									<AlertDialogDescription>
 										{t.settings.rotateSiteIdDesc}
 									</AlertDialogDescription>
@@ -247,4 +241,3 @@ export function TrackingScript() {
 		</Card>
 	);
 }
-

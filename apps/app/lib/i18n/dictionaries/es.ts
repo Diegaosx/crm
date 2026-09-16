@@ -279,7 +279,8 @@ const es: Dictionary = {
 	},
 	deals: {
 		title: "Tratos",
-		description: "Realiza un seguimiento de los ingresos a través del pipeline.",
+		description:
+			"Realiza un seguimiento de los ingresos a través del pipeline.",
 		createDeal: "Agregar trato",
 		createDescription:
 			"Nombra la oportunidad, elige la cuenta y asigna un valor.",
@@ -588,7 +589,8 @@ const es: Dictionary = {
 		rateSaved: "Tasa guardada.",
 		rateRemoved: "Tasa eliminada.",
 		ratesRefreshed: "Tipos de cambio actualizados.",
-		noRatesYet: "Aún no hay tasas. Actualiza para obtenerlas o ingresa una manualmente.",
+		noRatesYet:
+			"Aún no hay tasas. Actualiza para obtenerlas o ingresa una manualmente.",
 		byHand: "Manual",
 		fetched: "Automática",
 		remove: "Eliminar",
@@ -622,12 +624,14 @@ const es: Dictionary = {
 		connectionsLookingForElse: "¿Buscas otra integración?",
 		connectionsBrowseAll: "Explorar todas las conexiones",
 		addConnectionTitle: "Agregar una conexión",
-		addConnectionDesc: "Nada se sincronizará hasta que completes la configuración.",
+		addConnectionDesc:
+			"Nada se sincronizará hasta que completes la configuración.",
 		connGoogleWorkspace: "Google Workspace",
 		connGoogleWorkspaceDesc:
 			"Importa mensajes de Gmail y reuniones de Google Calendar",
 		connSlack: "Slack",
-		connSlackDesc: "Permite que los agentes notifiquen canales y usuarios autorizados",
+		connSlackDesc:
+			"Permite que los agentes notifiquen canales y usuarios autorizados",
 		connMicrosoft: "Microsoft 365",
 		connMicrosoftDesc: "Importa correos de Outlook y los contactos vinculados",
 		connStripe: "Stripe",
@@ -652,9 +656,9 @@ const es: Dictionary = {
 			"Al rotarlo, todas las copias del script antiguo dejan de registrar inmediatamente.",
 		gtmTitle: "Agregar mediante Google Tag Manager",
 		gtmStep1: "En Tag Manager, agrega una nueva etiqueta HTML personalizada.",
-		gtmStep2: "Pega este fragmento — no el anterior — en el HTML de la etiqueta.",
-		gtmStep3:
-			"Actívalo en Todas las páginas y publica el contenedor.",
+		gtmStep2:
+			"Pega este fragmento — no el anterior — en el HTML de la etiqueta.",
+		gtmStep3: "Actívalo en Todas las páginas y publica el contenedor.",
 		gtmNote:
 			"Tag Manager omite el atributo data-site al inyectar scripts, por lo que este formato incluye el ID del sitio en la URL.",
 		pauseTracking: "Pausar seguimiento",
@@ -666,8 +670,7 @@ const es: Dictionary = {
 			"Todas las copias del script anterior dejarán de registrar inmediatamente. Deberás actualizar la etiqueta en cada página.",
 		rotateBtn: "Rotar",
 		allowedDomainsTitle: "Dominios permitidos",
-		allowedDomainsDesc:
-			"El script registra visitas únicamente en estos hosts.",
+		allowedDomainsDesc: "El script registra visitas únicamente en estos hosts.",
 		addDomainEmpty:
 			"Agrega el dominio de tu sitio web para obtener el script de seguimiento.",
 		addDomain: "Agregar dominio",
@@ -684,7 +687,8 @@ const es: Dictionary = {
 		trackingResumedToast: "Seguimiento reanudado.",
 		siteIdRotatedToast:
 			"ID del sitio rotado. Pegue la nueva etiqueta en su sitio web.",
-		couldNotCopyScript: "No se pudo copiar el script. Selecciónelo manualmente.",
+		couldNotCopyScript:
+			"No se pudo copiar el script. Selecciónelo manualmente.",
 		scriptCopied: "Script copiado.",
 		verifyInstallationTitle: "Verificar instalación",
 		verifyInstallationDesc:
@@ -734,7 +738,8 @@ const es: Dictionary = {
 		cookieSubdomainsHint:
 			"Establezca la cookie en el host exacto que sirvió la página, nunca en el dominio principal",
 		secureCookiesLabel: "Usar solo cookies seguras",
-		secureCookiesHint: "Envíe la cookie a través de HTTPS y descártela en HTTP simple",
+		secureCookiesHint:
+			"Envíe la cookie a través de HTTPS y descártela en HTTP simple",
 		honourDntLabel: "Respetar No Rastrear (DNT)",
 		honourDntHint:
 			"No registre nada cuando el navegador solicite no ser rastreado",
@@ -767,9 +772,9 @@ const es: Dictionary = {
 		noApiKeys: "No hay claves de API todavía.",
 		apiKeysSearchPlaceholder: "Buscar por nombre…",
 		apiKeyCreatedTitle: "Clave de API creada",
-		apiKeyCreatedDesc:
-			"Cópiala ahora. Nadie podrá volver a mostrártela.",
-		apiKeyNameHelp: "Un nombre que reconocerás más tarde, como dónde se ejecuta.",
+		apiKeyCreatedDesc: "Cópiala ahora. Nadie podrá volver a mostrártela.",
+		apiKeyNameHelp:
+			"Un nombre que reconocerás más tarde, como dónde se ejecuta.",
 		createKey: "Crear clave",
 		days30: "30 días",
 		days90: "90 días",
@@ -788,7 +793,8 @@ const es: Dictionary = {
 		clientId: "ID de cliente",
 		clientSecret: "Secreto de cliente",
 		clientSecretHelp: "Nunca se volverá a mostrar.",
-		ssoNameHelp: "Nombra el botón de inicio de sesión. No se puede cambiar después.",
+		ssoNameHelp:
+			"Nombra el botón de inicio de sesión. No se puede cambiar después.",
 		discoveryHelp: "URL de descubrimiento OpenID.",
 		ssoDomainHelp: "Separa múltiples con comas.",
 		redirectHelp: "Agrega esta URI en tu proveedor antes de guardar.",
@@ -804,7 +810,8 @@ const es: Dictionary = {
 		searchModels: "Buscar modelos…",
 		noModelMatches: "Ningún modelo coincide con la búsqueda.",
 		defaultModel: "Predeterminado",
-		modelSaved: "El agente utilizará este modelo a partir de su próxima sesión.",
+		modelSaved:
+			"El agente utilizará este modelo a partir de su próxima sesión.",
 		archivedRecords: "Registros archivados",
 		archivedRecordsDesc:
 			"Los registros eliminados se archivan y luego se purgan definitivamente.",

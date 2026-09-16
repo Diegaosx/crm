@@ -34,10 +34,10 @@ export default function PrivacyPage() {
 						<p>
 							Esta Política de Privacidade descreve como coletamos, usamos,
 							armazenamos e protegemos os seus dados pessoais ao utilizar nossa
-							plataforma de CRM. Nosso compromisso é respeitar a sua
-							privacidade e cumprir as legislações aplicáveis de proteção de
-							dados, incluindo a Lei Geral de Proteção de Dados (LGPD) e o
-							Regulamento Geral sobre a Proteção de Dados (GDPR).
+							plataforma de CRM. Nosso compromisso é respeitar a sua privacidade
+							e cumprir as legislações aplicáveis de proteção de dados,
+							incluindo a Lei Geral de Proteção de Dados (LGPD) e o Regulamento
+							Geral sobre a Proteção de Dados (GDPR).
 						</p>
 					</section>
 
@@ -48,19 +48,26 @@ export default function PrivacyPage() {
 						<p>Podemos coletar as seguintes categorias de dados:</p>
 						<ul className="list-disc space-y-1.5 pl-6">
 							<li>
-								<strong className="text-foreground">Dados de Autenticação e Conta:</strong>{" "}
-								Nome, endereço de e-mail, foto de perfil e identificadores de conta fornecidos
-								durante o login via provedores de identidade como Google OAuth e Microsoft SSO.
+								<strong className="text-foreground">
+									Dados de Autenticação e Conta:
+								</strong>{" "}
+								Nome, endereço de e-mail, foto de perfil e identificadores de
+								conta fornecidos durante o login via provedores de identidade
+								como Google OAuth e Microsoft SSO.
 							</li>
 							<li>
-								<strong className="text-foreground">Dados de CRM e Relacionamento:</strong>{" "}
-								Contatos, empresas, notas de reuniões, histórico de negociações e atividades
-								comerciais cadastradas por sua organização.
+								<strong className="text-foreground">
+									Dados de CRM e Relacionamento:
+								</strong>{" "}
+								Contatos, empresas, notas de reuniões, histórico de negociações
+								e atividades comerciais cadastradas por sua organização.
 							</li>
 							<li>
-								<strong className="text-foreground">Dados Técnicos e de Navegação:</strong>{" "}
-								Endereço IP, tipo de navegador, identificador de dispositivo, páginas
-								acessadas e registros de logs operacionais.
+								<strong className="text-foreground">
+									Dados Técnicos e de Navegação:
+								</strong>{" "}
+								Endereço IP, tipo de navegador, identificador de dispositivo,
+								páginas acessadas e registros de logs operacionais.
 							</li>
 						</ul>
 					</section>
@@ -72,8 +79,8 @@ export default function PrivacyPage() {
 						<p>
 							Quando você opta por autenticar ou integrar sua conta do Google ao
 							nosso CRM, o aplicativo solicita acesso apenas às informações
-							estritamente necessárias para viabilizar a experiência de gestão de
-							relacionamento.
+							estritamente necessárias para viabilizar a experiência de gestão
+							de relacionamento.
 						</p>
 						<div className="rounded-lg border border-border/80 bg-muted/40 p-4">
 							<p className="font-medium text-foreground">
@@ -96,8 +103,8 @@ export default function PrivacyPage() {
 						</div>
 						<ul className="list-disc space-y-1.5 pl-6">
 							<li>
-								Nenhum dado recebido através de escopos do Google é vendido, alugado
-								ou compartilhado com terceiros para fins de publicidade.
+								Nenhum dado recebido através de escopos do Google é vendido,
+								alugado ou compartilhado com terceiros para fins de publicidade.
 							</li>
 							<li>
 								Os dados de e-mail e perfil são usados exclusivamente para
@@ -118,10 +125,21 @@ export default function PrivacyPage() {
 						</h2>
 						<p>Utilizamos os dados coletados para:</p>
 						<ul className="list-disc space-y-1.5 pl-6">
-							<li>Prestar, operar e manter as funcionalidades da plataforma de CRM.</li>
-							<li>Autenticar e autorizar o acesso de usuários aos seus respectivos espaços de trabalho.</li>
-							<li>Organizar informações de vendas, empresas, pipelines e negócios.</li>
-							<li>Garantir a segurança, prevenção a fraudes e integridade do sistema.</li>
+							<li>
+								Prestar, operar e manter as funcionalidades da plataforma de
+								CRM.
+							</li>
+							<li>
+								Autenticar e autorizar o acesso de usuários aos seus respectivos
+								espaços de trabalho.
+							</li>
+							<li>
+								Organizar informações de vendas, empresas, pipelines e negócios.
+							</li>
+							<li>
+								Garantir a segurança, prevenção a fraudes e integridade do
+								sistema.
+							</li>
 							<li>Cumprir obrigações legais e regulatórias.</li>
 						</ul>
 					</section>
@@ -133,10 +151,10 @@ export default function PrivacyPage() {
 						<p>
 							Seus dados são armazenados em infraestrutura de banco de dados
 							segura com criptografia em trânsito (TLS/SSL) e em repouso. Não
-							comercializamos dados pessoais. O compartilhamento ocorre apenas com
-							provedores de infraestrutura essenciais para a operação da
-							plataforma (como hospedagem e banco de dados) ou mediante exigência
-							legal.
+							comercializamos dados pessoais. O compartilhamento ocorre apenas
+							com provedores de infraestrutura essenciais para a operação da
+							plataforma (como hospedagem e banco de dados) ou mediante
+							exigência legal.
 						</p>
 					</section>
 
@@ -147,9 +165,9 @@ export default function PrivacyPage() {
 						<p>
 							Você tem o direito de acessar, corrigir, exportar ou solicitar a
 							exclusão completa de seus dados pessoais a qualquer momento. Caso
-							deseje revogar o acesso concedido via Google ou excluir sua conta e
-							dados vinculados, basta solicitar através dos canais de suporte ou
-							remover a autorização diretamente em sua conta Google.
+							deseje revogar o acesso concedido via Google ou excluir sua conta
+							e dados vinculados, basta solicitar através dos canais de suporte
+							ou remover a autorização diretamente em sua conta Google.
 						</p>
 					</section>
 
@@ -158,10 +176,10 @@ export default function PrivacyPage() {
 							7. Contato
 						</h2>
 						<p>
-							Para dúvidas, solicitações ou esclarecimentos sobre esta Política de
-							Privacidade ou sobre o tratamento de seus dados pessoais, entre em
-							contato conosco através do e-mail de suporte da sua organização ou
-							diretamente pelo painel do CRM.
+							Para dúvidas, solicitações ou esclarecimentos sobre esta Política
+							de Privacidade ou sobre o tratamento de seus dados pessoais, entre
+							em contato conosco através do e-mail de suporte da sua organização
+							ou diretamente pelo painel do CRM.
 						</p>
 					</section>
 

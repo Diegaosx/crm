@@ -49,7 +49,12 @@ const dayFormat = new Intl.DateTimeFormat("en-US", {
 	year: "numeric",
 });
 
-function dayLabel(day: string, local: boolean, todayLabel: string, yesterdayLabel: string): string {
+function dayLabel(
+	day: string,
+	local: boolean,
+	todayLabel: string,
+	yesterdayLabel: string,
+): string {
 	const now = new Date();
 	const today = dayKey(now.toISOString(), local);
 	const yesterdayDate = local
@@ -246,14 +251,16 @@ export function Timeline({ anchor }: { anchor: TimelineAnchor }) {
 						/>
 					) : null}
 
-					{byDay(entries, hydrated, t.timeline.today, t.timeline.yesterday).map((group) => (
-						<TimelineDay
-							key={group.day}
-							label={group.label}
-							entries={group.entries}
-							anchor={anchor}
-						/>
-					))}
+					{byDay(entries, hydrated, t.timeline.today, t.timeline.yesterday).map(
+						(group) => (
+							<TimelineDay
+								key={group.day}
+								label={group.label}
+								entries={group.entries}
+								anchor={anchor}
+							/>
+						),
+					)}
 
 					{history.hasNextPage ? (
 						<Button

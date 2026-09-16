@@ -40,4 +40,3 @@ export function CopyValue({ value, label }: { value: string; label: string }) {
 		</Button>
 	);
 }
-

@@ -41,116 +41,122 @@ export function ContactsTable() {
 	const { query, input, setArchived } = table;
 	const t = useTranslations();
 
-	const columnsList: DataTableColumn<ContactRow>[] = [
-		{
-			id: "name",
-			header: t.contacts.colName,
-			sortable: true,
-			hideable: false,
-			width: "w-[22%]",
-			cell: (row) => (
-				<span className="flex min-w-0 items-center gap-2">
-					<PersonAvatar
-						src={row.imageUrl}
-						name={contactName(row)}
-						email={row.email}
-						size="sm"
-					/>
-					<span className="truncate font-medium">{contactName(row)}</span>
-				</span>
-			),
-		},
-		{
-			id: "title",
-			header: t.contacts.colTitle,
-			sortable: true,
-			width: "w-[20%]",
-			hideBelow: "lg",
-			cell: (row) =>
-				row.title ? (
-					<span className="truncate">{row.title}</span>
-				) : (
-					<EmptyCellValue />
+	const columnsList = useMemo<DataTableColumn<ContactRow>[]>(
+		() => [
+			{
+				id: "name",
+				header: t.contacts.colName,
+				sortable: true,
+				hideable: false,
+				width: "w-[22%]",
+				cell: (row) => (
+					<span className="flex min-w-0 items-center gap-2">
+						<PersonAvatar
+							src={row.imageUrl}
+							name={contactName(row)}
+							email={row.email}
+							size="sm"
+						/>
+						<span className="truncate font-medium">{contactName(row)}</span>
+					</span>
 				),
-		},
-		{
-			id: "email",
-			header: t.contacts.colEmail,
-			sortable: true,
-			width: "w-[24%]",
-			hideBelow: "md",
-			cell: (row) =>
-				row.email ? (
-					<span className="truncate text-muted-foreground">{row.email}</span>
-				) : (
-					<EmptyCellValue />
+			},
+			{
+				id: "title",
+				header: t.contacts.colTitle,
+				sortable: true,
+				width: "w-[20%]",
+				hideBelow: "lg",
+				cell: (row) =>
+					row.title ? (
+						<span className="truncate">{row.title}</span>
+					) : (
+						<EmptyCellValue />
+					),
+			},
+			{
+				id: "email",
+				header: t.contacts.colEmail,
+				sortable: true,
+				width: "w-[24%]",
+				hideBelow: "md",
+				cell: (row) =>
+					row.email ? (
+						<span className="truncate text-muted-foreground">{row.email}</span>
+					) : (
+						<EmptyCellValue />
+					),
+			},
+			{
+				id: "company",
+				header: t.contacts.colCompany,
+				sortable: true,
+				width: "w-[18%]",
+				cell: (row) => <CompanyCell company={row.company} />,
+			},
+			{
+				id: "owner",
+				header: t.contacts.colOwner,
+				sortable: true,
+				width: "w-[16%]",
+				hideBelow: "md",
+				cell: (row) => <OwnerCell owner={row.owner} />,
+			},
+			{
+				id: "createdAt",
+				header: t.common.created ?? "Created",
+				label: "Created date",
+				sortable: true,
+				align: "right",
+				width: "w-[10%]",
+				defaultHidden: true,
+				cell: (row) => (
+					<span className="text-muted-foreground">
+						<LocalRelativeTime date={row.createdAt} />
+					</span>
 				),
-		},
-		{
-			id: "company",
-			header: t.contacts.colCompany,
-			sortable: true,
-			width: "w-[18%]",
-			cell: (row) => <CompanyCell company={row.company} />,
-		},
-		{
-			id: "owner",
-			header: t.contacts.colOwner,
-			sortable: true,
-			width: "w-[16%]",
-			hideBelow: "md",
-			cell: (row) => <OwnerCell owner={row.owner} />,
-		},
-		{
-			id: "createdAt",
-			header: t.common.created ?? "Created",
-			label: "Created date",
-			sortable: true,
-			align: "right",
-			width: "w-[10%]",
-			defaultHidden: true,
-			cell: (row) => (
-				<span className="text-muted-foreground">
-					<LocalRelativeTime date={row.createdAt} />
-				</span>
-			),
-		},
-		{
-			id: "lastActivity",
-			header: t.contacts.colLastActivity,
+			},
+			{
+				id: "lastActivity",
+				header: t.contacts.colLastActivity,
+				sortable: true,
+				align: "right",
+				width: "w-[12%]",
+				hideBelow: "sm",
+				cell: (row) => (
+					<span className="text-muted-foreground">
+						{row.lastActivityAt ? (
+							<LocalRelativeTime date={row.lastActivityAt} />
+						) : (
+							<EmptyCellValue />
+						)}
+					</span>
+				),
+			},
+		],
+		[t],
+	);
+
+	const archivedColumn = useMemo<DataTableColumn<ContactRow>>(
+		() => ({
+			id: "archivedAt",
+			header: t.common.archived,
+			label: t.common.archived,
 			sortable: true,
 			align: "right",
 			width: "w-[12%]",
-			hideBelow: "sm",
 			cell: (row) => (
 				<span className="text-muted-foreground">
-					{row.lastActivityAt ? (
-						<LocalRelativeTime date={row.lastActivityAt} />
+					{row.archivedAt ? (
+						<LocalRelativeTime date={row.archivedAt} />
 					) : (
 						<EmptyCellValue />
 					)}
 				</span>
 			),
-		},
-	];
-
-	const archivedColumn: DataTableColumn<ContactRow> = {
-		id: "archivedAt",
-		header: t.common.archived,
-		label: t.common.archived,
-		sortable: true,
-		align: "right",
-		width: "w-[12%]",
-		cell: (row) => (
-			<span className="text-muted-foreground">
-				{row.archivedAt ? (
-					<LocalRelativeTime date={row.archivedAt} />
-				) : (
-					<EmptyCellValue />
-				)}
-			</span>
-		),
-	};
+		}),
+		[t],
+	);
 
 	const contacts = useQuery({
 		...trpc.contacts.list.queryOptions(input),
@@ -262,7 +268,7 @@ export function ContactsTable() {
 			input.archived
 				? [...columnsList, archivedColumn, ...fieldColumns]
 				: [...columnsList, ...fieldColumns],
-		[fieldColumns, input.archived, columnsList],
+		[fieldColumns, input.archived, columnsList, archivedColumn],
 	);
 
 	return (
@@ -303,11 +309,7 @@ export function ContactsTable() {
 			loading={contacts.isFetching}
 			onRowHover={(row) => prefetchRecord({ kind: "contact", id: row.id })}
 			onRowClick={(row) => openRecord({ kind: "contact", id: row.id })}
-			empty={
-				input.archived
-					? t.contacts.emptyMatch
-					: t.contacts.emptyMatch
-			}
+			empty={input.archived ? t.contacts.emptyMatch : t.contacts.emptyMatch}
 			labels={{
 				filters: t.common.filters,
 				sort: t.common.sort,

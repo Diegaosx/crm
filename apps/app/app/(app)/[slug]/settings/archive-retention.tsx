@@ -56,9 +56,7 @@ export function ArchiveRetention() {
 		<Card>
 			<CardHeader>
 				<CardTitle>{t.settings.archivedRecords}</CardTitle>
-				<CardDescription>
-					{t.settings.archivedRecordsDesc}
-				</CardDescription>
+				<CardDescription>{t.settings.archivedRecordsDesc}</CardDescription>
 
 				<CardAction>
 					<Button
@@ -91,9 +89,7 @@ export function ArchiveRetention() {
 				>
 					<FieldGroup>
 						<Field>
-							<FieldLabel htmlFor={daysId}>
-								{t.settings.pruneAfter}
-							</FieldLabel>
+							<FieldLabel htmlFor={daysId}>{t.settings.pruneAfter}</FieldLabel>
 							<Input
 								id={daysId}
 								inputMode="numeric"

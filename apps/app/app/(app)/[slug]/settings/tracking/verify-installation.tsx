@@ -61,9 +61,7 @@ export function VerifyInstallation() {
 						{result ? <Indicator result={result} /> : null}
 					</div>
 				</CardTitle>
-				<CardDescription>
-					{t.settings.verifyInstallationDesc}
-				</CardDescription>
+				<CardDescription>{t.settings.verifyInstallationDesc}</CardDescription>
 
 				<CardAction>
 					<Button
@@ -109,9 +107,7 @@ export function VerifyInstallation() {
 								disabled={!canManage || verify.isPending}
 							/>
 						</InputGroup>
-						<FieldDescription>
-							{t.settings.pageToCheckHelp}
-						</FieldDescription>
+						<FieldDescription>{t.settings.pageToCheckHelp}</FieldDescription>
 					</Field>
 				</form>
 
@@ -126,7 +122,11 @@ function Indicator({ result }: { result: Result }) {
 
 	if (result.status === "found" && result.pageView) {
 		return (
-			<StatusIndicator size="sm" tone="success" label={t.settings.verifiedJustNow} />
+			<StatusIndicator
+				size="sm"
+				tone="success"
+				label={t.settings.verifiedJustNow}
+			/>
 		);
 	}
 
@@ -144,7 +144,11 @@ function Indicator({ result }: { result: Result }) {
 		<StatusIndicator
 			size="sm"
 			tone="warning"
-			label={result.status === "found" ? t.settings.noViewsYet : t.settings.notDetected}
+			label={
+				result.status === "found"
+					? t.settings.noViewsYet
+					: t.settings.notDetected
+			}
 		/>
 	);
 }
@@ -156,7 +160,9 @@ function Outcome({ result, siteId }: { result: Result; siteId: string }) {
 		return (
 			<Alert variant="destructive">
 				<Icon icon={Warning} />
-				<AlertTitle>{t.settings.couldNotOpen} {result.host}</AlertTitle>
+				<AlertTitle>
+					{t.settings.couldNotOpen} {result.host}
+				</AlertTitle>
 				<AlertDescription>
 					{result.detail} {t.settings.couldNotOpenDesc}
 				</AlertDescription>
@@ -168,9 +174,12 @@ function Outcome({ result, siteId }: { result: Result; siteId: string }) {
 		return (
 			<Alert variant="destructive">
 				<Icon icon={Warning} />
-				<AlertTitle>{t.settings.noScriptOn} {result.host}</AlertTitle>
+				<AlertTitle>
+					{t.settings.noScriptOn} {result.host}
+				</AlertTitle>
 				<AlertDescription>
-					{t.settings.noScriptDesc1} {result.responseMs} {t.settings.noScriptDesc2}
+					{t.settings.noScriptDesc1} {result.responseMs}{" "}
+					{t.settings.noScriptDesc2}
 					{result.containers.length > 0
 						? ` (${result.containers.join(", ")})`
 						: ""}
@@ -200,10 +209,13 @@ function Outcome({ result, siteId }: { result: Result; siteId: string }) {
 					: `${t.settings.scriptFoundOn} ${result.host}`}
 			</AlertTitle>
 			<AlertDescription>
-				{t.settings.scriptFoundDesc1} {result.responseMs} {t.settings.scriptFoundDesc2} {siteId} {t.settings.scriptFoundDesc3} {result.allowed ? t.settings.scriptFoundOnList : t.settings.scriptFoundNotOnList} {t.settings.scriptFoundDesc4}
-				{result.container
-					? ` ${t.settings.tagNotInHtmlNote}`
-					: ""}
+				{t.settings.scriptFoundDesc1} {result.responseMs}{" "}
+				{t.settings.scriptFoundDesc2} {siteId} {t.settings.scriptFoundDesc3}{" "}
+				{result.allowed
+					? t.settings.scriptFoundOnList
+					: t.settings.scriptFoundNotOnList}{" "}
+				{t.settings.scriptFoundDesc4}
+				{result.container ? ` ${t.settings.tagNotInHtmlNote}` : ""}
 				{result.pageView
 					? ` ${t.settings.pageViewArrived}`
 					: ` ${t.settings.noPageViewArrived}`}
@@ -211,4 +223,3 @@ function Outcome({ result, siteId }: { result: Result; siteId: string }) {
 		</Alert>
 	);
 }
-

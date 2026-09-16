@@ -65,7 +65,10 @@ export function DealsBulkActions({
 		trpc.deals.bulkAssignOwner.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.deal();
-				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.reassigned}`);
+				reportBulk(
+					result,
+					(count) => `${countStr(count)} ${t.bulk.reassigned}`,
+				);
 				onDone();
 			},
 			onError,
@@ -211,9 +214,7 @@ export function DealsBulkActions({
 								? `${t.bulk.closeAsLostTitle} (${countStr(ids.length)})`
 								: `${t.bulk.markAsUnqualifiedTitle} (${countStr(ids.length)})`}
 						</DialogTitle>
-						<DialogDescription>
-							{t.bulk.bulkReasonDesc}
-						</DialogDescription>
+						<DialogDescription>{t.bulk.bulkReasonDesc}</DialogDescription>
 					</DialogHeader>
 
 					<form

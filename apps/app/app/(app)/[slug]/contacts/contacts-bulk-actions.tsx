@@ -52,7 +52,10 @@ export function ContactsBulkActions({
 		trpc.contacts.bulkAssignOwner.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.contact();
-				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.reassigned}`);
+				reportBulk(
+					result,
+					(count) => `${countStr(count)} ${t.bulk.reassigned}`,
+				);
 				onDone();
 			},
 			onError,

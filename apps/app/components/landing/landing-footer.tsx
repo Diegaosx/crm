@@ -19,18 +19,10 @@ export function LandingFooter() {
 						<p className="font-mono text-[11px]/4 text-muted-foreground tracking-widest">
 							LEGAL
 						</p>
-						<Link
-							variant="quiet"
-							href="/privacy"
-							className="text-[13px]/6"
-						>
+						<Link variant="quiet" href="/privacy" className="text-[13px]/6">
 							Privacidade
 						</Link>
-						<Link
-							variant="quiet"
-							href="/terms"
-							className="text-[13px]/6"
-						>
+						<Link variant="quiet" href="/terms" className="text-[13px]/6">
 							Termos de Uso
 						</Link>
 					</nav>

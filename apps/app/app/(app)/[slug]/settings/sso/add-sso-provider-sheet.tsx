@@ -116,9 +116,7 @@ function AddSsoProviderForm() {
 			<SheetContent side="right">
 				<SheetHeader>
 					<SheetTitle>{t.settings.addProviderTitle}</SheetTitle>
-					<SheetDescription>
-						{t.settings.addProviderDesc}
-					</SheetDescription>
+					<SheetDescription>{t.settings.addProviderDesc}</SheetDescription>
 				</SheetHeader>
 
 				<form
@@ -149,9 +147,7 @@ function AddSsoProviderForm() {
 								spellCheck={false}
 								required
 							/>
-							<FieldDescription>
-								{t.settings.ssoNameHelp}
-							</FieldDescription>
+							<FieldDescription>{t.settings.ssoNameHelp}</FieldDescription>
 						</Field>
 
 						<Field>
@@ -173,7 +169,9 @@ function AddSsoProviderForm() {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor={domainId}>{t.settings.emailDomain}</FieldLabel>
+							<FieldLabel htmlFor={domainId}>
+								{t.settings.emailDomain}
+							</FieldLabel>
 							<Input
 								id={domainId}
 								value={values.domain}
@@ -189,7 +187,9 @@ function AddSsoProviderForm() {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor={clientIdId}>{t.settings.clientId}</FieldLabel>
+							<FieldLabel htmlFor={clientIdId}>
+								{t.settings.clientId}
+							</FieldLabel>
 							<Input
 								id={clientIdId}
 								value={values.clientId}
@@ -203,7 +203,9 @@ function AddSsoProviderForm() {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor={clientSecretId}>{t.settings.clientSecret}</FieldLabel>
+							<FieldLabel htmlFor={clientSecretId}>
+								{t.settings.clientSecret}
+							</FieldLabel>
 							<Input
 								id={clientSecretId}
 								type="password"
@@ -216,16 +218,19 @@ function AddSsoProviderForm() {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor={redirectId}>{t.settings.redirectUri}</FieldLabel>
+							<FieldLabel htmlFor={redirectId}>
+								{t.settings.redirectUri}
+							</FieldLabel>
 							<InputGroup>
 								<InputGroupInput id={redirectId} value={callbackURL} readOnly />
 								<InputGroupAddon align="inline-end">
-									<CopyValue value={callbackURL} label={t.settings.redirectUri} />
+									<CopyValue
+										value={callbackURL}
+										label={t.settings.redirectUri}
+									/>
 								</InputGroupAddon>
 							</InputGroup>
-							<FieldDescription>
-								{t.settings.redirectHelp}
-							</FieldDescription>
+							<FieldDescription>{t.settings.redirectHelp}</FieldDescription>
 						</Field>
 					</FieldGroup>
 				</form>

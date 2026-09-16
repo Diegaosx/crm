@@ -141,9 +141,7 @@ export function SavedViewsMenu({
 					</DialogHeader>
 					<div className="flex flex-col gap-4">
 						<Field>
-							<FieldLabel htmlFor="saved-view-name">
-								{t.common.name}
-							</FieldLabel>
+							<FieldLabel htmlFor="saved-view-name">{t.common.name}</FieldLabel>
 							<Input
 								id="saved-view-name"
 								value={name}

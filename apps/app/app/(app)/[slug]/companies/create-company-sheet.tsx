@@ -100,9 +100,7 @@ function CreateCompanyForm() {
 			<SheetContent side="right">
 				<SheetHeader>
 					<SheetTitle>{t.companies.createCompany}</SheetTitle>
-					<SheetDescription>
-						{t.companies.createDescription}
-					</SheetDescription>
+					<SheetDescription>{t.companies.createDescription}</SheetDescription>
 				</SheetHeader>
 
 				<form
@@ -145,9 +143,7 @@ function CreateCompanyForm() {
 								autoCorrect="off"
 								spellCheck={false}
 							/>
-							<FieldDescription>
-								{t.companies.domainHelp}
-							</FieldDescription>
+							<FieldDescription>{t.companies.domainHelp}</FieldDescription>
 						</Field>
 
 						<Field>
@@ -159,7 +155,9 @@ function CreateCompanyForm() {
 									<SelectValue />
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value={UNASSIGNED}>{t.common.unassigned}</SelectItem>
+									<SelectItem value={UNASSIGNED}>
+										{t.common.unassigned}
+									</SelectItem>
 									{(users.data ?? []).map((user) => (
 										<SelectItem key={user.id} value={user.id}>
 											{user.name}

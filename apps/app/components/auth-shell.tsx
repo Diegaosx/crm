@@ -10,7 +10,11 @@ export function AuthShell({ children }: { children: ReactNode }) {
 				<AuthShader />
 
 				<div className="relative flex gap-2 text-sm/5">
-					<Link href="/" aria-label="CRM BR" className="flex items-center gap-3">
+					<Link
+						href="/"
+						aria-label="CRM BR"
+						className="flex items-center gap-3"
+					>
 						<Logo className="size-8 shrink-0" />
 						<span className="font-bold text-xl tracking-tight text-foreground flex items-center gap-1.5">
 							<span>CRM</span>
@@ -63,7 +67,11 @@ export function AuthShell({ children }: { children: ReactNode }) {
 
 			<section className="flex min-h-svh flex-col bg-background px-6 py-8 sm:px-10 lg:px-14">
 				<div className="flex gap-2 text-sm/5 lg:hidden pb-4">
-					<Link href="/" aria-label="CRM BR" className="flex items-center gap-2.5">
+					<Link
+						href="/"
+						aria-label="CRM BR"
+						className="flex items-center gap-2.5"
+					>
 						<Logo className="size-7 shrink-0" />
 						<span className="font-bold text-lg tracking-tight text-foreground flex items-center gap-1.5">
 							<span>CRM</span>

@@ -57,10 +57,10 @@ export default function TermsPage() {
 							3. Contas e Segurança
 						</h2>
 						<p>
-							Você é responsável por manter a confidencialidade das credenciais de
-							acesso à sua conta e por todas as atividades que ocorram sob sua
-							conta. Você concorda em nos notificar imediatamente sobre qualquer
-							uso não autorizado ou violação de segurança.
+							Você é responsável por manter a confidencialidade das credenciais
+							de acesso à sua conta e por todas as atividades que ocorram sob
+							sua conta. Você concorda em nos notificar imediatamente sobre
+							qualquer uso não autorizado ou violação de segurança.
 						</p>
 					</section>
 
@@ -70,11 +70,26 @@ export default function TermsPage() {
 						</h2>
 						<p>Você concorda em não:</p>
 						<ul className="list-disc space-y-1.5 pl-6">
-							<li>Utilizar o sistema para fins ilícitos, fraudulentos ou prejudiciais a terceiros.</li>
-							<li>Transmitir vírus, malwares ou qualquer código de natureza destrutiva.</li>
-							<li>Tentar obter acesso não autorizado a sistemas, dados ou redes conectadas à plataforma.</li>
-							<li>Interferir na integridade ou no desempenho das operações do sistema.</li>
-							<li>Realizar engenharia reversa ou tentar extrair código-fonte fora dos termos de licença aplicáveis.</li>
+							<li>
+								Utilizar o sistema para fins ilícitos, fraudulentos ou
+								prejudiciais a terceiros.
+							</li>
+							<li>
+								Transmitir vírus, malwares ou qualquer código de natureza
+								destrutiva.
+							</li>
+							<li>
+								Tentar obter acesso não autorizado a sistemas, dados ou redes
+								conectadas à plataforma.
+							</li>
+							<li>
+								Interferir na integridade ou no desempenho das operações do
+								sistema.
+							</li>
+							<li>
+								Realizar engenharia reversa ou tentar extrair código-fonte fora
+								dos termos de licença aplicáveis.
+							</li>
 						</ul>
 					</section>
 
@@ -85,8 +100,8 @@ export default function TermsPage() {
 						<p>
 							Todos os dados inseridos por você ou por sua organização na
 							plataforma permanecem de sua exclusiva propriedade. A plataforma
-							concede a você uma licença limitada, não exclusiva e revogável para
-							utilizar os recursos do software de acordo com estes termos.
+							concede a você uma licença limitada, não exclusiva e revogável
+							para utilizar os recursos do software de acordo com estes termos.
 						</p>
 					</section>
 
@@ -96,8 +111,8 @@ export default function TermsPage() {
 						</h2>
 						<p>
 							O serviço é fornecido &quot;no estado em que se encontra&quot; e
-							&quot;conforme disponível&quot;. Na extensão máxima permitida por lei,
-							não nos responsabilizamos por quaisquer danos indiretos,
+							&quot;conforme disponível&quot;. Na extensão máxima permitida por
+							lei, não nos responsabilizamos por quaisquer danos indiretos,
 							incidentais, especiais ou consequentes decorrentes do uso ou da
 							impossibilidade de uso dos serviços.
 						</p>
@@ -109,8 +124,8 @@ export default function TermsPage() {
 						</h2>
 						<p>
 							Podemos revisar estes Termos de Uso a qualquer momento. O uso
-							continuado da plataforma após a publicação de alterações constituirá
-							sua aceitação tácita das revisões.
+							continuado da plataforma após a publicação de alterações
+							constituirá sua aceitação tácita das revisões.
 						</p>
 					</section>
 
@@ -119,8 +134,8 @@ export default function TermsPage() {
 							8. Contato
 						</h2>
 						<p>
-							Dúvidas sobre estes Termos de Uso podem ser direcionadas através do
-							painel de suporte e configurações do CRM.
+							Dúvidas sobre estes Termos de Uso podem ser direcionadas através
+							do painel de suporte e configurações do CRM.
 						</p>
 					</section>
 

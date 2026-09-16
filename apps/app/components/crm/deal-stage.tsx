@@ -2,8 +2,8 @@
 
 import type { DealStage } from "@crm/db/enums";
 import { StatusIndicator } from "@crm/ui/components/status-indicator";
-import { useTranslations } from "@/lib/i18n";
 import { dealStagePresentation } from "@/lib/deal-stage";
+import { useTranslations } from "@/lib/i18n";
 
 export function DealStageIndicator({
 	stage,

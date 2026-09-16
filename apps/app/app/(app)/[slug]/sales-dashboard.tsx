@@ -25,11 +25,6 @@ import { useWorkspaceUrl } from "@/lib/use-workspace-url";
 
 type Summary = RouterOutputs["dashboard"]["summary"];
 
-const TREND_CONFIG: ChartConfig = {
-	won: { label: "Closed won", color: "var(--success)" },
-	created: { label: "New pipeline", color: "var(--chart-1)" },
-};
-
 function changeDelta(
 	current: number,
 	previous: number,
@@ -134,8 +129,7 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 				<p className="text-muted-foreground text-xs">
 					{t.overview.unconvertedNote} {reportingCurrency}.{" "}
 					{formatCount(unconverted.count, t.deals.colDeal.toLowerCase())} in{" "}
-					{unconverted.currencies.join(", ")}{" "}
-					{t.overview.notIncluded}.{" "}
+					{unconverted.currencies.join(", ")} {t.overview.notIncluded}.{" "}
 					<Link
 						href={workspaceUrl("/settings/currencies")}
 						className="underline hover:no-underline"

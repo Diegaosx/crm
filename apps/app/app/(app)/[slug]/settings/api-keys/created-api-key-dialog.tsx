@@ -36,9 +36,7 @@ export function CreatedApiKeyDialog({
 					<DialogTitle>
 						{apiKey?.name ?? t.settings.key} {t.settings.apiKeyCreatedTitle}
 					</DialogTitle>
-					<DialogDescription>
-						{t.settings.apiKeyCreatedDesc}
-					</DialogDescription>
+					<DialogDescription>{t.settings.apiKeyCreatedDesc}</DialogDescription>
 				</DialogHeader>
 
 				<InputGroup>

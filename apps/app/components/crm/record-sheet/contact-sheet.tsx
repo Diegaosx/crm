@@ -54,9 +54,9 @@ import {
 import { LocalDateTime, LocalRelativeDate } from "@/components/local-date-time";
 import { factsByField } from "@/lib/contact-facts";
 import { ENRICHMENT_POLL_MS, isEnriching } from "@/lib/enrichment-status";
+import { useTranslations } from "@/lib/i18n";
 import { savingField } from "@/lib/pending-field";
 import { hasContactLinks } from "@/lib/social-links";
-import { useTranslations } from "@/lib/i18n";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
@@ -173,7 +173,9 @@ export function ContactSheet({ contactId }: { contactId: string }) {
 							<Button asChild variant="outline" size="sm">
 								<a href={`mailto:${contact.email}`}>
 									<Icon icon={Email} data-icon="inline-start" />
-									<span className="hidden sm:inline">{t.recordSheet.email}</span>
+									<span className="hidden sm:inline">
+										{t.recordSheet.email}
+									</span>
 								</a>
 							</Button>
 						) : null}
@@ -190,7 +192,9 @@ export function ContactSheet({ contactId }: { contactId: string }) {
 								}
 							>
 								<Icon icon={Star} data-icon="inline-start" />
-								<span className="hidden sm:inline">{t.contacts.makePrimary}</span>
+								<span className="hidden sm:inline">
+									{t.contacts.makePrimary}
+								</span>
 							</Button>
 						) : null}
 						<RecordActions
@@ -313,7 +317,10 @@ function ContactOverview({ contact }: { contact: Contact }) {
 
 	return (
 		<DetailSheetBody>
-			<DetailSheetSection title={t.recordSheet.details} action={<FieldsCog kind="contact" />}>
+			<DetailSheetSection
+				title={t.recordSheet.details}
+				action={<FieldsCog kind="contact" />}
+			>
 				<DetailSheetProperties>
 					<InlineField
 						label={t.contacts.colFirstName}
@@ -482,7 +489,9 @@ function PreviousRoles({ roles }: { roles: string[] }) {
 		<Accordion type="single" collapsible>
 			<AccordionItem value="previous">
 				<AccordionTrigger variant="subtle">
-					{roles.length === 1 ? `1 ${t.recordSheet.rolesSingular}` : `${roles.length} ${t.recordSheet.rolesPlural}`}
+					{roles.length === 1
+						? `1 ${t.recordSheet.rolesSingular}`
+						: `${roles.length} ${t.recordSheet.rolesPlural}`}
 				</AccordionTrigger>
 				<AccordionContent>
 					<ul className="space-y-1">
@@ -521,7 +530,8 @@ function WeKnowThem({
 							{" · "}
 							{lastReplyAt ? (
 								<>
-									{t.recordSheet.lastReply} <LocalRelativeDate date={lastReplyAt} />
+									{t.recordSheet.lastReply}{" "}
+									<LocalRelativeDate date={lastReplyAt} />
 								</>
 							) : (
 								`${first} ${t.recordSheet.neverReplied}`
@@ -600,7 +610,12 @@ function ContactDeals({ contact }: { contact: Contact }) {
 	}
 
 	const dealColumns = [
-		{ id: "deal", header: t.deals.colDeal, width: "w-[32%]", className: "pl-5" },
+		{
+			id: "deal",
+			header: t.deals.colDeal,
+			width: "w-[32%]",
+			className: "pl-5",
+		},
 		{ id: "role", header: t.common.role, width: "w-[16%]" },
 		{ id: "stage", header: t.deals.colStage, width: "w-[22%]" },
 		{

@@ -119,9 +119,7 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 			<SheetContent side="right">
 				<SheetHeader>
 					<SheetTitle>{t.deals.createDeal}</SheetTitle>
-					<SheetDescription>
-						{t.deals.createDescription}
-					</SheetDescription>
+					<SheetDescription>{t.deals.createDescription}</SheetDescription>
 				</SheetHeader>
 
 				<form
@@ -157,7 +155,9 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="create-deal-company">{t.deals.colCompany}</FieldLabel>
+							<FieldLabel htmlFor="create-deal-company">
+								{t.deals.colCompany}
+							</FieldLabel>
 							<CompanyPicker
 								id="create-deal-company"
 								value={company}
@@ -166,7 +166,9 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="create-deal-owner">{t.deals.colOwner}</FieldLabel>
+							<FieldLabel htmlFor="create-deal-owner">
+								{t.deals.colOwner}
+							</FieldLabel>
 							<Select value={resolvedOwner} onValueChange={setOwnerId}>
 								<SelectTrigger id="create-deal-owner">
 									<SelectValue placeholder={t.common.unassigned} />
@@ -182,7 +184,9 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="create-deal-stage">{t.deals.colStage}</FieldLabel>
+							<FieldLabel htmlFor="create-deal-stage">
+								{t.deals.colStage}
+							</FieldLabel>
 							<Select value={stage} onValueChange={setStage}>
 								<SelectTrigger id="create-deal-stage">
 									<SelectValue />
@@ -227,7 +231,9 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor={closeDateId}>{t.deals.colExpectedCloseFull}</FieldLabel>
+							<FieldLabel htmlFor={closeDateId}>
+								{t.deals.colExpectedCloseFull}
+							</FieldLabel>
 							<DatePicker
 								id={closeDateId}
 								value={closeDate}

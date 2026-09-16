@@ -530,7 +530,8 @@ const ptBr: Dictionary = {
 		workspaceNameHelp: "Exibido onde o CRM se referir à sua própria empresa.",
 		workspaceWebsiteHelp: "Website da sua própria empresa.",
 		workspaceSaved: "Workspace salvo.",
-		workspaceAdminOnly: "Apenas proprietários ou administradores podem alterar.",
+		workspaceAdminOnly:
+			"Apenas proprietários ou administradores podem alterar.",
 		languageTitle: "Idioma",
 		languageDescription: "Escolha o idioma de exibição do CRM.",
 		languageEnglish: "English",
@@ -581,7 +582,8 @@ const ptBr: Dictionary = {
 		rateSaved: "Taxa salva.",
 		rateRemoved: "Taxa removida.",
 		ratesRefreshed: "Taxas atualizadas.",
-		noRatesYet: "Nenhuma taxa ainda. Atualize para buscar ou insira manualmente.",
+		noRatesYet:
+			"Nenhuma taxa ainda. Atualize para buscar ou insira manualmente.",
 		byHand: "Manual",
 		fetched: "Automática",
 		remove: "Remover",
@@ -616,9 +618,11 @@ const ptBr: Dictionary = {
 		addConnectionTitle: "Adicionar uma conexão",
 		addConnectionDesc: "Nada é sincronizado até concluir a configuração.",
 		connGoogleWorkspace: "Google Workspace",
-		connGoogleWorkspaceDesc: "Importe mensagens do Gmail e reuniões do Google Agenda",
+		connGoogleWorkspaceDesc:
+			"Importe mensagens do Gmail e reuniões do Google Agenda",
 		connSlack: "Slack",
-		connSlackDesc: "Permita que os agentes notifiquem canais e pessoas aprovadas",
+		connSlackDesc:
+			"Permita que os agentes notifiquem canais e pessoas aprovadas",
 		connMicrosoft: "Microsoft 365",
 		connMicrosoftDesc: "Importe e-mails do Outlook e contatos vinculados",
 		connStripe: "Stripe",
@@ -629,15 +633,18 @@ const ptBr: Dictionary = {
 		alreadyConnected: "já conectado(s).",
 		nothingConnectedYet: "Nada está conectado ainda.",
 		trackingTitle: "Rastreamento e Análise",
-		trackingDescription: "Instale o script de rastreamento de visitantes no site.",
+		trackingDescription:
+			"Instale o script de rastreamento de visitantes no site.",
 		trackingScriptTitle: "Script de rastreamento",
-		trackingScriptDesc: "Uma tag leve de 4 KB no cabeçalho de cada página monitorada.",
+		trackingScriptDesc:
+			"Uma tag leve de 4 KB no cabeçalho de cada página monitorada.",
 		paused: "Pausado",
 		receivingViews: "Recebendo visualizações",
 		noViewsYet: "Nenhuma visualização ainda",
 		copySnippet: "Copiar",
 		pasteHtml: "Cole no seu HTML",
-		rotateSiteIdNotice: "Ao rotacionar, todas as cópias do script antigo param imediatamente.",
+		rotateSiteIdNotice:
+			"Ao rotacionar, todas as cópias do script antigo param imediatamente.",
 		gtmTitle: "Adicionar pelo Google Tag Manager",
 		gtmStep1: "No Tag Manager, adicione uma nova tag HTML personalizada.",
 		gtmStep2: "Cole este snippet — não o anterior — no HTML da tag.",
@@ -669,9 +676,9 @@ const ptBr: Dictionary = {
 		trackingPausedToast:
 			"Rastreamento pausado. O script para de gravar em cinco minutos.",
 		trackingResumedToast: "Rastreamento retomado.",
-		siteIdRotatedToast:
-			"ID do site rotacionado. Cole a nova tag em seu site.",
-		couldNotCopyScript: "Não foi possível copiar o script. Selecione-o manualmente.",
+		siteIdRotatedToast: "ID do site rotacionado. Cole a nova tag em seu site.",
+		couldNotCopyScript:
+			"Não foi possível copiar o script. Selecione-o manualmente.",
 		scriptCopied: "Script copiado.",
 		verifyInstallationTitle: "Verificar instalação",
 		verifyInstallationDesc:
@@ -703,7 +710,8 @@ const ptBr: Dictionary = {
 		scriptFoundDesc4: "lista de permissões.",
 		tagNotInHtmlNote:
 			"A tag não está no HTML, portanto só é executada quando o Tag Manager a aciona — uma visualização de página é a prova.",
-		pageViewArrived: "Uma visualização de página chegou nos últimos cinco minutos.",
+		pageViewArrived:
+			"Uma visualização de página chegou nos últimos cinco minutos.",
 		noPageViewArrived:
 			"Nenhuma visualização de página chegou ainda — abra a página em um navegador para enviar uma.",
 		trackingRulesTitle: "Regras de rastreamento",
@@ -737,10 +745,10 @@ const ptBr: Dictionary = {
 		colMedium: "Mídia",
 		colViews: "Visualizações",
 		apiKeysTitle: "Chaves de API",
-		apiKeysDescription: "Crie e gerencie tokens secretos para acesso programático.",
+		apiKeysDescription:
+			"Crie e gerencie tokens secretos para acesso programático.",
 		newApiKey: "Nova chave de API",
-		newApiKeyDesc:
-			"Age em seu nome com as mesmas permissões que você possui.",
+		newApiKeyDesc: "Age em seu nome com as mesmas permissões que você possui.",
 		untitledKey: "Chave sem título",
 		key: "Chave",
 		lastUsed: "Último uso",
@@ -753,8 +761,7 @@ const ptBr: Dictionary = {
 		noApiKeys: "Nenhuma chave de API ainda.",
 		apiKeysSearchPlaceholder: "Buscar por nome…",
 		apiKeyCreatedTitle: "Chave de API criada",
-		apiKeyCreatedDesc:
-			"Copie agora. Ninguém poderá exibi-la novamente.",
+		apiKeyCreatedDesc: "Copie agora. Ninguém poderá exibi-la novamente.",
 		apiKeyNameHelp: "Um identificador para você lembrar onde ela é usada.",
 		createKey: "Criar chave",
 		days30: "30 dias",

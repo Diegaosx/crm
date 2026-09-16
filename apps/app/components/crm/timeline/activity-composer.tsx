@@ -159,7 +159,9 @@ export function ActivityComposer({ anchor }: { anchor: TimelineAnchor }) {
 							disabled={create.isPending}
 						>
 							{create.isPending ? <Spinner /> : null}
-							{isTask ? t.timeline.addTask : `${t.recordSheet.logActivity} (${typeLabels[type] ?? activityLabel(type)})`}
+							{isTask
+								? t.timeline.addTask
+								: `${t.recordSheet.logActivity} (${typeLabels[type] ?? activityLabel(type)})`}
 						</InputGroupButton>
 					)}
 				</InputGroupAddon>

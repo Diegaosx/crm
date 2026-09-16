@@ -46,7 +46,10 @@ export function CompaniesBulkActions({
 		trpc.companies.bulkAssignOwner.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.company();
-				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.reassigned}`);
+				reportBulk(
+					result,
+					(count) => `${countStr(count)} ${t.bulk.reassigned}`,
+				);
 				onDone();
 			},
 			onError,

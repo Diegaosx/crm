@@ -55,9 +55,7 @@ export function ResearchKey() {
 		<Card>
 			<CardHeader>
 				<CardTitle>{t.settings.companyResearch}</CardTitle>
-				<CardDescription>
-					{t.settings.companyResearchDesc}
-				</CardDescription>
+				<CardDescription>{t.settings.companyResearchDesc}</CardDescription>
 
 				<CardAction>
 					<Button
@@ -82,11 +80,17 @@ export function ResearchKey() {
 					<FieldGroup>
 						<Field>
 							<div className="flex items-center justify-between gap-3">
-								<FieldLabel htmlFor={keyId}>{t.settings.contextApiKey}</FieldLabel>
+								<FieldLabel htmlFor={keyId}>
+									{t.settings.contextApiKey}
+								</FieldLabel>
 								<StatusIndicator
 									size="sm"
 									tone={configured ? "success" : "warning"}
-									label={configured ? t.settings.connectionsConnected : t.settings.notConnected}
+									label={
+										configured
+											? t.settings.connectionsConnected
+											: t.settings.notConnected
+									}
 								/>
 							</div>
 							<Input

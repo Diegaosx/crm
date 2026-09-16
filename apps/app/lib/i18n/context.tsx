@@ -1,5 +1,6 @@
 "use client";
 
+import { useMountEffect } from "@crm/ui/hooks/use-mount-effect";
 import { useRouter } from "next/navigation";
 import {
 	createContext,
@@ -8,13 +9,12 @@ import {
 	useMemo,
 	useState,
 } from "react";
-import { useMountEffect } from "@crm/ui/hooks/use-mount-effect";
 import {
 	DEFAULT_LOCALE,
+	isValidLocale,
 	LOCALE_COOKIE_NAME,
 	LOCALES,
 	type Locale,
-	isValidLocale,
 } from "./config";
 import en from "./dictionaries/en";
 import es from "./dictionaries/es";

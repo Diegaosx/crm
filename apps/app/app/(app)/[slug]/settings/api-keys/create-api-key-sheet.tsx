@@ -109,9 +109,7 @@ function CreateApiKeyForm() {
 				<SheetContent side="right">
 					<SheetHeader>
 						<SheetTitle>{t.settings.newApiKey}</SheetTitle>
-						<SheetDescription>
-							{t.settings.newApiKeyDesc}
-						</SheetDescription>
+						<SheetDescription>{t.settings.newApiKeyDesc}</SheetDescription>
 					</SheetHeader>
 
 					<form
@@ -141,13 +139,13 @@ function CreateApiKeyForm() {
 									spellCheck={false}
 									required
 								/>
-								<FieldDescription>
-									{t.settings.apiKeyNameHelp}
-								</FieldDescription>
+								<FieldDescription>{t.settings.apiKeyNameHelp}</FieldDescription>
 							</Field>
 
 							<Field>
-								<FieldLabel htmlFor={expirationId}>{t.common.expires}</FieldLabel>
+								<FieldLabel htmlFor={expirationId}>
+									{t.common.expires}
+								</FieldLabel>
 								<Select
 									value={expiration}
 									onValueChange={(value) =>

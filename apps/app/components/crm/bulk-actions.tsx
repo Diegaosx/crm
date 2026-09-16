@@ -23,10 +23,10 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "@crm/ui/components/dropdown-menu";
-import { useTranslations } from "@/lib/i18n";
 import { Spinner } from "@crm/ui/components/spinner";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "@/lib/i18n";
 
 export type BulkResult = {
 	requested: number;

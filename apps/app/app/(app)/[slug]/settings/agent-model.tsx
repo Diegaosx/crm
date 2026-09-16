@@ -112,9 +112,7 @@ export function AgentModel() {
 		<Card>
 			<CardHeader>
 				<CardTitle>{t.settings.researchAgent}</CardTitle>
-				<CardDescription>
-					{t.settings.researchAgentDesc}
-				</CardDescription>
+				<CardDescription>{t.settings.researchAgentDesc}</CardDescription>
 			</CardHeader>
 
 			<CardContent>
@@ -144,7 +142,8 @@ export function AgentModel() {
 										data-checked={current === FOLLOW_DEFAULT}
 										onSelect={() => choose(FOLLOW_DEFAULT)}
 									>
-										{t.settings.defaultModel} — {defaultModel?.name ?? defaultId}
+										{t.settings.defaultModel} —{" "}
+										{defaultModel?.name ?? defaultId}
 									</CommandItem>
 								</CommandGroup>
 

@@ -104,12 +104,12 @@ function usePurgeRecord(record: RecordRef) {
 
 export function RecordActions({
 	record,
-	name,
+	name: _name,
 	consequence,
 	archivedAt,
 }: {
 	record: RecordRef;
-	name: string;
+	name?: string;
 	consequence: string;
 	archivedAt: string | null;
 }) {

@@ -540,7 +540,8 @@ const en = {
 		agentModelTitle: "Agent model",
 		researchKeyTitle: "Research key",
 		membersTitle: "Members",
-		membersDescription: "Manage team members and their roles in this workspace.",
+		membersDescription:
+			"Manage team members and their roles in this workspace.",
 		roleOwner: "Owner",
 		roleAdmin: "Admin",
 		roleMember: "Member",
@@ -591,7 +592,8 @@ const en = {
 			"Every deal with an amount can be converted into the reporting currency.",
 		noDealsHaveAmount: "No deals have an amount yet.",
 		allReportedIn: "Every total is now reported in",
-		cannotBeConverted: "cannot be converted, so they are left out of every total.",
+		cannotBeConverted:
+			"cannot be converted, so they are left out of every total.",
 		ratesLastFetched: "Rates last fetched",
 		pasteKey: "Paste the key",
 		noContextKey: "Don't have a Context API key?",
@@ -614,7 +616,8 @@ const en = {
 		addConnectionTitle: "Add a connection",
 		addConnectionDesc: "Nothing moves until you finish setting one up.",
 		connGoogleWorkspace: "Google Workspace",
-		connGoogleWorkspaceDesc: "Bring in Gmail messages and Google Calendar meetings",
+		connGoogleWorkspaceDesc:
+			"Bring in Gmail messages and Google Calendar meetings",
 		connSlack: "Slack",
 		connSlackDesc: "Let deployed agents notify approved channels and people",
 		connMicrosoft: "Microsoft 365",
@@ -635,7 +638,8 @@ const en = {
 		noViewsYet: "No page views yet",
 		copySnippet: "Copy",
 		pasteHtml: "Paste it into your HTML",
-		rotateSiteIdNotice: "Rotating it stops every copy of the old script at once.",
+		rotateSiteIdNotice:
+			"Rotating it stops every copy of the old script at once.",
 		gtmTitle: "Add it through Google Tag Manager",
 		gtmStep1: "In Tag Manager, add a new Custom HTML tag.",
 		gtmStep2: "Paste this snippet — not the one above — as the tag's HTML.",
@@ -667,8 +671,7 @@ const en = {
 		trackingPausedToast:
 			"Tracking paused. The script stops recording within five minutes.",
 		trackingResumedToast: "Tracking resumed.",
-		siteIdRotatedToast:
-			"Site ID rotated. Paste the new tag on your website.",
+		siteIdRotatedToast: "Site ID rotated. Paste the new tag on your website.",
 		couldNotCopyScript: "Could not copy the script. Select it instead.",
 		scriptCopied: "Script copied.",
 		verifyInstallationTitle: "Verify installation",
@@ -735,7 +738,8 @@ const en = {
 		colMedium: "Medium",
 		colViews: "Page views",
 		apiKeysTitle: "API Keys",
-		apiKeysDescription: "Create and manage secret tokens for programmatic access.",
+		apiKeysDescription:
+			"Create and manage secret tokens for programmatic access.",
 		newApiKey: "New API key",
 		newApiKeyDesc:
 			"Acts as you. Anything it can read or change is exactly what you can.",
