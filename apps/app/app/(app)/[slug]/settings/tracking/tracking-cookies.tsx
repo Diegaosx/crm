@@ -20,31 +20,33 @@ import { Switch } from "@crm/ui/components/switch";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useId } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "@/lib/i18n";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
-
-const TOGGLES = [
-	{
-		flag: "cookieSubdomains",
-		label: "Limit cookies to subdomains",
-		hint: "Set the cookie on the exact host that served the page, never on the parent domain",
-	},
-	{
-		flag: "secureCookies",
-		label: "Use secure cookies only",
-		hint: "Send the cookie over HTTPS and drop it on plain HTTP",
-	},
-	{
-		flag: "honourDnt",
-		label: "Honour Do Not Track",
-		hint: "Record nothing at all when the browser asks not to be tracked",
-	},
-] as const;
 
 export function TrackingCookies() {
 	const trpc = useTRPC();
 	const cache = useCrmCache();
+	const t = useTranslations();
 	const lifetimeId = useId();
+
+	const toggles = [
+		{
+			flag: "cookieSubdomains",
+			label: t.settings.cookieSubdomainsLabel,
+			hint: t.settings.cookieSubdomainsHint,
+		},
+		{
+			flag: "secureCookies",
+			label: t.settings.secureCookiesLabel,
+			hint: t.settings.secureCookiesHint,
+		},
+		{
+			flag: "honourDnt",
+			label: t.settings.honourDntLabel,
+			hint: t.settings.honourDntHint,
+		},
+	] as const;
 
 	const tracking = useQuery(trpc.tracking.settings.queryOptions());
 
@@ -59,7 +61,7 @@ export function TrackingCookies() {
 		trpc.tracking.setCookieLifetime.mutationOptions({
 			onSuccess: async () => {
 				await cache.tracking();
-				toast.success("Cookie lifetime saved.");
+				toast.success(t.settings.cookieLifetimeSaved);
 			},
 			onError: (error) => toast.error(error.message),
 		}),
@@ -73,14 +75,14 @@ export function TrackingCookies() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Cookies</CardTitle>
+				<CardTitle>{t.settings.cookiesTitle}</CardTitle>
 				<CardDescription>
-					How a returning visitor is recognised.
+					{t.settings.cookiesDesc}
 				</CardDescription>
 			</CardHeader>
 
 			<CardContent>
-				{TOGGLES.map((toggle) => (
+				{toggles.map((toggle) => (
 					<div
 						key={toggle.flag}
 						className="flex items-center justify-between gap-6"
@@ -107,7 +109,7 @@ export function TrackingCookies() {
 				))}
 
 				<Field>
-					<FieldLabel htmlFor={lifetimeId}>Cookie lifetime</FieldLabel>
+					<FieldLabel htmlFor={lifetimeId}>{t.settings.cookieLifetime}</FieldLabel>
 					<Select
 						value={String(cookieDays)}
 						disabled={busy}
@@ -127,11 +129,11 @@ export function TrackingCookies() {
 						</SelectContent>
 					</Select>
 					<FieldDescription>
-						After this a returning visitor counts as somebody new. Shorten it if
-						your policy asks you to.
+						{t.settings.cookieLifetimeDesc}
 					</FieldDescription>
 				</Field>
 			</CardContent>
 		</Card>
 	);
 }
+

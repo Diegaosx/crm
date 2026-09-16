@@ -13,6 +13,7 @@ import {
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { ApiKeysSettingsHeading } from "../settings-heading";
 import { apiKeysSearchParams } from "./api-keys-search-params";
 import { ApiKeysTable } from "./api-keys-table";
 import { CreateApiKeySheet } from "./create-api-key-sheet";
@@ -28,11 +29,7 @@ export default function ApiKeysSettingsPage({
 		<PageShell className="min-h-0">
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>API Keys</PageShellTitle>
-					<PageShellDescription>
-						Personal keys for calling the CRM API. Each one acts as you —
-						anything it can read or change is exactly what you can.
-					</PageShellDescription>
+					<ApiKeysSettingsHeading />
 				</PageShellHeading>
 
 				<PageShellActions>

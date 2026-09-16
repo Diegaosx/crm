@@ -48,6 +48,11 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 	const workspaceUrl = useWorkspaceUrl();
 	const t = useTranslations();
 
+	const trendConfig: ChartConfig = {
+		won: { label: t.overview.closedWonTrend, color: "var(--success)" },
+		created: { label: t.overview.newPipelineTrend, color: "var(--chart-1)" },
+	};
+
 	const {
 		pipeline,
 		wonThisMonth,
@@ -70,7 +75,7 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 			? [
 					{
 						key: stage.stage,
-						label: dealStageLabel(stage.stage),
+						label: t.stages[stage.stage] ?? dealStageLabel(stage.stage),
 						value: stage.valueCents,
 						color: dealStageColor(stage.stage),
 						count: stage.count,
@@ -88,14 +93,14 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 					delta={changeDelta(
 						wonThisMonth.valueCents,
 						wonPrevMonth.valueCents,
-						"vs. last month",
+						t.overview.vsLastMonth,
 					)}
-					description={`${formatCount(wonThisMonth.count, "deal")} · ${money(wonPrevMonth.valueCents)} last month`}
+					description={`${formatCount(wonThisMonth.count, t.deals.colDeal.toLowerCase())} · ${money(wonPrevMonth.valueCents)} ${t.overview.lastMonth}`}
 				/>
 				<StatCard
 					label={t.overview.pipeline}
 					value={money(pipeline.totalCents)}
-					description={`${formatCount(pipeline.totalDeals, "deal")} in progress · ${money(closingThisMonthTotal.valueCents)} due this month`}
+					description={`${formatCount(pipeline.totalDeals, t.deals.colDeal.toLowerCase())} ${t.overview.inProgress} · ${money(closingThisMonthTotal.valueCents)} ${t.overview.dueThisMonth}`}
 				/>
 				<StatCard
 					label={`${t.overview.winRate} (${performance.windowDays}d)`}
@@ -106,8 +111,8 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 					}
 					description={
 						performance.wins + performance.losses === 0
-							? "Nothing has closed yet"
-							: `${performance.wins} won · ${performance.losses} lost`
+							? t.overview.nothingClosedYet
+							: `${performance.wins} ${t.overview.dealsWon.toLowerCase()} · ${performance.losses} ${t.overview.dealsLost.toLowerCase()}`
 					}
 				/>
 				<StatCard
@@ -119,25 +124,23 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 					}
 					description={
 						performance.avgCycleDays === null
-							? "No wins to measure"
-							: `${performance.avgCycleDays}-day average cycle`
+							? t.overview.noWinsToMeasure
+							: `${performance.avgCycleDays} ${t.overview.avgCycleDays}`
 					}
 				/>
 			</StatGroup>
 
 			{unconverted.count > 0 ? (
 				<p className="text-muted-foreground text-xs">
-					Every figure above is in {reportingCurrency}.{" "}
-					{formatCount(unconverted.count, "deal")} in{" "}
+					{t.overview.unconvertedNote} {reportingCurrency}.{" "}
+					{formatCount(unconverted.count, t.deals.colDeal.toLowerCase())} in{" "}
 					{unconverted.currencies.join(", ")}{" "}
-					{unconverted.count === 1 ? "is" : "are"} not included — there is no
-					rate to convert {unconverted.currencies.length === 1 ? "it" : "them"}{" "}
-					with.{" "}
+					{t.overview.notIncluded}.{" "}
 					<Link
 						href={workspaceUrl("/settings/currencies")}
 						className="underline hover:no-underline"
 					>
-						Set one
+						{t.overview.setOne}
 					</Link>
 					.
 				</p>
@@ -146,13 +149,13 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 			<DashboardRow split="hero">
 				<ChartPanel
 					title={t.overview.pipelineOverTime}
-					description="Last six months, by the month a deal closed or was created"
+					description={t.overview.pipelineOverTimeDesc}
 				>
 					{hasTrend ? (
 						<div className="flex flex-1 flex-col justify-center py-4">
 							<AreaTrend
 								data={trend}
-								config={TREND_CONFIG}
+								config={trendConfig}
 								xKey="month"
 								height={196}
 								variant="gradient"
@@ -162,13 +165,13 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 							/>
 						</div>
 					) : (
-						<EmptyChart label="No deals closed or created yet" />
+						<EmptyChart label={t.overview.pipelineEmpty} />
 					)}
 				</ChartPanel>
 
 				<ChartPanel
 					title={t.overview.stageDistribution}
-					description="Where the value sits right now"
+					description={t.overview.stageDistributionDesc}
 				>
 					{stageSlices.length > 0 ? (
 						<div className="flex flex-1 flex-col justify-between gap-1 pt-4">
@@ -176,7 +179,7 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 								data={stageSlices}
 								height={168}
 								centerValue={money(pipeline.totalCents)}
-								centerLabel="open"
+								centerLabel={t.deals.colDeal.toLowerCase()}
 								formatValue={exact}
 							/>
 							<ul className="flex flex-col px-5 pb-1 md:px-6">
@@ -206,7 +209,7 @@ export function SalesDashboard({ summary }: { summary: Summary }) {
 							</ul>
 						</div>
 					) : (
-						<EmptyChart label="Nothing open" />
+						<EmptyChart label={t.overview.stageDistributionEmpty} />
 					)}
 				</ChartPanel>
 			</DashboardRow>

@@ -12,6 +12,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ChatDateGroup, chatDateGroup } from "@/lib/chat-date-group";
+import { useTranslations } from "@/lib/i18n";
+import type { Dictionary } from "@/lib/i18n/types";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { useHydrated } from "@/lib/use-hydrated";
@@ -40,6 +42,7 @@ export function AgentBuilderSidebar({
 	const trpc = useTRPC();
 	const queryClient = useQueryClient();
 	const hydrated = useHydrated();
+	const t = useTranslations();
 	const conversations = useQuery({
 		...trpc.conversations.builderList.queryOptions(),
 		initialData: initialData?.conversations,
@@ -72,17 +75,18 @@ export function AgentBuilderSidebar({
 	const groups = groupConversations(
 		showData ? (conversations.data ?? []) : [],
 		showData ? groupNow : 0,
+		t,
 	);
 	const teamAgents = showData ? (agents.data ?? []) : [];
 
 	return (
 		<aside className={cn("min-h-0 min-w-0 flex-col p-4 font-sans", className)}>
 			<div className="flex h-7 shrink-0 items-center justify-between pl-2">
-				<span className="font-medium text-xs">Chats</span>
+				<span className="font-medium text-xs">{t.chat.chats}</span>
 				<Button asChild variant="ghost" size="icon-xs">
 					<Link
 						href={workspaceUrl("/chat")}
-						aria-label="New agent chat"
+						aria-label={t.chat.newAgentChat}
 						onClick={onNavigate}
 					>
 						<Icon icon={Add} />
@@ -90,16 +94,16 @@ export function AgentBuilderSidebar({
 				</Button>
 			</div>
 
-			<nav aria-label="Agent chats" className="min-h-0 flex-1 overflow-y-auto">
+			<nav aria-label={t.chat.chats} className="min-h-0 flex-1 overflow-y-auto">
 				{groups.map((group) => (
-					<div key={group.label}>
+					<div key={group.key}>
 						<div className="flex h-8 items-end pb-1 pl-2 font-medium text-[11px] text-muted-foreground uppercase tracking-[0.08em]">
 							{group.label}
 						</div>
 						{group.items.map((conversation) => {
 							const href = workspaceUrl(`/chat/${conversation.id}`);
 							const active = pathname === href;
-							const title = conversation.title ?? "Untitled chat";
+							const title = conversation.title ?? t.chat.untitledChat;
 							return (
 								<div
 									key={conversation.id}
@@ -141,7 +145,7 @@ export function AgentBuilderSidebar({
 
 				{groups.length === 0 ? (
 					<p className="px-2 py-3 text-muted-foreground text-xs">
-						No chats in the last 7 days.
+						{t.chat.noRecentChats}
 					</p>
 				) : null}
 
@@ -163,8 +167,9 @@ function TeamAgents({
 	agents: TeamAgent[];
 	pathname: string;
 	onNavigate?: () => void;
-}) {
+	}) {
 	const workspaceUrl = useWorkspaceUrl();
+	const t = useTranslations();
 
 	return (
 		<div className="mt-3 border-t pt-1">
@@ -174,7 +179,7 @@ function TeamAgents({
 				onClick={onNavigate}
 				className="flex h-8 items-end gap-2 rounded-sm px-2 pb-1 font-medium text-[11px] text-muted-foreground uppercase tracking-[0.08em] outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
 			>
-				<span className="min-w-0 flex-1">Team agents</span>
+				<span className="min-w-0 flex-1">{t.chat.teamAgents}</span>
 				<span className="shrink-0 font-mono">{agents.length}</span>
 			</Link>
 			{agents.map((agent) => {
@@ -230,20 +235,33 @@ function ConversationState({ state }: { state: Conversation["state"] }) {
 	return null;
 }
 
-function groupConversations(conversations: Conversation[], now: number) {
+function groupConversations(
+	conversations: Conversation[],
+	now: number,
+	t: Dictionary,
+) {
 	if (!now) return [];
 
-	const labels: ChatDateGroup[] = ["Today", "Yesterday", "Last 7 days"];
+	const rawKeys: ChatDateGroup[] = ["Today", "Yesterday", "Last 7 days"];
+	const labelMap: Record<ChatDateGroup, string> = {
+		Today: t.common.today,
+		Yesterday: t.common.yesterday,
+		"Last 7 days": t.common.last7Days,
+	};
 	const items = new Map<ChatDateGroup, Conversation[]>(
-		labels.map((label) => [label, []]),
+		rawKeys.map((key) => [key, []]),
 	);
 
 	for (const conversation of conversations) {
-		const label = chatDateGroup(conversation.lastMessageAt, now);
-		if (label) items.get(label)?.push(conversation);
+		const groupKey = chatDateGroup(conversation.lastMessageAt, now);
+		if (groupKey) items.get(groupKey)?.push(conversation);
 	}
 
-	return labels
-		.map((label) => ({ label, items: items.get(label) ?? [] }))
+	return rawKeys
+		.map((key) => ({
+			key,
+			label: labelMap[key],
+			items: items.get(key) ?? [],
+		}))
 		.filter((group) => group.items.length > 0);
 }

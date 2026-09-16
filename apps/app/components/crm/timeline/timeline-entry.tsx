@@ -11,6 +11,7 @@ import { RecordLink } from "@/components/crm/record-sheet/record-link";
 import { LocalDateTime, LocalRelativeTime } from "@/components/local-date-time";
 import { activityLabel } from "@/lib/activity-presentation";
 import { dealStageLabel } from "@/lib/deal-stage";
+import { useTranslations } from "@/lib/i18n";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
@@ -47,6 +48,7 @@ export function TimelineEntry({
 }) {
 	const trpc = useTRPC();
 	const cache = useCrmCache();
+	const t = useTranslations();
 
 	const complete = useMutation(
 		trpc.activities.complete.mutationOptions({
@@ -75,7 +77,7 @@ export function TimelineEntry({
 		: entry.createdBy.name;
 
 	const headline = change
-		? `${dealStageLabel(change.from)} → ${dealStageLabel(change.to)}`
+		? `${t.stages[change.from] ?? dealStageLabel(change.from)} → ${t.stages[change.to] ?? dealStageLabel(change.to)}`
 		: entry.subject;
 
 	const here = anchorId(anchor);
@@ -171,7 +173,7 @@ export function TimelineEntry({
 								tone={overdue ? "error" : "info"}
 								label={
 									<>
-										{overdue ? "Overdue" : "Due"}{" "}
+										{overdue ? t.common.overdue : t.common.due}{" "}
 										<LocalRelativeTime date={entry.dueAt} />
 									</>
 								}

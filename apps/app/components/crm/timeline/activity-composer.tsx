@@ -20,6 +20,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { activityLabel } from "@/lib/activity-presentation";
+import { useTranslations } from "@/lib/i18n";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
 import { ActivityIcon } from "./activity-icon";
@@ -34,17 +35,10 @@ const dueFormat = new Intl.DateTimeFormat("en-US", {
 	day: "numeric",
 });
 
-const PLACEHOLDER = {
-	NOTE: "Log a note, call, email, meeting or task…",
-	CALL: "What came out of the call?",
-	EMAIL: "What was said?",
-	MEETING: "What came out of the meeting?",
-	TASK: "What needs doing?",
-} satisfies Record<ComposableType, string>;
-
 export function ActivityComposer({ anchor }: { anchor: TimelineAnchor }) {
 	const trpc = useTRPC();
 	const cache = useCrmCache();
+	const t = useTranslations();
 
 	const [type, setType] = useState<ComposableType>("NOTE");
 	const [draft, setDraft] = useState("");
@@ -52,6 +46,22 @@ export function ActivityComposer({ anchor }: { anchor: TimelineAnchor }) {
 
 	const isTask = type === "TASK";
 	const text = draft.trim();
+
+	const placeholders: Record<ComposableType, string> = {
+		NOTE: t.timeline.placeholderNote,
+		CALL: t.timeline.placeholderCall,
+		EMAIL: t.timeline.placeholderEmail,
+		MEETING: t.timeline.placeholderMeeting,
+		TASK: t.timeline.placeholderTask,
+	};
+
+	const typeLabels: Record<ComposableType, string> = {
+		NOTE: t.timeline.typeNote,
+		CALL: t.timeline.typeCall,
+		EMAIL: t.timeline.typeEmail,
+		MEETING: t.timeline.typeMeeting,
+		TASK: t.timeline.typeTask,
+	};
 
 	const reset = () => {
 		setDraft("");
@@ -90,8 +100,8 @@ export function ActivityComposer({ anchor }: { anchor: TimelineAnchor }) {
 				<InputGroupTextarea
 					value={draft}
 					onChange={(event) => setDraft(event.target.value)}
-					placeholder={PLACEHOLDER[type]}
-					aria-label="What happened"
+					placeholder={placeholders[type]}
+					aria-label={t.timeline.whatHappened}
 					onKeyDown={(event) => {
 						if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
 							event.preventDefault();
@@ -113,10 +123,10 @@ export function ActivityComposer({ anchor }: { anchor: TimelineAnchor }) {
 							<ToggleGroupItem
 								key={option}
 								value={option}
-								aria-label={activityLabel(option)}
+								aria-label={typeLabels[option] ?? activityLabel(option)}
 							>
 								<ActivityIcon type={option} />
-								{activityLabel(option)}
+								{typeLabels[option] ?? activityLabel(option)}
 							</ToggleGroupItem>
 						))}
 					</ToggleGroup>
@@ -126,7 +136,7 @@ export function ActivityComposer({ anchor }: { anchor: TimelineAnchor }) {
 							<PopoverTrigger asChild>
 								<InputGroupButton variant="ghost" size="xs">
 									<Icon icon={Calendar} data-icon="inline-start" />
-									{dueAt ? dueFormat.format(dueAt) : "Due date"}
+									{dueAt ? dueFormat.format(dueAt) : t.timeline.dueDate}
 								</InputGroupButton>
 							</PopoverTrigger>
 							<PopoverContent size="fit" align="start">
@@ -149,7 +159,7 @@ export function ActivityComposer({ anchor }: { anchor: TimelineAnchor }) {
 							disabled={create.isPending}
 						>
 							{create.isPending ? <Spinner /> : null}
-							{isTask ? "Add task" : `Log ${activityLabel(type).toLowerCase()}`}
+							{isTask ? t.timeline.addTask : `${t.recordSheet.logActivity} (${typeLabels[type] ?? activityLabel(type)})`}
 						</InputGroupButton>
 					)}
 				</InputGroupAddon>

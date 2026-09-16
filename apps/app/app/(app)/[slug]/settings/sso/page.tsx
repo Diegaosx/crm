@@ -13,6 +13,7 @@ import {
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { SsoSettingsHeading } from "../settings-heading";
 import { AddSsoProviderSheet } from "./add-sso-provider-sheet";
 import { ssoSearchParams } from "./sso-search-params";
 import { SsoTable } from "./sso-table";
@@ -28,11 +29,7 @@ export default function SsoSettingsPage({
 		<PageShell className="min-h-0">
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>SSO</PageShellTitle>
-					<PageShellDescription>
-						Let your people sign in through your own identity provider. While
-						one is configured, the sign-in page offers it instead of Google.
-					</PageShellDescription>
+					<SsoSettingsHeading />
 				</PageShellHeading>
 
 				<PageShellActions>

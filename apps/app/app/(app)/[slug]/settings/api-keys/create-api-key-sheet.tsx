@@ -32,6 +32,7 @@ import { useMutation } from "@tanstack/react-query";
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { type ComponentProps, Suspense, useId, useState } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "@/lib/i18n";
 import { SEARCH_PARAM } from "@/lib/search-param-keys";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
@@ -40,22 +41,16 @@ import { CreatedApiKeyDialog } from "./created-api-key-dialog";
 
 const FORM = "create-api-key";
 
-const EXPIRATION_OPTIONS = [
-	{ value: "30", label: "30 days" },
-	{ value: "90", label: "90 days" },
-	{ value: "365", label: "1 year" },
-	{ value: "never", label: "No expiration" },
-] as const;
-
-type ExpirationValue = (typeof EXPIRATION_OPTIONS)[number]["value"];
+type ExpirationValue = "30" | "90" | "365" | "never";
 
 type CreatedApiKey = RouterOutputs["apiKeys"]["create"];
 
 function NewApiKeyButton(props: ComponentProps<typeof Button>) {
+	const t = useTranslations();
 	return (
 		<Button {...props}>
 			<Icon icon={Add} data-icon="inline-start" />
-			New API key
+			{t.settings.newApiKey}
 		</Button>
 	);
 }
@@ -71,6 +66,7 @@ export function CreateApiKeySheet() {
 function CreateApiKeyForm() {
 	const trpc = useTRPC();
 	const cache = useCrmCache();
+	const t = useTranslations();
 
 	const nameId = useId();
 	const expirationId = useId();
@@ -82,6 +78,13 @@ function CreateApiKeyForm() {
 	const [name, setName] = useState("");
 	const [expiration, setExpiration] = useState<ExpirationValue>("90");
 	const [created, setCreated] = useState<CreatedApiKey | null>(null);
+
+	const expirationOptions = [
+		{ value: "30", label: t.settings.days30 },
+		{ value: "90", label: t.settings.days90 },
+		{ value: "365", label: t.settings.year1 },
+		{ value: "never", label: t.settings.noExpiration },
+	] as const;
 
 	const create = useMutation(
 		trpc.apiKeys.create.mutationOptions({
@@ -105,10 +108,9 @@ function CreateApiKeyForm() {
 
 				<SheetContent side="right">
 					<SheetHeader>
-						<SheetTitle>New API key</SheetTitle>
+						<SheetTitle>{t.settings.newApiKey}</SheetTitle>
 						<SheetDescription>
-							Acts as you. Anything it can read or change is exactly what you
-							can.
+							{t.settings.newApiKeyDesc}
 						</SheetDescription>
 					</SheetHeader>
 
@@ -126,7 +128,7 @@ function CreateApiKeyForm() {
 					>
 						<FieldGroup>
 							<Field>
-								<FieldLabel htmlFor={nameId}>Name</FieldLabel>
+								<FieldLabel htmlFor={nameId}>{t.common.name}</FieldLabel>
 								<Input
 									id={nameId}
 									value={name}
@@ -140,12 +142,12 @@ function CreateApiKeyForm() {
 									required
 								/>
 								<FieldDescription>
-									Something you will recognise later, like where it runs.
+									{t.settings.apiKeyNameHelp}
 								</FieldDescription>
 							</Field>
 
 							<Field>
-								<FieldLabel htmlFor={expirationId}>Expires</FieldLabel>
+								<FieldLabel htmlFor={expirationId}>{t.common.expires}</FieldLabel>
 								<Select
 									value={expiration}
 									onValueChange={(value) =>
@@ -156,7 +158,7 @@ function CreateApiKeyForm() {
 										<SelectValue />
 									</SelectTrigger>
 									<SelectContent>
-										{EXPIRATION_OPTIONS.map((option) => (
+										{expirationOptions.map((option) => (
 											<SelectItem key={option.value} value={option.value}>
 												{option.label}
 											</SelectItem>
@@ -174,10 +176,10 @@ function CreateApiKeyForm() {
 							disabled={!name.trim() || create.isPending}
 						>
 							{create.isPending ? <Spinner /> : null}
-							Create key
+							{t.settings.createKey}
 						</Button>
 						<SheetClose asChild>
-							<Button variant="outline">Cancel</Button>
+							<Button variant="outline">{t.common.cancel}</Button>
 						</SheetClose>
 					</SheetFooter>
 				</SheetContent>

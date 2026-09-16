@@ -14,6 +14,7 @@ import { useSearchInput } from "@crm/ui/hooks/use-search-input";
 import { cn } from "@crm/ui/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { type Ref, useId, useState } from "react";
+import { useTranslations } from "@/lib/i18n";
 import { PROPERTY_LABEL, PROPERTY_ROW } from "@/components/detail-sheet";
 import { useTRPC } from "@/lib/trpc/client";
 
@@ -21,7 +22,7 @@ export function CompanyPicker({
 	id,
 	value,
 	onValueChange,
-	placeholder = "Choose a company",
+	placeholder,
 	none,
 	selected,
 	disabled,
@@ -38,6 +39,7 @@ export function CompanyPicker({
 	variant?: "default" | "ghost";
 	className?: string;
 }) {
+	const t = useTranslations();
 	const trpc = useTRPC();
 
 	const [query, setQuery] = useState("");
@@ -77,9 +79,9 @@ export function CompanyPicker({
 			options={options}
 			selectedOption={current}
 			disabled={disabled}
-			placeholder={placeholder}
-			searchPlaceholder="Search companies…"
-			empty={companies.isFetching ? "Searching…" : "No company matches."}
+			placeholder={placeholder ?? t.search.chooseCompany}
+			searchPlaceholder={t.search.searchCompanies}
+			empty={companies.isFetching ? t.search.searching : t.search.noCompanyMatches}
 			search={text}
 			onSearchChange={setText}
 			stale={stale}
@@ -98,6 +100,7 @@ export function CompanyMenuSearch({
 	onSelect: (companyId: string | null) => void;
 	inputRef?: Ref<HTMLInputElement>;
 }) {
+	const t = useTranslations();
 	const trpc = useTRPC();
 
 	const [query, setQuery] = useState("");
@@ -117,14 +120,14 @@ export function CompanyMenuSearch({
 		>
 			<CommandInput
 				ref={inputRef}
-				placeholder="Search companies…"
+				placeholder={t.search.searchCompanies}
 				value={text}
 				onValueChange={setText}
 				autoFocus
 			/>
 			<CommandList>
 				<CommandEmpty>
-					{companies.isFetching ? "Searching…" : "No company matches."}
+					{companies.isFetching ? t.search.searching : t.search.noCompanyMatches}
 				</CommandEmpty>
 				<CommandGroup>
 					{none && !query.trim() ? (
@@ -158,7 +161,7 @@ export function CompanyMenuSearch({
 }
 
 export function InlineCompanyField({
-	label = "Company",
+	label,
 	value,
 	onSave,
 	saving = false,
@@ -172,12 +175,13 @@ export function InlineCompanyField({
 	none?: { value: string; label: string };
 	company?: { id: string; name: string } | null;
 }) {
+	const t = useTranslations();
 	const id = useId();
 
 	return (
 		<div className={cn(PROPERTY_ROW, "items-center")}>
 			<label htmlFor={id} className={PROPERTY_LABEL}>
-				{label}
+				{label ?? t.companies.company}
 			</label>
 			<div className="flex min-w-0 items-center gap-1.5">
 				<CompanyPicker

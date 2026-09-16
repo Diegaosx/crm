@@ -17,21 +17,23 @@ import { PersonAvatar } from "@crm/ui/components/person-avatar";
 import { useQuery } from "@tanstack/react-query";
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
+import { useTranslations } from "@/lib/i18n";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
 import { SEARCH_PARAM } from "@/lib/search-param-keys";
 import { useTRPC } from "@/lib/trpc/client";
 
-const GROUP_LABEL = {
-	company: "Companies",
-	contact: "Contacts",
-	deal: "Deals",
-} as const;
-
 const KINDS = ["company", "contact", "deal"] as const;
 
 export function QuickSwitcher() {
+	const t = useTranslations();
 	const openRecord = useOpenRecord();
 	const trpc = useTRPC();
+
+	const groupLabels = {
+		company: t.companies.title,
+		contact: t.contacts.title,
+		deal: t.deals.title,
+	} as const;
 
 	const [open, setOpen] = useQueryState(
 		SEARCH_PARAM.dialog.switcher,
@@ -69,20 +71,20 @@ export function QuickSwitcher() {
 		<CommandDialog
 			open={open}
 			onOpenChange={(next) => setOpen(next || null)}
-			title="Search"
-			description="Jump to a company, contact or deal"
+			title={t.search.searchTitle}
+			description={t.search.searchDesc}
 		>
 			<Command shouldFilter={false}>
 				<CommandInput
-					placeholder="Search companies, contacts and deals…"
+					placeholder={t.search.searchPlaceholder}
 					value={query}
 					onValueChange={setQuery}
 				/>
 				<CommandList>
 					<CommandEmpty>
 						{query.trim().length < 2
-							? "Type at least two characters."
-							: "Nothing matches."}
+							? t.search.typeAtLeastTwo
+							: t.search.nothingMatches}
 					</CommandEmpty>
 
 					{KINDS.map((kind) => {
@@ -90,7 +92,7 @@ export function QuickSwitcher() {
 						if (group.length === 0) return null;
 
 						return (
-							<CommandGroup key={kind} heading={GROUP_LABEL[kind]}>
+							<CommandGroup key={kind} heading={groupLabels[kind]}>
 								{group.map((hit) => (
 									<CommandItem
 										key={`${hit.kind}:${hit.id}`}

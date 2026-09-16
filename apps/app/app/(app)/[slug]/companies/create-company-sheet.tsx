@@ -81,7 +81,7 @@ function CreateCompanyForm() {
 		trpc.companies.create.mutationOptions({
 			onSuccess: async (company) => {
 				await cache.company(company.id);
-				toast.success(`${company.name} added.`);
+				toast.success(`${company.name} ${t.companies.addedSuccess}`);
 				await setOpen(false);
 				setName("");
 				setDomain("");
@@ -101,8 +101,7 @@ function CreateCompanyForm() {
 				<SheetHeader>
 					<SheetTitle>{t.companies.createCompany}</SheetTitle>
 					<SheetDescription>
-						Give it a name and a domain. The agent fills in the logo,
-						description, industry, address and socials.
+						{t.companies.createDescription}
 					</SheetDescription>
 				</SheetHeader>
 
@@ -147,7 +146,7 @@ function CreateCompanyForm() {
 								spellCheck={false}
 							/>
 							<FieldDescription>
-								Leave blank if you don&apos;t know it yet.
+								{t.companies.domainHelp}
 							</FieldDescription>
 						</Field>
 
@@ -160,7 +159,7 @@ function CreateCompanyForm() {
 									<SelectValue />
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value={UNASSIGNED}>Unassigned</SelectItem>
+									<SelectItem value={UNASSIGNED}>{t.common.unassigned}</SelectItem>
 									{(users.data ?? []).map((user) => (
 										<SelectItem key={user.id} value={user.id}>
 											{user.name}

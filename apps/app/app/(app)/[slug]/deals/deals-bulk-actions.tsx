@@ -34,12 +34,9 @@ import {
 	reportBulk,
 } from "@/components/crm/bulk-actions";
 import { DEAL_STAGE_OPTIONS, LOSING_STAGES } from "@/lib/deal-stage";
+import { useTranslations } from "@/lib/i18n";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
-
-function deals(count: number): string {
-	return formatCount(count, "deal");
-}
 
 export function DealsBulkActions({
 	ids,
@@ -50,6 +47,7 @@ export function DealsBulkActions({
 	onDone: () => void;
 	archived: boolean;
 }) {
+	const t = useTranslations();
 	const trpc = useTRPC();
 	const cache = useCrmCache();
 	const users = useQuery(trpc.users.list.queryOptions());
@@ -58,13 +56,16 @@ export function DealsBulkActions({
 	const [reason, setReason] = useState("");
 	const [confirming, setConfirming] = useState(false);
 
+	const countStr = (count: number) =>
+		formatCount(count, t.deals.colDeal, t.deals.title);
+
 	const onError = (error: { message: string }) => toast.error(error.message);
 
 	const assignOwner = useMutation(
 		trpc.deals.bulkAssignOwner.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.deal();
-				reportBulk(result, (count) => `${deals(count)} reassigned.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.reassigned}`);
 				onDone();
 			},
 			onError,
@@ -75,7 +76,7 @@ export function DealsBulkActions({
 		trpc.deals.bulkSetStage.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.deal();
-				reportBulk(result, (count) => `${deals(count)} moved.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.moved}`);
 				setClosing(null);
 				setReason("");
 				onDone();
@@ -88,7 +89,7 @@ export function DealsBulkActions({
 		trpc.deals.bulkArchive.mutationOptions({
 			onSuccess: async (result, variables) => {
 				await cache.removedMany({ kind: "deal", ids: variables.ids });
-				reportBulk(result, (count) => `${deals(count)} archived.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.archived}`);
 				onDone();
 			},
 			onError,
@@ -99,7 +100,7 @@ export function DealsBulkActions({
 		trpc.deals.bulkRestore.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.deal();
-				reportBulk(result, (count) => `${deals(count)} restored.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.restored}`);
 				onDone();
 			},
 			onError,
@@ -110,7 +111,7 @@ export function DealsBulkActions({
 		trpc.deals.bulkPurge.mutationOptions({
 			onSuccess: async (result, variables) => {
 				await cache.removedMany({ kind: "deal", ids: variables.ids });
-				reportBulk(result, (count) => `${deals(count)} deleted forever.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.purged}`);
 				setConfirming(false);
 				onDone();
 			},
@@ -127,7 +128,7 @@ export function DealsBulkActions({
 					<DropdownMenuGroup>
 						<DropdownMenuItem onSelect={() => restore.mutate({ ids })}>
 							<Undo />
-							Restore
+							{t.bulk.restore}
 						</DropdownMenuItem>
 					</DropdownMenuGroup>
 					<DropdownMenuSeparator />
@@ -136,7 +137,7 @@ export function DealsBulkActions({
 							variant="destructive"
 							onSelect={() => setConfirming(true)}
 						>
-							Delete forever
+							{t.bulk.deleteForever}
 						</DropdownMenuItem>
 					</DropdownMenuGroup>
 				</BulkActionsMenu>
@@ -144,8 +145,8 @@ export function DealsBulkActions({
 				<BulkDeleteDialog
 					open={confirming}
 					onOpenChange={setConfirming}
-					title={`Delete ${deals(ids.length)} forever?`}
-					description="Everything filed against them — activity, notes, the amounts in your pipeline — goes too. This cannot be undone."
+					title={`${t.common.delete} ${countStr(ids.length)}?`}
+					description={t.bulk.deleteDealsConfirmDesc}
 					onConfirm={() => purge.mutate({ ids })}
 				/>
 			</>
@@ -160,12 +161,13 @@ export function DealsBulkActions({
 			<BulkActionsMenu pending={pending}>
 				<BulkOwnerMenu
 					users={users.data ?? []}
+					unassignedLabel={t.bulk.nobody}
 					onSelect={(ownerId) =>
 						ownerId && assignOwner.mutate({ ids, ownerId })
 					}
 				/>
 				<DropdownMenuSub>
-					<DropdownMenuSubTrigger>Change stage</DropdownMenuSubTrigger>
+					<DropdownMenuSubTrigger>{t.bulk.changeStage}</DropdownMenuSubTrigger>
 					<DropdownMenuSubContent className="max-h-72 overflow-y-auto">
 						<DropdownMenuGroup>
 							{DEAL_STAGE_OPTIONS.map((option) => (
@@ -189,7 +191,7 @@ export function DealsBulkActions({
 				<DropdownMenuGroup>
 					<DropdownMenuItem onSelect={() => archive.mutate({ ids })}>
 						<Archive />
-						Archive
+						{t.bulk.archive}
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 			</BulkActionsMenu>
@@ -206,12 +208,11 @@ export function DealsBulkActions({
 					<DialogHeader>
 						<DialogTitle>
 							{closing === "CLOSED_LOST"
-								? `Close ${deals(ids.length)} as lost`
-								: `Mark ${deals(ids.length)} as unqualified`}
+								? `${t.bulk.closeAsLostTitle} (${countStr(ids.length)})`
+								: `${t.bulk.markAsUnqualifiedTitle} (${countStr(ids.length)})`}
 						</DialogTitle>
 						<DialogDescription>
-							The same reason goes on every one of them, so keep it to what they
-							have in common.
+							{t.bulk.bulkReasonDesc}
 						</DialogDescription>
 					</DialogHeader>
 
@@ -225,12 +226,12 @@ export function DealsBulkActions({
 						}}
 					>
 						<Field>
-							<FieldLabel htmlFor={reasonId}>Reason</FieldLabel>
+							<FieldLabel htmlFor={reasonId}>{t.common.reason}</FieldLabel>
 							<Textarea
 								id={reasonId}
 								value={reason}
 								onChange={(event) => setReason(event.target.value)}
-								placeholder="Budget pulled for the quarter"
+								placeholder={t.bulk.reasonPlaceholder}
 								rows={3}
 							/>
 						</Field>
@@ -243,7 +244,7 @@ export function DealsBulkActions({
 							disabled={setStage.isPending || reason.trim() === ""}
 						>
 							{setStage.isPending ? <Spinner /> : null}
-							Save
+							{t.common.save}
 						</Button>
 						<Button
 							variant="outline"
@@ -252,7 +253,7 @@ export function DealsBulkActions({
 								setReason("");
 							}}
 						>
-							Cancel
+							{t.common.cancel}
 						</Button>
 					</DialogFooter>
 				</DialogContent>

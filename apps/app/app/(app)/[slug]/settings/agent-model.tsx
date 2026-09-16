@@ -26,6 +26,7 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "@/lib/i18n";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
 
@@ -70,6 +71,7 @@ function byProvider(models: CatalogModel[]): [string, CatalogModel[]][] {
 export function AgentModel() {
 	const trpc = useTRPC();
 	const cache = useCrmCache();
+	const t = useTranslations();
 	const [open, setOpen] = useState(false);
 
 	const settings = useQuery(trpc.settings.agentModel.queryOptions());
@@ -79,7 +81,7 @@ export function AgentModel() {
 		trpc.settings.setAgentModel.mutationOptions({
 			onSuccess: async () => {
 				await cache.settings();
-				toast.success("The agent will use this model from its next session.");
+				toast.success(t.settings.modelSaved);
 			},
 			onError: (error) => toast.error(error.message),
 		}),
@@ -98,7 +100,7 @@ export function AgentModel() {
 
 	const currentLabel = selectedId
 		? effectiveName
-		: `Default — ${effectiveName}`;
+		: `${t.settings.defaultModel} — ${effectiveName}`;
 
 	const choose = (id: string) => {
 		setOpen(false);
@@ -109,9 +111,9 @@ export function AgentModel() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Research agent</CardTitle>
+				<CardTitle>{t.settings.researchAgent}</CardTitle>
 				<CardDescription>
-					The model the agent thinks with, routed through the Vercel AI Gateway.
+					{t.settings.researchAgentDesc}
 				</CardDescription>
 			</CardHeader>
 
@@ -122,7 +124,7 @@ export function AgentModel() {
 							variant="outline"
 							role="combobox"
 							aria-expanded={open}
-							aria-label="Model"
+							aria-label={t.settings.agentModelTitle}
 							disabled={save.isPending || catalog.isPending || unavailable}
 						>
 							{currentLabel}
@@ -132,9 +134,9 @@ export function AgentModel() {
 
 					<PopoverContent align="start" size="fit" className="w-96">
 						<Command>
-							<CommandInput placeholder="Search models…" />
+							<CommandInput placeholder={t.settings.searchModels} />
 							<CommandList>
-								<CommandEmpty>No model matches that.</CommandEmpty>
+								<CommandEmpty>{t.settings.noModelMatches}</CommandEmpty>
 
 								<CommandGroup>
 									<CommandItem
@@ -142,7 +144,7 @@ export function AgentModel() {
 										data-checked={current === FOLLOW_DEFAULT}
 										onSelect={() => choose(FOLLOW_DEFAULT)}
 									>
-										Default — {defaultModel?.name ?? defaultId}
+										{t.settings.defaultModel} — {defaultModel?.name ?? defaultId}
 									</CommandItem>
 								</CommandGroup>
 

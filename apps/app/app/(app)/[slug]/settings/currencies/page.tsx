@@ -12,6 +12,7 @@ import {
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { CurrenciesSettingsHeading } from "../settings-heading";
 import { CurrencySettings } from "./currency-settings";
 
 export const metadata: Metadata = {
@@ -23,11 +24,7 @@ export default function CurrenciesSettingsPage() {
 		<PageShell>
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>Currencies</PageShellTitle>
-					<PageShellDescription>
-						What your numbers are reported in, and how the other currencies get
-						there.
-					</PageShellDescription>
+					<CurrenciesSettingsHeading />
 				</PageShellHeading>
 			</PageShellHeader>
 

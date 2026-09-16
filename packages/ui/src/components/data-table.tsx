@@ -101,6 +101,22 @@ export type DataTableSelection<TRow> = {
 	rowLabel?: (row: TRow) => string;
 };
 
+export type DataTableLabels = {
+	filters?: string;
+	sort?: string;
+	sortBy?: string;
+	detail?: string;
+	ascending?: string;
+	descending?: string;
+	columns?: string;
+	toggleColumns?: string;
+	selected?: string;
+	clear?: string;
+	noResults?: string;
+	nothingMatches?: string;
+	all?: string;
+};
+
 export type DataTableProps<TRow, TSub> = {
 	query: TableQueryState;
 	columns: DataTableColumn<TRow>[];
@@ -120,6 +136,7 @@ export type DataTableProps<TRow, TSub> = {
 	search?: ReactNode;
 	meta?: ReactNode;
 	empty?: ReactNode;
+	labels?: DataTableLabels;
 	className?: string;
 	tableClassName?: string;
 };
@@ -179,10 +196,12 @@ function toggle(selected: string[], value: string, checked: boolean): string[] {
 function FacetSubmenu({
 	facet,
 	selected,
+	labels,
 	onChange,
 }: {
 	facet: DataTableFacet;
 	selected: string[];
+	labels?: DataTableLabels;
 	onChange: (values: string[]) => void;
 }) {
 	return (
@@ -206,7 +225,9 @@ function FacetSubmenu({
 							onKeyDown={(event) => event.stopPropagation()}
 						/>
 						<CommandList>
-							<CommandEmpty>{facet.empty ?? "Nothing matches."}</CommandEmpty>
+							<CommandEmpty>
+								{facet.empty ?? labels?.nothingMatches ?? "Nothing matches."}
+							</CommandEmpty>
 							<CommandGroup>
 								{facet.options.map((option) => {
 									const checked = selected.includes(option.value);
@@ -236,7 +257,7 @@ function FacetSubmenu({
 						{selected.length > 0 && (
 							<>
 								<DropdownMenuItem onSelect={() => onChange([])}>
-									Clear
+									{labels?.clear ?? "Clear"}
 								</DropdownMenuItem>
 								<DropdownMenuSeparator />
 							</>
@@ -282,6 +303,7 @@ export function DataTable<TRow, TSub = unknown>({
 	search,
 	meta,
 	empty,
+	labels,
 	className,
 	tableClassName,
 }: DataTableProps<TRow, TSub>) {
@@ -314,7 +336,7 @@ export function DataTable<TRow, TSub = unknown>({
 			: tabs?.options.find((option) => option.value === query.tab);
 	const activeTabLabel = activeTabOption
 		? activeTabOption.label
-		: (tabs?.allLabel ?? "All");
+		: (tabs?.allLabel ?? labels?.all ?? "All");
 
 	const deferredRows = useDeferredValue(rows);
 	const anyExpandable =
@@ -358,7 +380,7 @@ export function DataTable<TRow, TSub = unknown>({
 						<span className="font-medium text-foreground tabular-nums">
 							{selection.state.count}
 						</span>{" "}
-						selected
+						{labels?.selected ?? "selected"}
 					</span>
 					<div className="ml-auto flex items-center gap-2">
 						{selection.actions}
@@ -367,7 +389,7 @@ export function DataTable<TRow, TSub = unknown>({
 							size="sm"
 							onClick={() => selection.state.clear()}
 						>
-							Clear
+							{labels?.clear ?? "Clear"}
 						</Button>
 					</div>
 				</div>
@@ -391,7 +413,7 @@ export function DataTable<TRow, TSub = unknown>({
 					>
 						<span className="flex items-center gap-2">
 							<Filter />
-							Filters
+							{labels?.filters ?? "Filters"}
 							{activeFilterCount > 0 && (
 								<span className="tabular-nums opacity-60">
 									({activeFilterCount})
@@ -406,9 +428,6 @@ export function DataTable<TRow, TSub = unknown>({
 						/>
 					</Button>
 				)}
-				{/* `lg:contents` so the controls join the search on one row on desktop
-				    while staying a group the Filters button can collapse on mobile —
-				    search itself must never be inside that collapse. */}
 				<div
 					id={filtersId}
 					className={cn(
@@ -435,7 +454,9 @@ export function DataTable<TRow, TSub = unknown>({
 									onValueChange={(value) => query.setTab(value)}
 								>
 									<DropdownMenuRadioItem value="all">
-										<span className="flex-1">{tabs.allLabel ?? "All"}</span>
+										<span className="flex-1">
+											{tabs.allLabel ?? labels?.all ?? "All"}
+										</span>
 									</DropdownMenuRadioItem>
 									{tabs.options.map((option) => {
 										if (tabCounts?.[option.value] === 0) return null;
@@ -465,7 +486,7 @@ export function DataTable<TRow, TSub = unknown>({
 										className="justify-start sm:justify-center"
 									>
 										<Filter data-icon="inline-start" />
-										Filters
+										{labels?.filters ?? "Filters"}
 										{activeFacetFilterCount > 0 && (
 											<span className="tabular-nums opacity-60">
 												({activeFacetFilterCount})
@@ -479,6 +500,7 @@ export function DataTable<TRow, TSub = unknown>({
 											key={facet.id}
 											facet={facet}
 											selected={query.filters[facet.id] ?? []}
+											labels={labels}
 											onChange={(values) => query.setFilter(facet.id, values)}
 										/>
 									))}
@@ -494,18 +516,20 @@ export function DataTable<TRow, TSub = unknown>({
 										className="justify-start sm:justify-center"
 									>
 										<ArrowsVertical data-icon="inline-start" />
-										Sort
+										{labels?.sort ?? "Sort"}
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent align="end" className="min-w-48">
-									<DropdownMenuLabel>Sort by</DropdownMenuLabel>
+									<DropdownMenuLabel>
+										{labels?.sortBy ?? "Sort by"}
+									</DropdownMenuLabel>
 									<DropdownMenuRadioGroup
 										value={query.sort}
 										onValueChange={query.setSort}
 									>
 										{anyExpandable && (
 											<DropdownMenuRadioItem value="detail">
-												Detail
+												{labels?.detail ?? "Detail"}
 											</DropdownMenuRadioItem>
 										)}
 										{sortableColumns.map((column) => (
@@ -522,10 +546,10 @@ export function DataTable<TRow, TSub = unknown>({
 										}
 									>
 										<DropdownMenuRadioItem value="asc">
-											Ascending
+											{labels?.ascending ?? "Ascending"}
 										</DropdownMenuRadioItem>
 										<DropdownMenuRadioItem value="desc">
-											Descending
+											{labels?.descending ?? "Descending"}
 										</DropdownMenuRadioItem>
 									</DropdownMenuRadioGroup>
 								</DropdownMenuContent>
@@ -540,14 +564,16 @@ export function DataTable<TRow, TSub = unknown>({
 										className="justify-start sm:justify-center"
 									>
 										<Column data-icon="inline-start" />
-										Columns
+										{labels?.columns ?? "Columns"}
 										<span className="tabular-nums opacity-60">
 											({visibleColumns.length})
 										</span>
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent align="end" className="min-w-48">
-									<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+									<DropdownMenuLabel>
+										{labels?.toggleColumns ?? "Toggle columns"}
+									</DropdownMenuLabel>
 									{hideable.map((column) => (
 										<DropdownMenuCheckboxItem
 											key={column.id}
@@ -581,7 +607,11 @@ export function DataTable<TRow, TSub = unknown>({
 				overlay={
 					deferredRows.length === 0 ? (
 						<div className="absolute inset-x-0 top-11 bottom-0 flex items-center justify-center px-4 py-8 text-center text-muted-foreground">
-							{loading ? <Spinner /> : (empty ?? "No results found.")}
+							{loading ? (
+								<Spinner />
+							) : (
+								(empty ?? labels?.noResults ?? "No results found.")
+							)}
 						</div>
 					) : null
 				}

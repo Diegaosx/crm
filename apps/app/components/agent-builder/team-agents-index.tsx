@@ -5,6 +5,7 @@ import Bot from "@carbon/icons-react/es/Bot";
 import { Icon } from "@crm/ui/components/icon";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { useTranslations } from "@/lib/i18n";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
@@ -14,6 +15,7 @@ type Agents = RouterOutputs["agents"]["list"];
 export function TeamAgentsIndex({ initialAgents }: { initialAgents: Agents }) {
 	const trpc = useTRPC();
 	const workspaceUrl = useWorkspaceUrl();
+	const t = useTranslations();
 	const agents = useQuery({
 		...trpc.agents.list.queryOptions(),
 		initialData: initialAgents,
@@ -44,14 +46,14 @@ export function TeamAgentsIndex({ initialAgents }: { initialAgents: Agents }) {
 									</span>
 								</span>
 								<span className="mt-1 block wrap-break-word text-muted-foreground text-xs sm:mt-0 sm:truncate">
-									{agent.description ?? "No description"}
+									{agent.description ?? t.chat.noDescription}
 								</span>
 								<span className="mt-2 block font-mono text-muted-foreground text-xs sm:hidden">
-									{agent.runCount} runs
+									{agent.runCount} {t.chat.runs}
 								</span>
 							</span>
 							<span className="hidden shrink-0 font-mono text-muted-foreground text-xs sm:inline">
-								{agent.runCount} runs
+								{agent.runCount} {t.chat.runs}
 							</span>
 							<Icon
 								icon={ArrowRight}
@@ -63,16 +65,15 @@ export function TeamAgentsIndex({ initialAgents }: { initialAgents: Agents }) {
 			) : (
 				<div className="flex min-h-64 flex-col items-center justify-center rounded-lg border border-dashed px-6 text-center">
 					<Icon icon={Bot} className="size-6 text-muted-foreground" />
-					<h2 className="mt-4 font-medium text-sm">No team agents yet</h2>
+					<h2 className="mt-4 font-medium text-sm">{t.chat.noTeamAgents}</h2>
 					<p className="mt-1 text-muted-foreground text-xs">
-						Create one from a private chat, then review its access before
-						deploying it.
+						{t.chat.noTeamAgentsDesc}
 					</p>
 					<Link
 						href={workspaceUrl("/chat")}
 						className="mt-4 text-primary text-xs hover:underline"
 					>
-						Open chat
+						{t.chat.openChat}
 					</Link>
 				</div>
 			)}

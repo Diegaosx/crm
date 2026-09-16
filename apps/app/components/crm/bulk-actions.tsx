@@ -23,6 +23,7 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "@crm/ui/components/dropdown-menu";
+import { useTranslations } from "@/lib/i18n";
 import { Spinner } from "@crm/ui/components/spinner";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
@@ -66,12 +67,14 @@ export function BulkActionsMenu({
 	onOpenChange?: (open: boolean) => void;
 	children: ReactNode;
 }) {
+	const t = useTranslations();
+
 	return (
 		<DropdownMenu open={open} onOpenChange={onOpenChange}>
 			<DropdownMenuTrigger asChild>
 				<Button variant="outline" size="sm" disabled={pending}>
 					{pending ? <Spinner /> : null}
-					Actions
+					{t.bulk.actions}
 					<ChevronDown data-icon="inline-end" className="opacity-60" />
 				</Button>
 			</DropdownMenuTrigger>
@@ -91,9 +94,11 @@ export function BulkOwnerMenu({
 	onSelect: (ownerId: string | null) => void;
 	unassignedLabel?: string;
 }) {
+	const t = useTranslations();
+
 	return (
 		<DropdownMenuSub>
-			<DropdownMenuSubTrigger>Assign owner</DropdownMenuSubTrigger>
+			<DropdownMenuSubTrigger>{t.bulk.assignOwner}</DropdownMenuSubTrigger>
 			<DropdownMenuSubContent className="max-h-72 overflow-y-auto">
 				<DropdownMenuGroup>
 					{unassignedLabel && (
@@ -102,7 +107,7 @@ export function BulkOwnerMenu({
 						</DropdownMenuItem>
 					)}
 					{users.length === 0 ? (
-						<DropdownMenuLabel>Nobody else works here yet.</DropdownMenuLabel>
+						<DropdownMenuLabel>{t.bulk.nobodyElseWorksHere}</DropdownMenuLabel>
 					) : (
 						users.map((user) => (
 							<DropdownMenuItem
@@ -132,6 +137,8 @@ export function BulkDeleteDialog({
 	description: string;
 	onConfirm: () => void;
 }) {
+	const t = useTranslations();
+
 	return (
 		<AlertDialog open={open} onOpenChange={onOpenChange}>
 			<AlertDialogContent>
@@ -141,9 +148,9 @@ export function BulkDeleteDialog({
 				</AlertDialogHeader>
 
 				<AlertDialogFooter>
-					<AlertDialogCancel>Cancel</AlertDialogCancel>
+					<AlertDialogCancel>{t.common.cancel}</AlertDialogCancel>
 					<AlertDialogAction variant="destructive" onClick={onConfirm}>
-						Delete
+						{t.common.delete}
 					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>

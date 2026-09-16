@@ -12,6 +12,7 @@ import {
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { MembersSettingsHeading } from "../settings-heading";
 import { membersSearchParams } from "./members-search-params";
 import { MembersTable } from "./members-table";
 
@@ -26,10 +27,7 @@ export default function MembersSettingsPage({
 		<PageShell className="min-h-0">
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>Members</PageShellTitle>
-					<PageShellDescription>
-						Everyone who has access to your CRM.
-					</PageShellDescription>
+					<MembersSettingsHeading />
 				</PageShellHeading>
 			</PageShellHeader>
 

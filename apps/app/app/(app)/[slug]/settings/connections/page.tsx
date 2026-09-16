@@ -6,6 +6,7 @@ import { Spinner } from "@crm/ui/components/spinner";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { getServerTranslations } from "@/lib/i18n/server";
 import { requireSession } from "@/lib/session";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
 import { AddConnectionDialog } from "./add-connection-dialog";
@@ -27,7 +28,11 @@ async function ConnectionsSettingsPageContent({
 	searchParams,
 }: PageProps<"/[slug]/settings/connections">) {
 	await requireSession();
-	const [{ slug }, query] = await Promise.all([params, searchParams]);
+	const [{ slug }, query, { t }] = await Promise.all([
+		params,
+		searchParams,
+		getServerTranslations(),
+	]);
 	const queryClient = getServerQueryClient();
 	const trpc = getServerTrpc();
 	const [google, microsoft, slack] = await Promise.all([
@@ -40,7 +45,7 @@ async function ConnectionsSettingsPageContent({
 			? [
 					{
 						name: "Google Workspace",
-						status: "Connected",
+						status: t.settings.connectionsConnected,
 						bringsIn: "Emails, meetings and the people on them",
 						sends: "Nothing yet",
 						href: `/${slug}/settings/connections/google`,
@@ -53,8 +58,8 @@ async function ConnectionsSettingsPageContent({
 					{
 						name: "Slack",
 						status: slack.workspace
-							? `Connected to ${slack.workspace}`
-							: "Connected",
+							? `${t.settings.connectionsConnected} (${slack.workspace})`
+							: t.settings.connectionsConnected,
 						bringsIn: "Workspace members and channels the app has joined",
 						sends: "Messages to approved channels and people",
 						href: `/${slug}/settings/connections/slack`,
@@ -66,7 +71,7 @@ async function ConnectionsSettingsPageContent({
 			? [
 					{
 						name: "Microsoft 365",
-						status: "Connected",
+						status: t.settings.connectionsConnected,
 						bringsIn: "Outlook email and the people on it",
 						sends: "Nothing yet",
 						href: `/${slug}/settings/connections/microsoft`,
@@ -83,22 +88,27 @@ async function ConnectionsSettingsPageContent({
 					<header className="flex items-start justify-between gap-4 px-(--spacing-block-inline)">
 						<div className="flex flex-col gap-2">
 							<h1 className="font-medium text-2xl tracking-tight">
-								Connections
+								{t.settings.connectionsTitle}
 							</h1>
 							<p className="max-w-2xl text-muted-foreground text-sm">
-								Where your CRM gets its information, and what it is allowed to
-								send on your behalf.
+								{t.settings.connectionsDescription}
 							</p>
 						</div>
 						<Button asChild variant="outline">
 							<Link href={`/${slug}/settings/connections?add=1`}>
-								Add connection
+								{t.settings.connectionsAdd}
 							</Link>
 						</Button>
 					</header>
 					<div className="flex flex-col gap-3">
 						{rows.map((row) => (
-							<ConnectionCard key={row.name} {...row} />
+							<ConnectionCard
+								key={row.name}
+								{...row}
+								manageLabel={t.settings.connectionsManage}
+								bringsInLabel={t.settings.connectionsBringsIn}
+								sendsLabel={t.settings.connectionsSends}
+							/>
 						))}
 					</div>
 				</div>
@@ -106,12 +116,10 @@ async function ConnectionsSettingsPageContent({
 				<div className="mx-auto flex w-full max-w-(--container-narrow) flex-1 flex-col justify-center gap-(--spacing-page-gap) text-center">
 					<div className="flex flex-col gap-2 px-(--spacing-block-inline)">
 						<h1 className="font-medium text-2xl tracking-tight">
-							Nothing is connected yet
+							{t.settings.connectionsNothingTitle}
 						</h1>
 						<p className="text-muted-foreground text-sm leading-relaxed">
-							Right now every deal, contact and note has to be typed in by hand.
-							Connect a tool and the CRM starts filling itself in from the work
-							your team already does.
+							{t.settings.connectionsNothingDesc}
 						</p>
 					</div>
 					<div className="flex flex-col divide-y rounded-lg border bg-card px-(--spacing-block-inline)">
@@ -120,27 +128,30 @@ async function ConnectionsSettingsPageContent({
 							name="Google Workspace"
 							description="File email and meetings against the right company"
 							href={`/${slug}/settings/connections/google`}
+							connectLabel={t.settings.connectionsConnect}
 						/>
 						<StarterRow
 							logo={SlackLogo}
 							name="Slack"
 							description="Let deployed agents notify approved channels and people"
 							href={`/${slug}/settings/connections/slack`}
+							connectLabel={t.settings.connectionsConnect}
 						/>
 						<StarterRow
 							logo={MicrosoftLogo}
 							name="Microsoft 365"
 							description="File Outlook email against the right company"
 							href={`/${slug}/settings/connections/microsoft`}
+							connectLabel={t.settings.connectionsConnect}
 						/>
 					</div>
 					<p className="px-(--spacing-block-inline) text-muted-foreground text-sm">
-						Looking for something else?{" "}
+						{t.settings.connectionsLookingForElse}{" "}
 						<Link
 							className="font-medium text-foreground underline underline-offset-4"
 							href={`/${slug}/settings/connections?add=1`}
 						>
-							Browse all connections
+							{t.settings.connectionsBrowseAll}
 						</Link>
 					</p>
 				</div>
@@ -169,6 +180,9 @@ function ConnectionCard({
 	sends,
 	href,
 	logo: Logo,
+	manageLabel,
+	bringsInLabel,
+	sendsLabel,
 }: {
 	name: string;
 	status: string;
@@ -176,6 +190,9 @@ function ConnectionCard({
 	sends: string;
 	href: string;
 	logo: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+	manageLabel: string;
+	bringsInLabel: string;
+	sendsLabel: string;
 }) {
 	return (
 		<section className="flex flex-col gap-4 rounded-lg border bg-card px-(--spacing-block-inline) py-4">
@@ -186,12 +203,12 @@ function ConnectionCard({
 					{status}
 				</p>
 				<Button asChild size="sm" variant="outline">
-					<Link href={href}>Manage</Link>
+					<Link href={href}>{manageLabel}</Link>
 				</Button>
 			</div>
 			<div className="flex flex-col gap-2 pl-8 text-sm">
-				<CapabilityRow label="Brings in" value={bringsIn} />
-				<CapabilityRow label="Sends" value={sends} />
+				<CapabilityRow label={bringsInLabel} value={bringsIn} />
+				<CapabilityRow label={sendsLabel} value={sends} />
 			</div>
 		</section>
 	);
@@ -211,11 +228,13 @@ function StarterRow({
 	name,
 	description,
 	href,
+	connectLabel,
 }: {
 	logo: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 	name: string;
 	description: string;
 	href: string;
+	connectLabel: string;
 }) {
 	return (
 		<div className="flex items-center gap-3 py-4 text-left">
@@ -225,7 +244,7 @@ function StarterRow({
 				<p className="text-muted-foreground text-xs">{description}</p>
 			</div>
 			<Button asChild variant="outline" size="sm">
-				<Link href={href}>Connect</Link>
+				<Link href={href}>{connectLabel}</Link>
 			</Button>
 		</div>
 	);

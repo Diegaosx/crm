@@ -14,6 +14,7 @@ import {
 	type DetailSheetTab,
 	DetailSheetTabs,
 } from "@/components/detail-sheet";
+import { useTranslations } from "@/lib/i18n";
 import { useRecordStack } from "./record-stack";
 
 export function RecordSheetFrame({
@@ -42,6 +43,7 @@ export function RecordSheetFrame({
 	onTabChange: (tab: string) => void;
 }) {
 	const { stack, close, closeAll } = useRecordStack();
+	const t = useTranslations();
 
 	return (
 		<>
@@ -61,7 +63,7 @@ export function RecordSheetFrame({
 				</div>
 			) : error ? (
 				<div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-1 p-6 text-center">
-					<p className="font-medium text-sm">This record could not be loaded</p>
+					<p className="font-medium text-sm">{t.recordSheet.recordCouldNotBeLoaded}</p>
 					<p className="text-muted-foreground text-xs">{error}</p>
 				</div>
 			) : (

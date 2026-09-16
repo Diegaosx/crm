@@ -22,12 +22,9 @@ import {
 	reportBulk,
 } from "@/components/crm/bulk-actions";
 import { CompanyMenuSearch } from "@/components/crm/company-picker";
+import { useTranslations } from "@/lib/i18n";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
-
-function contacts(count: number): string {
-	return formatCount(count, "contact");
-}
 
 export function ContactsBulkActions({
 	ids,
@@ -38,6 +35,7 @@ export function ContactsBulkActions({
 	onDone: () => void;
 	archived: boolean;
 }) {
+	const t = useTranslations();
 	const trpc = useTRPC();
 	const cache = useCrmCache();
 	const users = useQuery(trpc.users.list.queryOptions());
@@ -45,13 +43,16 @@ export function ContactsBulkActions({
 	const [confirming, setConfirming] = useState(false);
 	const companySearch = useRef<HTMLInputElement>(null);
 
+	const countStr = (count: number) =>
+		formatCount(count, t.contacts.contact, t.contacts.title);
+
 	const onError = (error: { message: string }) => toast.error(error.message);
 
 	const assignOwner = useMutation(
 		trpc.contacts.bulkAssignOwner.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.contact();
-				reportBulk(result, (count) => `${contacts(count)} reassigned.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.reassigned}`);
 				onDone();
 			},
 			onError,
@@ -62,7 +63,7 @@ export function ContactsBulkActions({
 		trpc.contacts.bulkSetCompany.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.contact();
-				reportBulk(result, (count) => `${contacts(count)} moved.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.moved}`);
 				onDone();
 			},
 			onError,
@@ -75,7 +76,8 @@ export function ContactsBulkActions({
 				await cache.contact();
 				reportBulk(
 					result,
-					(count) => `Looking up ${contacts(count)} — the table will update.`,
+					(count) =>
+						`${t.bulk.lookingUp} ${countStr(count)} ${t.bulk.tableWillUpdate}`,
 				);
 				onDone();
 			},
@@ -87,7 +89,7 @@ export function ContactsBulkActions({
 		trpc.contacts.bulkArchive.mutationOptions({
 			onSuccess: async (result, variables) => {
 				await cache.removedMany({ kind: "contact", ids: variables.ids });
-				reportBulk(result, (count) => `${contacts(count)} archived.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.archived}`);
 				onDone();
 			},
 			onError,
@@ -98,7 +100,7 @@ export function ContactsBulkActions({
 		trpc.contacts.bulkRestore.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.contact();
-				reportBulk(result, (count) => `${contacts(count)} restored.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.restored}`);
 				onDone();
 			},
 			onError,
@@ -109,7 +111,7 @@ export function ContactsBulkActions({
 		trpc.contacts.bulkPurge.mutationOptions({
 			onSuccess: async (result, variables) => {
 				await cache.removedMany({ kind: "contact", ids: variables.ids });
-				reportBulk(result, (count) => `${contacts(count)} deleted forever.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.purged}`);
 				setConfirming(false);
 				onDone();
 			},
@@ -126,7 +128,7 @@ export function ContactsBulkActions({
 					<DropdownMenuGroup>
 						<DropdownMenuItem onSelect={() => restore.mutate({ ids })}>
 							<Undo />
-							Restore
+							{t.bulk.restore}
 						</DropdownMenuItem>
 					</DropdownMenuGroup>
 					<DropdownMenuSeparator />
@@ -135,7 +137,7 @@ export function ContactsBulkActions({
 							variant="destructive"
 							onSelect={() => setConfirming(true)}
 						>
-							Delete forever
+							{t.bulk.deleteForever}
 						</DropdownMenuItem>
 					</DropdownMenuGroup>
 				</BulkActionsMenu>
@@ -143,8 +145,8 @@ export function ContactsBulkActions({
 				<BulkDeleteDialog
 					open={confirming}
 					onOpenChange={setConfirming}
-					title={`Delete ${contacts(ids.length)} forever?`}
-					description="Their email addresses are suppressed, so the inbox sync will not file them again. This cannot be undone."
+					title={`${t.common.delete} ${countStr(ids.length)}?`}
+					description={t.bulk.deleteContactsConfirmDesc}
 					onConfirm={() => purge.mutate({ ids })}
 				/>
 			</>
@@ -165,11 +167,11 @@ export function ContactsBulkActions({
 		>
 			<BulkOwnerMenu
 				users={users.data ?? []}
-				unassignedLabel="Nobody"
+				unassignedLabel={t.bulk.nobody}
 				onSelect={(ownerId) => assignOwner.mutate({ ids, ownerId })}
 			/>
 			<DropdownMenuSub>
-				<DropdownMenuSubTrigger>Move to company</DropdownMenuSubTrigger>
+				<DropdownMenuSubTrigger>{t.bulk.moveToCompany}</DropdownMenuSubTrigger>
 				<DropdownMenuSubContent
 					className="w-64 p-0"
 					onFocus={(event) => {
@@ -179,7 +181,7 @@ export function ContactsBulkActions({
 					}}
 				>
 					<CompanyMenuSearch
-						none="No company"
+						none={t.contacts.noCompany}
 						inputRef={companySearch}
 						onSelect={(companyId) => {
 							setMenuOpen(false);
@@ -191,14 +193,14 @@ export function ContactsBulkActions({
 			<DropdownMenuGroup>
 				<DropdownMenuItem onSelect={() => enrich.mutate({ ids })}>
 					<Renew />
-					Re-enrich
+					{t.bulk.reEnrich}
 				</DropdownMenuItem>
 			</DropdownMenuGroup>
 			<DropdownMenuSeparator />
 			<DropdownMenuGroup>
 				<DropdownMenuItem onSelect={() => archive.mutate({ ids })}>
 					<Archive />
-					Archive
+					{t.bulk.archive}
 				</DropdownMenuItem>
 			</DropdownMenuGroup>
 		</BulkActionsMenu>

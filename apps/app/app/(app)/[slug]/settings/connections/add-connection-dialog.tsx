@@ -15,6 +15,7 @@ import {
 } from "@crm/ui/components/dialog";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "@/lib/i18n";
 
 export function AddConnectionDialog({
 	slug,
@@ -26,6 +27,8 @@ export function AddConnectionDialog({
 	connected: string[];
 }) {
 	const router = useRouter();
+	const t = useTranslations();
+
 	return (
 		<Dialog
 			open={open}
@@ -35,57 +38,57 @@ export function AddConnectionDialog({
 		>
 			<DialogContent className="max-w-(--container-narrow) gap-0 p-0 md:left-[calc(50%+calc((56px+213px)/2))]">
 				<DialogHeader className="gap-2 px-(--spacing-block-inline) pt-5 pb-4">
-					<DialogTitle className="text-base">Add a connection</DialogTitle>
+					<DialogTitle className="text-base">{t.settings.addConnectionTitle}</DialogTitle>
 					<DialogDescription>
-						Nothing moves until you finish setting one up.
+						{t.settings.addConnectionDesc}
 					</DialogDescription>
 				</DialogHeader>
 				<div className="flex flex-col border-y px-2 py-2">
 					{!connected.includes("Google Workspace") ? (
 						<CatalogRow
 							logo={GoogleLogo}
-							name="Google Workspace"
-							description="Bring in Gmail messages and Google Calendar meetings"
+							name={t.settings.connGoogleWorkspace}
+							description={t.settings.connGoogleWorkspaceDesc}
 							href={`/${slug}/settings/connections/google`}
 						/>
 					) : null}
 					{!connected.includes("Slack") ? (
 						<CatalogRow
 							logo={SlackLogo}
-							name="Slack"
-							description="Let deployed agents notify approved channels and people"
+							name={t.settings.connSlack}
+							description={t.settings.connSlackDesc}
 							href={`/${slug}/settings/connections/slack`}
 						/>
 					) : null}
 					{!connected.includes("Microsoft 365") ? (
 						<CatalogRow
 							logo={MicrosoftLogo}
-							name="Microsoft 365"
-							description="Bring in Outlook email and the people on it"
+							name={t.settings.connMicrosoft}
+							description={t.settings.connMicrosoftDesc}
 							href={`/${slug}/settings/connections/microsoft`}
 						/>
 					) : null}
 					<CatalogRow
 						logo={StripeLogo}
-						name="Stripe"
-						description="Coming soon"
+						name={t.settings.connStripe}
+						description={t.settings.connComingSoon}
 					/>
 					<CatalogRow
 						logo={DocusignLogo}
-						name="Docusign"
-						description="Coming soon"
+						name={t.settings.connDocusign}
+						description={t.settings.connComingSoon}
 					/>
 					<CatalogRow
 						logo={Plug}
-						name="Anything else"
-						description="The intake API is not available yet"
+						name={t.settings.connAnythingElse}
+						description={t.settings.connIntakeNotAvail}
 						href={`/${slug}/settings/connections/intake`}
 					/>
 				</div>
 				<p className="px-(--spacing-block-inline) py-4 text-muted-foreground text-xs">
 					{connected.length > 0
-						? `${connected.join(", ")} ${connected.length === 1 ? "is" : "are"} already connected.`
-						: "Nothing is connected yet."}
+						? `${connected.join(", ")} ${t.settings.alreadyConnected}`
+						: t.settings.nothingConnectedYet}
 				</p>
 			</DialogContent>
 		</Dialog>

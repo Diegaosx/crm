@@ -96,7 +96,7 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 		trpc.deals.create.mutationOptions({
 			onSuccess: async (deal) => {
 				await cache.deal(deal.id);
-				toast.success(`${deal.name} added.`);
+				toast.success(`${deal.name} ${t.deals.addedSuccess}`);
 				await setOpen(null);
 				setName("");
 				setAmount("");
@@ -120,7 +120,7 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 				<SheetHeader>
 					<SheetTitle>{t.deals.createDeal}</SheetTitle>
 					<SheetDescription>
-						Every deal belongs to a company and has someone's name against it.
+						{t.deals.createDescription}
 					</SheetDescription>
 				</SheetHeader>
 
@@ -145,19 +145,19 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 				>
 					<FieldGroup>
 						<Field>
-							<FieldLabel htmlFor={nameId}>Name</FieldLabel>
+							<FieldLabel htmlFor={nameId}>{t.common.name}</FieldLabel>
 							<Input
 								id={nameId}
 								value={name}
 								onChange={(event) => setName(event.target.value)}
-								placeholder="Stripe — Comp AI"
+								placeholder="Acme — Enterprise"
 								autoComplete="off"
 								required
 							/>
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="create-deal-company">Company</FieldLabel>
+							<FieldLabel htmlFor="create-deal-company">{t.deals.colCompany}</FieldLabel>
 							<CompanyPicker
 								id="create-deal-company"
 								value={company}
@@ -166,10 +166,10 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="create-deal-owner">Owner</FieldLabel>
+							<FieldLabel htmlFor="create-deal-owner">{t.deals.colOwner}</FieldLabel>
 							<Select value={resolvedOwner} onValueChange={setOwnerId}>
 								<SelectTrigger id="create-deal-owner">
-									<SelectValue placeholder="Choose an owner" />
+									<SelectValue placeholder={t.common.unassigned} />
 								</SelectTrigger>
 								<SelectContent>
 									{(users.data ?? []).map((user) => (
@@ -182,7 +182,7 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor="create-deal-stage">Stage</FieldLabel>
+							<FieldLabel htmlFor="create-deal-stage">{t.deals.colStage}</FieldLabel>
 							<Select value={stage} onValueChange={setStage}>
 								<SelectTrigger id="create-deal-stage">
 									<SelectValue />
@@ -190,19 +190,15 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 								<SelectContent>
 									{OPEN_STAGES.map((value) => (
 										<SelectItem key={value} value={value}>
-											{dealStageLabel(value)}
+											{t.stages[value] ?? dealStageLabel(value)}
 										</SelectItem>
 									))}
 								</SelectContent>
 							</Select>
-							<FieldDescription>
-								A new deal is an open deal — close it from the pipeline once
-								there is an outcome to record.
-							</FieldDescription>
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor={amountId}>Amount</FieldLabel>
+							<FieldLabel htmlFor={amountId}>{t.deals.colAmount}</FieldLabel>
 							<div className="flex gap-2">
 								<Input
 									id={amountId}
@@ -231,12 +227,12 @@ function CreateDealForm({ companyId }: { companyId?: string }) {
 						</Field>
 
 						<Field>
-							<FieldLabel htmlFor={closeDateId}>Expected close date</FieldLabel>
+							<FieldLabel htmlFor={closeDateId}>{t.deals.colExpectedCloseFull}</FieldLabel>
 							<DatePicker
 								id={closeDateId}
 								value={closeDate}
 								onChange={setCloseDate}
-								placeholder="No date yet"
+								placeholder={t.common.none}
 							/>
 						</Field>
 					</FieldGroup>

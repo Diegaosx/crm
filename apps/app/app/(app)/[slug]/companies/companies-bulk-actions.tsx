@@ -18,12 +18,9 @@ import {
 	BulkOwnerMenu,
 	reportBulk,
 } from "@/components/crm/bulk-actions";
+import { useTranslations } from "@/lib/i18n";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
-
-function companies(count: number): string {
-	return formatCount(count, "company", "companies");
-}
 
 export function CompaniesBulkActions({
 	ids,
@@ -34,10 +31,14 @@ export function CompaniesBulkActions({
 	onDone: () => void;
 	archived: boolean;
 }) {
+	const t = useTranslations();
 	const trpc = useTRPC();
 	const cache = useCrmCache();
 	const users = useQuery(trpc.users.list.queryOptions());
 	const [confirming, setConfirming] = useState(false);
+
+	const countStr = (count: number) =>
+		formatCount(count, t.companies.company, t.companies.title);
 
 	const onError = (error: { message: string }) => toast.error(error.message);
 
@@ -45,7 +46,7 @@ export function CompaniesBulkActions({
 		trpc.companies.bulkAssignOwner.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.company();
-				reportBulk(result, (count) => `${companies(count)} reassigned.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.reassigned}`);
 				onDone();
 			},
 			onError,
@@ -58,7 +59,8 @@ export function CompaniesBulkActions({
 				await cache.company();
 				reportBulk(
 					result,
-					(count) => `Looking up ${companies(count)} — the table will update.`,
+					(count) =>
+						`${t.bulk.lookingUp} ${countStr(count)} ${t.bulk.tableWillUpdate}`,
 				);
 				onDone();
 			},
@@ -70,7 +72,7 @@ export function CompaniesBulkActions({
 		trpc.companies.bulkArchive.mutationOptions({
 			onSuccess: async (result, variables) => {
 				await cache.removedMany({ kind: "company", ids: variables.ids });
-				reportBulk(result, (count) => `${companies(count)} archived.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.archived}`);
 				onDone();
 			},
 			onError,
@@ -81,7 +83,7 @@ export function CompaniesBulkActions({
 		trpc.companies.bulkRestore.mutationOptions({
 			onSuccess: async (result) => {
 				await cache.company();
-				reportBulk(result, (count) => `${companies(count)} restored.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.restored}`);
 				onDone();
 			},
 			onError,
@@ -92,7 +94,7 @@ export function CompaniesBulkActions({
 		trpc.companies.bulkPurge.mutationOptions({
 			onSuccess: async (result, variables) => {
 				await cache.removedMany({ kind: "company", ids: variables.ids });
-				reportBulk(result, (count) => `${companies(count)} deleted forever.`);
+				reportBulk(result, (count) => `${countStr(count)} ${t.bulk.purged}`);
 				setConfirming(false);
 				onDone();
 			},
@@ -109,7 +111,7 @@ export function CompaniesBulkActions({
 					<DropdownMenuGroup>
 						<DropdownMenuItem onSelect={() => restore.mutate({ ids })}>
 							<Undo />
-							Restore
+							{t.bulk.restore}
 						</DropdownMenuItem>
 					</DropdownMenuGroup>
 					<DropdownMenuSeparator />
@@ -118,7 +120,7 @@ export function CompaniesBulkActions({
 							variant="destructive"
 							onSelect={() => setConfirming(true)}
 						>
-							Delete forever
+							{t.bulk.deleteForever}
 						</DropdownMenuItem>
 					</DropdownMenuGroup>
 				</BulkActionsMenu>
@@ -126,8 +128,8 @@ export function CompaniesBulkActions({
 				<BulkDeleteDialog
 					open={confirming}
 					onOpenChange={setConfirming}
-					title={`Delete ${companies(ids.length)} forever?`}
-					description="This cannot be undone."
+					title={`${t.common.delete} ${countStr(ids.length)}?`}
+					description={t.bulk.deleteCompaniesConfirmDesc}
 					onConfirm={() => purge.mutate({ ids })}
 				/>
 			</>
@@ -141,20 +143,20 @@ export function CompaniesBulkActions({
 		<BulkActionsMenu pending={pending}>
 			<BulkOwnerMenu
 				users={users.data ?? []}
-				unassignedLabel="Nobody"
+				unassignedLabel={t.bulk.nobody}
 				onSelect={(ownerId) => assignOwner.mutate({ ids, ownerId })}
 			/>
 			<DropdownMenuGroup>
 				<DropdownMenuItem onSelect={() => enrich.mutate({ ids })}>
 					<Renew />
-					Re-enrich
+					{t.bulk.reEnrich}
 				</DropdownMenuItem>
 			</DropdownMenuGroup>
 			<DropdownMenuSeparator />
 			<DropdownMenuGroup>
 				<DropdownMenuItem onSelect={() => archive.mutate({ ids })}>
 					<Archive />
-					Archive
+					{t.bulk.archive}
 				</DropdownMenuItem>
 			</DropdownMenuGroup>
 		</BulkActionsMenu>

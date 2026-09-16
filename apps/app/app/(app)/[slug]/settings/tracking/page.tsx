@@ -12,6 +12,7 @@ import {
 import { requireSession } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
+import { TrackingSettingsHeading } from "../settings-heading";
 import { TrackingSections } from "./tracking-sections";
 
 export const metadata: Metadata = {
@@ -23,11 +24,7 @@ export default function TrackingSettingsPage() {
 		<PageShell>
 			<PageShellHeader>
 				<PageShellHeading>
-					<PageShellTitle>Tracking &amp; Analytics</PageShellTitle>
-					<PageShellDescription>
-						Track website visitors and automatically add contacts when a form is
-						submitted.
-					</PageShellDescription>
+					<TrackingSettingsHeading />
 				</PageShellHeading>
 			</PageShellHeader>
 

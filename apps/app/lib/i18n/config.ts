@@ -6,7 +6,7 @@ export const localeSchema = z.enum(LOCALES);
 
 export type Locale = z.infer<typeof localeSchema>;
 
-export const DEFAULT_LOCALE: Locale = "en";
+export const DEFAULT_LOCALE: Locale = "pt-BR";
 
 export const LOCALE_COOKIE_NAME = "crm_locale";
 

@@ -25,6 +25,7 @@ import { StatusIndicator } from "@crm/ui/components/status-indicator";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useId, useState } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "@/lib/i18n";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
 
@@ -32,6 +33,7 @@ type Result = RouterOutputs["tracking"]["verify"];
 
 export function VerifyInstallation() {
 	const trpc = useTRPC();
+	const t = useTranslations();
 	const urlId = useId();
 
 	const [url, setUrl] = useState("");
@@ -55,13 +57,12 @@ export function VerifyInstallation() {
 			<CardHeader>
 				<CardTitle>
 					<div className="flex items-center gap-2">
-						Verify installation
+						{t.settings.verifyInstallationTitle}
 						{result ? <Indicator result={result} /> : null}
 					</div>
 				</CardTitle>
 				<CardDescription>
-					We load one page and look for the script, then read your Tag Manager
-					container if it is not in the HTML.
+					{t.settings.verifyInstallationDesc}
 				</CardDescription>
 
 				<CardAction>
@@ -72,7 +73,7 @@ export function VerifyInstallation() {
 						disabled={!canManage || verify.isPending || url.trim() === ""}
 					>
 						{verify.isPending ? <Spinner data-icon="inline-start" /> : null}
-						Check now
+						{t.settings.checkNow}
 					</Button>
 				</CardAction>
 			</CardHeader>
@@ -87,7 +88,7 @@ export function VerifyInstallation() {
 					}}
 				>
 					<Field>
-						<FieldLabel htmlFor={urlId}>Page to check</FieldLabel>
+						<FieldLabel htmlFor={urlId}>{t.settings.pageToCheck}</FieldLabel>
 						<InputGroup>
 							<InputGroupAddon>
 								<InputGroupText>https://</InputGroupText>
@@ -109,8 +110,7 @@ export function VerifyInstallation() {
 							/>
 						</InputGroup>
 						<FieldDescription>
-							The page has to be public. A page behind a login always fails this
-							check.
+							{t.settings.pageToCheckHelp}
 						</FieldDescription>
 					</Field>
 				</form>
@@ -122,9 +122,11 @@ export function VerifyInstallation() {
 }
 
 function Indicator({ result }: { result: Result }) {
+	const t = useTranslations();
+
 	if (result.status === "found" && result.pageView) {
 		return (
-			<StatusIndicator size="sm" tone="success" label="Verified just now" />
+			<StatusIndicator size="sm" tone="success" label={t.settings.verifiedJustNow} />
 		);
 	}
 
@@ -133,7 +135,7 @@ function Indicator({ result }: { result: Result }) {
 			<StatusIndicator
 				size="sm"
 				tone="warning"
-				label="Tag Manager needs a fix"
+				label={t.settings.tagManagerNeedsFix}
 			/>
 		);
 	}
@@ -142,20 +144,21 @@ function Indicator({ result }: { result: Result }) {
 		<StatusIndicator
 			size="sm"
 			tone="warning"
-			label={result.status === "found" ? "No page view yet" : "Not detected"}
+			label={result.status === "found" ? t.settings.noViewsYet : t.settings.notDetected}
 		/>
 	);
 }
 
 function Outcome({ result, siteId }: { result: Result; siteId: string }) {
+	const t = useTranslations();
+
 	if (result.status === "unreachable") {
 		return (
 			<Alert variant="destructive">
 				<Icon icon={Warning} />
-				<AlertTitle>Could not open {result.host}</AlertTitle>
+				<AlertTitle>{t.settings.couldNotOpen} {result.host}</AlertTitle>
 				<AlertDescription>
-					{result.detail} We only follow public pages, and we never follow a
-					redirect to a private address.
+					{result.detail} {t.settings.couldNotOpenDesc}
 				</AlertDescription>
 			</Alert>
 		);
@@ -165,13 +168,11 @@ function Outcome({ result, siteId }: { result: Result; siteId: string }) {
 		return (
 			<Alert variant="destructive">
 				<Icon icon={Warning} />
-				<AlertTitle>No script on {result.host}</AlertTitle>
+				<AlertTitle>{t.settings.noScriptOn} {result.host}</AlertTitle>
 				<AlertDescription>
-					The page answered in {result.responseMs} ms, but the tag was not in
-					the HTML. Check that it sits in the head, above anything that rewrites
-					the page.
+					{t.settings.noScriptDesc1} {result.responseMs} {t.settings.noScriptDesc2}
 					{result.containers.length > 0
-						? ` We also read Tag Manager container ${result.containers.join(" and ")}, and the tag is not in there either.`
+						? ` (${result.containers.join(", ")})`
 						: ""}
 				</AlertDescription>
 			</Alert>
@@ -182,16 +183,9 @@ function Outcome({ result, siteId }: { result: Result; siteId: string }) {
 		return (
 			<Alert variant="destructive">
 				<Icon icon={Warning} />
-				<AlertTitle>Tag Manager will drop the site ID</AlertTitle>
+				<AlertTitle>{t.settings.tagManagerDropSiteId}</AlertTitle>
 				<AlertDescription>
-					Container {result.container.id} carries the tag, but the site ID is
-					not in the script URL. Tag Manager keeps only the URL when it injects
-					a script, so a data-site attribute never reaches the page and the
-					tracker never starts. Copy the Tag Manager snippet above and replace
-					the tag's HTML.
-					{result.pageView
-						? " A page view did arrive in the last five minutes, so something on this site is still recording."
-						: ""}
+					Contêiner {result.container.id} {t.settings.tagManagerDropDesc}
 				</AlertDescription>
 			</Alert>
 		);
@@ -202,19 +196,19 @@ function Outcome({ result, siteId }: { result: Result; siteId: string }) {
 			<Icon icon={CheckmarkFilled} className="text-success" />
 			<AlertTitle>
 				{result.container
-					? `Script found in container ${result.container.id}`
-					: `Script found on ${result.host}`}
+					? `${t.settings.scriptFoundInContainer} ${result.container.id}`
+					: `${t.settings.scriptFoundOn} ${result.host}`}
 			</AlertTitle>
 			<AlertDescription>
-				It answered in {result.responseMs} ms. Site ID {siteId} matched, and
-				this domain is {result.allowed ? "on" : "not on"} the allow list.
+				{t.settings.scriptFoundDesc1} {result.responseMs} {t.settings.scriptFoundDesc2} {siteId} {t.settings.scriptFoundDesc3} {result.allowed ? t.settings.scriptFoundOnList : t.settings.scriptFoundNotOnList} {t.settings.scriptFoundDesc4}
 				{result.container
-					? " The tag is not in the HTML, so it only runs once Tag Manager fires it — a page view is the proof."
+					? ` ${t.settings.tagNotInHtmlNote}`
 					: ""}
 				{result.pageView
-					? " A page view arrived in the last five minutes."
-					: " No page view has arrived yet — open the page in a browser to send one."}
+					? ` ${t.settings.pageViewArrived}`
+					: ` ${t.settings.noPageViewArrived}`}
 			</AlertDescription>
 		</Alert>
 	);
 }
+
