@@ -243,11 +243,11 @@ function groupConversations(
 	if (!now) return [];
 
 	const rawKeys: ChatDateGroup[] = ["Today", "Yesterday", "Last 7 days"];
-	const labelMap: Record<ChatDateGroup, string> = {
+	const labelMap = {
 		Today: t.common.today,
 		Yesterday: t.common.yesterday,
 		"Last 7 days": t.common.last7Days,
-	};
+	} satisfies Record<ChatDateGroup, string>;
 	const items = new Map<ChatDateGroup, Conversation[]>(
 		rawKeys.map((key) => [key, []]),
 	);

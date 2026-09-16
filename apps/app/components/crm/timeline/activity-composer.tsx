@@ -47,21 +47,21 @@ export function ActivityComposer({ anchor }: { anchor: TimelineAnchor }) {
 	const isTask = type === "TASK";
 	const text = draft.trim();
 
-	const placeholders: Record<ComposableType, string> = {
+	const placeholders = {
 		NOTE: t.timeline.placeholderNote,
 		CALL: t.timeline.placeholderCall,
 		EMAIL: t.timeline.placeholderEmail,
 		MEETING: t.timeline.placeholderMeeting,
 		TASK: t.timeline.placeholderTask,
-	};
+	} satisfies Record<ComposableType, string>;
 
-	const typeLabels: Record<ComposableType, string> = {
+	const typeLabels = {
 		NOTE: t.timeline.typeNote,
 		CALL: t.timeline.typeCall,
 		EMAIL: t.timeline.typeEmail,
 		MEETING: t.timeline.typeMeeting,
 		TASK: t.timeline.typeTask,
-	};
+	} satisfies Record<ComposableType, string>;
 
 	const reset = () => {
 		setDraft("");
